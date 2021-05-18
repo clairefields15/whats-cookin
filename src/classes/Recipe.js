@@ -1,12 +1,23 @@
 class Recipe {
-  constructor(id, imageUrl, ingredients, instructions, name, tags) {
-    this.id = id;
-    this.image = imageUrl;
-    this.ingredients = ingredients;
-    this.instructions = instructions;
-    this.name = name;
-    this.tags = tags
+  constructor(recipeData) {
+    this.id = recipeData.id;
+    this.image = recipeData.image;
+    this.ingredients = recipeData.ingredients;
+    this.instructions = recipeData.instructions;
+    this.name = recipeData.name;
+    this.tags = recipeData.tags;
   }
-};
+ ingredientsNeeded(ingredientID){
+  const ingredientInfo = ingredientsData.filter()
+ }
+
+ ingredientName(){
+
+ }
+
+ ingredientCost(){
+
+ }
+}
 
 module.exports = Recipe;

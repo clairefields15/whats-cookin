@@ -7,10 +7,10 @@ describe('Recipe', () => {
   let recipe;
 
   beforeEach(() => {
-    recipe = new Recipe(
-      123456,
-      'https://spoonacular.com/recipeImages/595736-556x370.jpg',
-      [{
+    const recipeData = {
+      id: 123456,
+      image: 'https://spoonacular.com/recipeImages/595736-556x370.jpg',
+      ingredients: [{
         id: 20081,
         quantity: {
           amount: 1.5,
@@ -24,7 +24,7 @@ describe('Recipe', () => {
           unit: 'tsp'
         }
       }],
-      [
+      instructions: [
         {
           "instruction": "In a large bowl, whisk together the dry ingredients.",
           "number": 1
@@ -34,13 +34,14 @@ describe('Recipe', () => {
           "number": 2
         }
       ],
-      "Chocolate Chip Cookies",
-      ["starter", "snack", "appetizer"]
-    );
+      name: "Chocolate Chip Cookies",
+      tags: ["starter", "snack", "appetizer"]
+    };
+
+    recipe = new Recipe(recipeData);
   });
 
   it('should instantiate a new Recipe', () => {
-    const recipe = new Recipe()
     expect(recipe).to.be.an.instanceOf(Recipe)
   })
 
@@ -96,5 +97,19 @@ describe('Recipe', () => {
     const tags = ['starter', 'snack', 'appetizer'];
     expect(recipe.tags).to.deep.equal(tags)
   });
+
+  it('should have a way to determine the names of ingredients needed', () => {
+    const ingredients = recipe.ingredientsNeeded();
+    expect(ingredients).to.equal()
+
+  })
+
+  it.skip('should be able to get the cost of the ingredients', () => {
+
+  })
+
+  it.skip('should return it/s instructions', () => {
+
+  })
 
 });

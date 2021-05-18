@@ -54,20 +54,47 @@ describe('Recipe', () => {
     );
   });
 
-  it.skip('should have an array of ingredients', () => {
-    //expect
+  it('should have an array of ingredients', () => {
+    const ingredients = [
+      {
+        id: 20081,
+        quantity: {
+          amount: 1.5,
+          unit: 'c'
+        }
+      },
+      {
+        id: 18372,
+        quantity: {
+          amount: 0.5,
+          unit: 'tsp'
+        }
+      }
+    ];
+    expect(recipe.ingredients).to.deep.equal(ingredients)
   });
 
-  it.skip('should have an array of instructions', () => {
-    //expect
+  it('should have an array of instructions', () => {
+    const instructions = [
+      {
+        instruction: 'In a large bowl, whisk together the dry ingredients.',
+        number: 1
+      },
+      {
+        instruction: 'Add egg and vanilla and mix until combined.',
+        number: 2
+      }
+    ];
+    expect(recipe.instructions).to.deep.equal(instructions)
   });
   
-  it.skip('should have a name', () => {
-    //expect
+  it('should have a name', () => {
+    expect(recipe.name).to.equal('Chocolate Chip Cookies');
   });
 
-  it.skip('should have an array of tags', () => {
-    //expect
+  it('should have an array of tags', () => {
+    const tags = ['starter', 'snack', 'appetizer'];
+    expect(recipe.tags).to.deep.equal(tags)
   });
 
 });

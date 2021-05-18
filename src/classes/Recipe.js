@@ -7,6 +7,9 @@ class Recipe {
     this.name = recipeData.name;
     this.tags = recipeData.tags;
   }
+ ingredientsNeeded(){
+   
+ }
 }
 
 module.exports = Recipe;

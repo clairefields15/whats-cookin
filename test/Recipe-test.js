@@ -4,7 +4,7 @@ const expect = chai.expect;
 const Recipe = require('../src/classes/Recipe')
 
 describe('Recipe', () => {
-  let recipe;
+  let recipe, ingredient;
 
   beforeEach(() => {
     const recipeData = {
@@ -39,6 +39,7 @@ describe('Recipe', () => {
     };
 
     recipe = new Recipe(recipeData);
+    ingredient = new Ingredient()
   });
 
   it('should instantiate a new Recipe', () => {

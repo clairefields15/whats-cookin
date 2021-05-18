@@ -1,8 +1,8 @@
 class Ingredient {
-  constructor(id, name, cost) {
-    this.id = id;
-    this.name = name;
-    this.cost = cost;
+  constructor(ingredientData) {
+    this.id = ingredientData.id;
+    this.name = ingredientData.name;
+    this.cost = ingredientData.cost;
   }
 }
 

@@ -7,17 +7,17 @@ class Recipe {
     this.name = recipeData.name;
     this.tags = recipeData.tags;
   }
- ingredientsNeeded(ingredientID){
-  const ingredientInfo = ingredientsData.filter()
- }
+//  ingredientsNeeded(ingredientID){
+//   const ingredientInfo = ingredientsData.filter()
+//  }
 
- ingredientName(){
+//  ingredientName(){
 
- }
+//  }
 
- ingredientCost(){
+//  ingredientCost(){
 
- }
+//  }
 }
 
 module.exports = Recipe;

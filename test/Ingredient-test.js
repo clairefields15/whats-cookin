@@ -7,7 +7,7 @@ describe('Ingredient', () => {
   let ingredient;
 
   beforeEach(() => {
-    ingredient = new Ingredient(20081, "wheat flour", 142)
+    ingredient = new Ingredient({id: 20081, name: "wheat flour", cost: 142})
   })
   
   it('should be a function', () => {

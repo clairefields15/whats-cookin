@@ -1,10 +1,89 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Whats Cookin</title>
-  </head>
-  <body>
-    <h1>Whats Cookin</h1>
-  </body>
+<html lang="en" dir="ltr">
+
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>What's Cookin'</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="header-menu">
+        <h1>What's Cookin'</h1>
+        <input id="searchBar" class="search-bar" type="text" placeholder="What do you want to cook?" alt="Enter Search Criteria">
+        <a id="homeButton" class="nav-buttons">Home</a>
+        <a id="favoriteButton" class="nav-buttons">Favorites</a>
+        <a id="queueButton" class="nav-buttons">Queue</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section id="homePage" class="home-page">
+      <div class="welcome-wrap">
+        <h1 class="welcome">Welcome, </h1>
+        <h1 class="welcome" id="welcomeUser">Claire</h1>
+      </div>
+      </section>
+      <h1 class="sort-by-course-header">Sort by Course</h1>
+      <section class="course-chooser">
+        <div id="appetizer" class="course-chooser-topic">
+          <img src="./images/starter-icon.jpg" alt="Appetizer icon">
+          <h4 class="icon-text">Appetizers</h4>
+        </div>
+        <div id="breakfast" class="course-chooser-topic">
+          <img src="./images/breakfast-icon.png" alt="Breakfast icon">
+          <h4 class="icon-text">Breakfast</h4>
+        </div>
+        <div id="lunch" class="course-chooser-topic">
+          <img src="./images/lunch-icon.png" alt="Lunch icon">
+          <h4 class="icon-text">Lunch</h4>
+        </div>
+        <div id="dinner" class="course-chooser-topic">
+          <img src="./images/dinner-icon.png" alt="Dinner icon">
+          <h4 class="icon-text">Dinner</h4>
+        </div>
+        <div id="dessert" class="course-chooser-topic">
+          <img src="./images/dessert-icon.png" alt="Dessert icon">
+          <h4 class="icon-text">Dessert</h4>
+        </div>
+        <div id="side" class="course-chooser-topic">
+          <img src="./images/side-icon.png" alt="Side icon">
+          <h4 class="icon-text">Side</h4>
+        </div>
+      </section>
+      <section id="browseMeals" class="browse-meals">
+        <h1>Browse Meals</h1>
+        <section id="allMeals" class="meals-grid">
+        </section>
+      </section>
+    </section>
+    <section id="favoritesPage" class="favorites-page hidden">
+      <h1 id="userFavorites">User Name's Favorite Recipes</h1>
+      <div class="favorites-search-container">
+        <input id="favoritesSearchBar" class="search-bar favorite-bar" type="text" placeholder="Search Favorites"
+          alt="Enter Search Criteria">
+      </div>
+      <section id="favoritesMealsGrid" class="meals-grid">
+      </section>
+    </section>
+    <section id="searchResultsPage" class="search-result-page hidden">
+      <h1>Search Results</h1>
+      <section id="searchResultMeals" class="meals-grid">
+      </section>
+    </section>
+    <section id="recipeDetailPage" class="recipe-detail-page .recipe-target hidden">
+      <h1 id="recipeDetailsName">Name of Recipe Here</h1>
+    </section>
+    <section id="queuePage" class="cookin-queue-page hidden">
+      <h1 id="userQueue">User Name's Cookin' Queue</h1>
+      <section id="cookinQueueBlock">
+      </section>
+    </section>
+  </main>
+</body>
 </html>

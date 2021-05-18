@@ -1,3 +1,188 @@
-body {
-  background-color: blueviolet;
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+/* fonts,etc */
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 30px;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 21px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 100;
+}
+
+/* nav bar */
+
+nav {
+  display: flex; 
+  justify-content: space-between;
+  width: 100%;
+  height: 5em;
+}
+
+.search-bar {
+  height: 36px;
+  width: 300px;
+  padding: 3px 10px;
+  border-radius: 30px;
+  border-color: #c4c4c4;
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-buttons {
+  position: relative;
+  cursor: pointer;
+  margin-right: 50px;
+}
+
+.nav-buttons:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #921612;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-buttons:hover:after {
+  visibility: visible;
+  width: 100%;
+}
+
+.welcome-wrap {
+  margin: 0 0 2.25rem;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 25.75rem;
+  line-height: 1;
+  margin: 0 0 1rem;
+  position: relative;
+  text-align: center;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: url(images/main-page.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.welcome {
+  font-size: 50px;
+  color: #ffffff;
+  padding-top: 1%;
+  margin: 0;
+  background: rgba(184, 182, 182, 0.7);
+  width: 20%;
+  /* height: 25.75em; */
+  margin-left: 40%;
+}
+
+/* Main Containers */
+
+.home-page,
+.cookin-queue-page,
+.favorites-page,
+.search-result-page,
+.recipe-detail-page {
+  max-width: 100%;
+}
+
+/* Recipe Page */
+
+.recipe-page-image-container {
+  display: flex;
+  flex-flow: column;
+  margin: 0 auto;
+  max-width: 550px;
+}
+
+.sort-by-course-header {
+  padding: 20px;
+  margin-top: 25px;
+}
+
+.course-chooser {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 5em;
+}
+
+.icon-text {
+  text-align: center;
+}
+
+.course-chooser-topic {
+  transform: scale(1);
+  transition: transform 300ms;
+}
+
+.course-chooser-topic:hover {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.meals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 35px;
+  grid-row-gap: 60px;
+  padding: 20px;
+}
+
+/* Favorites Page */
+.favorites-search-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.favorite-bar {
+  margin: 0 0 30px 60px;
+  width: 80%;
+}
+
+/* Effects */
+
+.hover {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }

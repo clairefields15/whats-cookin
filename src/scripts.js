@@ -43,3 +43,4 @@ function displayFavorites() {
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
+

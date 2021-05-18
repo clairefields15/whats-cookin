@@ -4,7 +4,7 @@ import './scripts.js'
 import './images/main-page.jpg'
 import './images/main-page1.jpg'
 
-import './images/starter-icon.jpg'
+import './images/starter-icon.png'
 import './images/breakfast-icon.png'
 import './images/dessert-icon.png'
 import './images/dinner-icon.png'

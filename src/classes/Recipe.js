@@ -1,6 +1,7 @@
 class Recipe {
-  constructor() {
-
+  constructor(id, imageUrl) {
+    this.id = id;
+    this.image = imageUrl;
   }
 };
 

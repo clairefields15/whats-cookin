@@ -7,8 +7,16 @@ class Recipe {
     this.name = recipeData.name;
     this.tags = recipeData.tags;
   }
- ingredientsNeeded(){
-   
+ ingredientsNeeded(ingredientID){
+  const ingredientInfo = ingredientsData.filter()
+ }
+
+ ingredientName(){
+
+ }
+
+ ingredientCost(){
+
  }
 }
 

@@ -7,11 +7,8 @@ describe('Ingredient', () => {
   let ingredient;
 
   beforeEach(() => {
-    ingredient = new Ingredient({id: 20081, name: "wheat flour", estimatedCostInCents: 142, amount: 1.5, unit: 'c'})
-
+    ingredient = new Ingredient({id: 20081, name: "wheat flour", estimatedCostInCents: 142, quantity: {amount: 1.5, unit: 'c'}})
   });
-
-  console.log(ingredient)
   
   it('should be a function', () => {
     expect(Ingredient).to.be.a('function');

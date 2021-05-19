@@ -38,8 +38,6 @@ describe('Recipe', () => {
       tags: ["starter", "snack", "appetizer"]
     };
 
-    const ingredientData = {id: 20081, name: "wheat flour", cost: 142}
-
     recipe = new Recipe(recipeData);
   });
 

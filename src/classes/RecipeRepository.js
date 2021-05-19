@@ -1,7 +1,16 @@
+import Recipe from './Recipe';
+import Ingredient from './Ingredient';
+import { ingredientsData } from "../data/ingredients";
+import { recipeData } from "../data/recipes";
+import { recipeTestData } from '../data/recipe-test-data'
 class RecipeRepository {
-  constructor() {
+  constructor(recipes) {
+    this.recipesData = recipes;
+  }
 
-    // One class to get you started!
+  filterByTag(tag) {
+    let results = this.recipesData.filter(recipe => recipe.tags.includes(tag))
+    return results
   }
 }
 

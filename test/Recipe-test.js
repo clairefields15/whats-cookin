@@ -2,10 +2,9 @@ const chai = require('chai');
 const expect = chai.expect;
 
 import Recipe from '../src/classes/Recipe'
-import Ingredient from '../src/classes/Ingredient'
 
 describe('Recipe', () => {
-  let recipe, ingredient;
+  let recipe;
 
   beforeEach(() => {
     const recipeData = {

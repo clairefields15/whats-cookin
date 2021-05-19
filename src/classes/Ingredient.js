@@ -8,4 +8,4 @@ class Ingredient {
   }
 }
 
-module.exports = Ingredient;
+export default Ingredient;

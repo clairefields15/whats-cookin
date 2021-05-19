@@ -8,10 +8,19 @@ class RecipeRepository {
     this.recipesData = recipes;
   }
 
-  filterByTag(tag) {
-    let results = this.recipesData.filter(recipe => recipe.tags.includes(tag))
-    return results
+  filterByTag(tags) {
+    tags.reduce((acc, tag) => {
+      this.recipesData.forEach(recipe => {
+        if(recipe.tags.includes(tag) && !acc.includes(recipe)) {
+          acc.push(recipe)
+        }
+      });
+      console.log(acc)
+      return acc
+    }, [])
   }
-}
+
+};
 
 export default RecipeRepository;
+

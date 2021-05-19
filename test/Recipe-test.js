@@ -42,7 +42,6 @@ describe('Recipe', () => {
     const ingredientData = {id: 20081, name: "wheat flour", cost: 142}
 
     recipe = new Recipe(recipeData);
-    //ingredient = new Ingredient(ingredientData)
   });
 
   it('should instantiate a new Recipe', () => {
@@ -123,7 +122,7 @@ describe('Recipe', () => {
     expect(ingredients).to.deep.equal(answer)
   })
 
-  it.only('should be able to get the cost of the ingredients', () => {
+  it('should be able to get the cost of the ingredients', () => {
     const cost = recipe.getRecipeCost();
     const answer = "$5.04"
     

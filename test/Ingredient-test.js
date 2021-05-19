@@ -1,13 +1,14 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const Ingredient = require('../src/classes/Ingredient')
+import Ingredient from '../src/classes/Ingredient'
 
 describe('Ingredient', () => {
   let ingredient;
 
   beforeEach(() => {
-    ingredient = new Ingredient({id: 20081, name: "wheat flour", cost: 142})
+    ingredient = new Ingredient({id: 20081, name: "wheat flour", estimatedCostInCents: 142, amount: 1.5, unit:'c'})
+      
   })
   
   it('should be a function', () => {
@@ -27,7 +28,16 @@ describe('Ingredient', () => {
   })
 
   it('should have a cost in cents', () => {
-    expect(ingredient.cost).to.equal(142)
+    expect(ingredient.estimatedCostInCents).to.equal(142)
   })
+
+  it('should have an amount', () => {
+    expect(ingredient.amount).to.equal(1.5)
+  })
+
+  it('should have an unit', () => {
+    expect(ingredient.unit).to.equal('c')
+  })
+
   
 });

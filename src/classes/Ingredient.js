@@ -1,9 +1,11 @@
 class Ingredient {
-  constructor(id, name, cost) {
-    this.id = id;
-    this.name = name;
-    this.cost = cost;
+  constructor(ingredientData) {
+    this.id = ingredientData.id;
+    this.name = ingredientData.name;
+    this.estimatedCostInCents = ingredientData.estimatedCostInCents;
+    this.amount = ingredientData.quantity.amount;
+    this.unit = ingredientData.quantity.unit;
   }
 }
 
-module.exports = Ingredient;
+export default Ingredient;

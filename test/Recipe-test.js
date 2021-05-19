@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const Recipe = require('../src/classes/Recipe')
+import Recipe from '../src/classes/Recipe'
 
 describe('Recipe', () => {
   let recipe;
@@ -56,37 +56,11 @@ describe('Recipe', () => {
   });
 
   it('should have an array of ingredients', () => {
-    const ingredients = [
-      {
-        id: 20081,
-        quantity: {
-          amount: 1.5,
-          unit: 'c'
-        }
-      },
-      {
-        id: 18372,
-        quantity: {
-          amount: 0.5,
-          unit: 'tsp'
-        }
-      }
-    ];
-    expect(recipe.ingredients).to.deep.equal(ingredients)
+    expect(recipe.ingredients).to.deep.equal(recipe.ingredients)
   });
 
   it('should have an array of instructions', () => {
-    const instructions = [
-      {
-        instruction: 'In a large bowl, whisk together the dry ingredients.',
-        number: 1
-      },
-      {
-        instruction: 'Add egg and vanilla and mix until combined.',
-        number: 2
-      }
-    ];
-    expect(recipe.instructions).to.deep.equal(instructions)
+    expect(recipe.instructions).to.deep.equal(recipe.instructions)
   });
   
   it('should have a name', () => {
@@ -94,22 +68,39 @@ describe('Recipe', () => {
   });
 
   it('should have an array of tags', () => {
-    const tags = ['starter', 'snack', 'appetizer'];
-    expect(recipe.tags).to.deep.equal(tags)
+    expect(recipe.tags).to.deep.equal(recipe.tags)
   });
 
-  it('should have a way to determine the names of ingredients needed', () => {
-    const ingredients = recipe.ingredientsNeeded();
-    expect(ingredients).to.equal()
-
+  it('should have a way to return the names of ingredients needed', () => {
+    const ingredients = recipe.getIngredients();
+    const answer = [
+      {
+        id: 20081,
+        name: 'wheat flour',
+        estimatedCostInCents: 142,
+        amount: 1.5,
+        unit: 'c'
+      },
+      {
+        id: 18372,
+        name: 'bicarbonate of soda',
+        estimatedCostInCents: 582,
+        amount: 0.5,
+        unit: 'tsp'
+      }
+    ]
+    expect(ingredients).to.deep.equal(answer)
   })
 
-  it.skip('should be able to get the cost of the ingredients', () => {
-
+  it('should be able to get the cost of the ingredients', () => {
+    const cost = recipe.getRecipeCost();
+    const answer = "$5.04"
+    
+    expect(cost).to.equal(answer)
   })
 
-  it.skip('should return it/s instructions', () => {
-
+  it('should return its instructions', () => {
+    expect(recipe.getRecipeInstructions()).to.deep.equal(recipe.instructions)
   })
 
 });

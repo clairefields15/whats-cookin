@@ -1,3 +1,5 @@
+import Ingredient from './Ingredient';
+import { ingredientsData } from "../data/ingredients";
 class Recipe {
   constructor(recipeData) {
     this.id = recipeData.id;
@@ -7,17 +9,29 @@ class Recipe {
     this.name = recipeData.name;
     this.tags = recipeData.tags;
   }
- ingredientsNeeded(ingredientID){
-  const ingredientInfo = ingredientsData.filter()
- }
 
- ingredientName(){
+  getIngredients() {
+    const matchedIngredients = this.ingredients.map(ingredient => {
+      const foundIngredient = ingredientsData.find(ingredientData => ingredientData.id === ingredient.id)
+      const newObj = Object.assign(foundIngredient, ingredient)
+      const ingredient1 = new Ingredient(newObj)
+      return ingredient1
+    })
+    return matchedIngredients
+  }
 
- }
+  getRecipeCost() {
+    const ingredients = this.getIngredients();
+    const total = ingredients.reduce((acc, item) =>{
+      acc += item.amount * item.estimatedCostInCents;
+      return acc
+    }, 0)
+    return `$${total/100}`
+  }
 
- ingredientCost(){
-
- }
+  getRecipeInstructions(){
+    return this.instructions;
+  }
 }
 
-module.exports = Recipe;
+export default Recipe

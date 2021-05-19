@@ -7,6 +7,11 @@ class RecipeRepository {
   constructor(recipes) {
     this.recipesData = recipes;
   }
+
+  filterByTag(tag) {
+    let results = this.recipesData.filter(recipe => recipe.tags.includes(tag))
+    return results
+  }
 }
 
 export default RecipeRepository;

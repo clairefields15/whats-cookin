@@ -11,8 +11,8 @@ describe('RecipeRepository', () => {
 
   beforeEach(() => {
     recipeRepository = new RecipeRepository(recipeTestData);
-    //recipe1 = new Recipe(recipeData[0]);
-    //recipe2 = new Recipe(recipeData[1]);
+    recipe1 = new Recipe(recipeData[0]);
+    recipe2 = new Recipe(recipeData[1]);
   });
 
   it('Should be a function', () => {
@@ -22,5 +22,17 @@ describe('RecipeRepository', () => {
   it('should have a property to hold recipe data', () => {
     expect(recipeRepository.recipesData).to.equal(recipeTestData);
   })
+
+  it('Should have a method that retrieves recipes by a tag', () => {
+    const recipesByTag = recipeRepository.filterByTag('lunch');
+
+    expect(recipesByTag).to.deep.equal([recipe2])
+  })
+
+  it('Should be able to filter by multiple tags', () => {
+    const recipesByTag = recipeRepository.filterByTag('lunch','starter');
+
+    expect(recipesByTag).to.deep.equal([recipe1, recipe2]);
+  });
 
 })

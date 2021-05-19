@@ -4,8 +4,8 @@ import { ingredientsData } from "../data/ingredients";
 import { recipeData } from "../data/recipes";
 import { recipeTestData } from '../data/recipe-test-data'
 class RecipeRepository {
-  constructor() {
-
+  constructor(recipes) {
+    this.recipesData = recipes;
   }
 }
 

@@ -7,21 +7,20 @@ import { recipeTestData } from '../src/data/recipe-test-data';
 import Recipe from '../src/classes/Recipe';
 
 describe('RecipeRepository', () => {
-  let recipeRepository, recipe1, recipe2, recipe3;
+  let recipeRepository, recipe1, recipe2, recipeData1;
 
   beforeEach(() => {
-    recipeRepository = new RecipeRepository();
-    recipe1 = new Recipe(recipeData[0]);
-    recipe2 = new Recipe(recipeData[1]);
-    recipe3 = new Recipe(recipeData[2]);
+    recipeRepository = new RecipeRepository(recipeTestData);
+    //recipe1 = new Recipe(recipeData[0]);
+    //recipe2 = new Recipe(recipeData[1]);
   });
 
   it('Should be a function', () => {
     expect(RecipeRepository).to.be.a('function');
   });
 
-  it('should have a parameter of recipe data', () => {
-
+  it('should have a property to hold recipe data', () => {
+    expect(recipeRepository.recipesData).to.equal(recipeTestData);
   })
 
 })

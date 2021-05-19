@@ -29,9 +29,9 @@ class Recipe {
     return `$${total/100}`
   }
 
-  // getRecipeInstructions() {
-
-  // }
+  getRecipeInstructions(){
+    return this.instructions;
+  }
 }
 
 export default Recipe

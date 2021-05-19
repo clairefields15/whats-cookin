@@ -56,37 +56,11 @@ describe('Recipe', () => {
   });
 
   it('should have an array of ingredients', () => {
-    const ingredients = [
-      {
-        id: 20081,
-        quantity: {
-          amount: 1.5,
-          unit: 'c'
-        }
-      },
-      {
-        id: 18372,
-        quantity: {
-          amount: 0.5,
-          unit: 'tsp'
-        }
-      }
-    ];
-    expect(recipe.ingredients).to.deep.equal(ingredients)
+    expect(recipe.ingredients).to.deep.equal(recipe.ingredients)
   });
 
   it('should have an array of instructions', () => {
-    const instructions = [
-      {
-        instruction: 'In a large bowl, whisk together the dry ingredients.',
-        number: 1
-      },
-      {
-        instruction: 'Add egg and vanilla and mix until combined.',
-        number: 2
-      }
-    ];
-    expect(recipe.instructions).to.deep.equal(instructions)
+    expect(recipe.instructions).to.deep.equal(recipe.instructions)
   });
   
   it('should have a name', () => {
@@ -94,8 +68,7 @@ describe('Recipe', () => {
   });
 
   it('should have an array of tags', () => {
-    const tags = ['starter', 'snack', 'appetizer'];
-    expect(recipe.tags).to.deep.equal(tags)
+    expect(recipe.tags).to.deep.equal(recipe.tags)
   });
 
   it('should have a way to return the names of ingredients needed', () => {
@@ -126,8 +99,8 @@ describe('Recipe', () => {
     expect(cost).to.equal(answer)
   })
 
-  it.skip('should return it/s instructions', () => {
-
+  it('should return its instructions', () => {
+    expect(recipe.getRecipeInstructions()).to.deep.equal(recipe.instructions)
   })
 
 });

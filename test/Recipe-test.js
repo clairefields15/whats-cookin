@@ -71,7 +71,7 @@ describe('Recipe', () => {
     expect(recipe.tags).to.deep.equal(recipe.tags)
   });
 
-  it('should have a way to return the names of ingredients needed', () => {
+  it('should have a way to return all ingredient info needed', () => {
     const ingredients = recipe.getIngredients();
     const answer = [
       {
@@ -92,6 +92,13 @@ describe('Recipe', () => {
     expect(ingredients).to.deep.equal(answer)
   })
 
+  it('should have a way to return the names of ingredients needed', () => {
+    const ingredients = recipe.getIngredientNames();
+    const answer = ['wheat flour', 'bicarbonate of soda'];
+    expect(ingredients).to.deep.equal(answer);
+  });
+  
+  
   it('should be able to get the cost of the ingredients', () => {
     const cost = recipe.getRecipeCost();
     const answer = "$5.04"

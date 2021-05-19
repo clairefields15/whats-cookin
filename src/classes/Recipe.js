@@ -12,24 +12,38 @@ class Recipe {
 
   getIngredients() {
     const matchedIngredients = this.ingredients.map(ingredient => {
-      const foundIngredient = ingredientsData.find(ingredientData => ingredientData.id === ingredient.id)
-      const newObj = Object.assign(foundIngredient, ingredient)
-      const ingredient1 = new Ingredient(newObj)
-      return ingredient1
-    })
-    return matchedIngredients
+      const foundIngredient = ingredientsData.find(
+        ingredientData => ingredientData.id === ingredient.id
+      );
+      const newObj = Object.assign(foundIngredient, ingredient);
+      const ingredient1 = new Ingredient(newObj);
+      return ingredient1;
+    });
+    return matchedIngredients;
+  }
+
+  getIngredientNames() {
+    const matchedIngredients = this.ingredients.map(ingredient => {
+      const foundIngredient = ingredientsData.find(
+        ingredientData => ingredientData.id === ingredient.id
+      );
+      const newObj = Object.assign(foundIngredient, ingredient);
+      const ingredient1 = new Ingredient(newObj);
+      return ingredient1.name;
+    });
+    return matchedIngredients;
   }
 
   getRecipeCost() {
     const ingredients = this.getIngredients();
-    const total = ingredients.reduce((acc, item) =>{
+    const total = ingredients.reduce((acc, item) => {
       acc += item.amount * item.estimatedCostInCents;
-      return acc
-    }, 0)
-    return `$${total/100}`
+      return acc;
+    }, 0);
+    return `$${total / 100}`;
   }
 
-  getRecipeInstructions(){
+  getRecipeInstructions() {
     return this.instructions;
   }
 }

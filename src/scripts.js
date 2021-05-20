@@ -20,12 +20,6 @@ const allMeals = document.getElementById('allMeals');
 //////////////// variables //////////////
 let newRepository;
 
-// when page loads in order to view photos of the recipes
-// we need to have Recipes
-// we need them to be stored in the recipeRepository
-// we need to access the data for recipes
-//let newRepository = [];
-
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
   breakfast: ['breakfast', 'morning meal','brunch'], 
@@ -34,14 +28,6 @@ const tags = {
   condiments: ['condiment', 'dip', 'spread', 'sauce'],
   sides: ['salad', 'side dish', 'snack'] 
 };
-//when you click the button, you can get the value of the button
-    //use the value "breakfast"
-    //use bracket notation tags['breakfast']
-    //then you have access to the array of tags under that umbrella
-    //iterate over that array of tags
-    //see if this recipe.tags includes this tag
-    //then return
-
 
 ////////////// functions and event handlers //////////////
 homeButton.addEventListener('click', goHome);
@@ -49,14 +35,13 @@ favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
 window.addEventListener('load', pageLoad)
-// homeButton.addEventListener('click', goHome);
-// favoriteButton.addEventListener('click', displayFavorites);
-// queueButton.addEventListener('click', displayQueue);
+homeButton.addEventListener('click', goHome);
+favoriteButton.addEventListener('click', displayFavorites);
+queueButton.addEventListener('click', displayQueue);
 
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
-  // return newRepository
   populateMainPage(newRepository);
 }
 
@@ -122,7 +107,14 @@ function displayFavorites() {
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
 
-
+////// filter by tags //////
+//event listeners on all the images
+//when you click an image
+// if the image id = appetizers
+// then go to tags.appetizers
+// store that in a variable (tags)
+// pass that variable to newRepository.filterByTag(tags) 
+// change html to say "browse ${tags}"
 
 
 

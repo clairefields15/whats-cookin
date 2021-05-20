@@ -9,15 +9,15 @@ class RecipeRepository {
   }
 
   filterByTag(tags) {
-    tags.reduce((acc, tag) => {
+    const filteredRecipes = tags.reduce((acc, tag) => {
       this.recipesData.forEach(recipe => {
         if(recipe.tags.includes(tag) && !acc.includes(recipe)) {
           acc.push(recipe)
         }
       });
-      console.log(acc)
       return acc
     }, [])
+    return filteredRecipes;
   }
 
 };

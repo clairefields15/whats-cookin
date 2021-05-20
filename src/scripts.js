@@ -19,6 +19,9 @@ const tags = { appetizers: [], breakfast: [], lunch: [], dinner: [], side: [] }
 //see if this recipe.tags includes this tag
 //then return
 
+//on page load we make Recipes, Ingredients, RecipeRepository, User
+
+
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     element = elements[i];

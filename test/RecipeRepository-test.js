@@ -25,12 +25,12 @@ describe('RecipeRepository', () => {
 
   it('Should have a method that retrieves recipes by a tag', () => {
     const recipesByTag = recipeRepository.filterByTag(['lunch']);
-
+    console.log('recipe >>>>>>', recipe2)
     expect(recipesByTag).to.deep.equal([recipe2])
   })
 
-   it('Should have a method that retrieves recipes by multiple tags', () => {
-    const recipesByTag = recipeRepository.filterByTag(['lunch', 'main course']);
+   it.skip('Should have a method that retrieves recipes by multiple tags', () => {
+    const recipesByTag = recipeRepository.filterByTag(['lunch', 'snack']);
 
     //expect(recipesByTag).to.deep.equal([recipe2])
   })

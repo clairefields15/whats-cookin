@@ -178,9 +178,24 @@ nav {
 }
 
 /* mini recipe */
+.mini-recipe-card {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mini-recipe-img-container {
+  display: flex;
+}
+
+/* .heart-overlay {
+  display: flex;
+} */
 
 .recipe-name-mini {
   font-size: 15px;
+  text-align: center;
 }
 
 /* Effects */

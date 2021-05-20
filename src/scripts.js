@@ -44,10 +44,14 @@ const tags = {
 
 
 ////////////// functions and event handlers //////////////
-window.addEventListener('load', pageLoad)
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
+
+window.addEventListener('load', pageLoad)
+// homeButton.addEventListener('click', goHome);
+// favoriteButton.addEventListener('click', displayFavorites);
+// queueButton.addEventListener('click', displayQueue);
 
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
@@ -83,6 +87,7 @@ function populateMainPage(newRepository) {
         </div>
       </div>
       <h1 class="recipe-name-mini"> ${recipes[index].name} </h1>
+      </article>
     `
   })
 
@@ -90,14 +95,14 @@ function populateMainPage(newRepository) {
   
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
-    element = elements[i];
+    var element = elements[i];
     element.classList.add("hidden");
   }
 };
 
 function show(elements) {
   for (var i = 0; i < elements.length; i++) {
-    element = elements[i];
+    var element = elements[i];
     element.classList.remove("hidden");
   }
 };
@@ -116,5 +121,8 @@ function displayFavorites() {
   show([favoritesPage]);
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
+
+
+
 
 

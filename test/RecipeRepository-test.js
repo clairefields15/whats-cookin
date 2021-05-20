@@ -7,7 +7,7 @@ import { recipeTestData } from '../src/data/recipe-test-data';
 import Recipe from '../src/classes/Recipe';
 
 describe('RecipeRepository', () => {
-  let recipeRepository, recipe1, recipe2, recipeData1;
+  let recipeRepository, recipe1, recipe2;
 
   beforeEach(() => {
     recipeRepository = new RecipeRepository(recipeTestData);
@@ -24,15 +24,38 @@ describe('RecipeRepository', () => {
   })
 
   it('Should have a method that retrieves recipes by a tag', () => {
-    const recipesByTag = recipeRepository.filterByTag('lunch');
-
+    const recipesByTag = recipeRepository.filterByTag(['lunch']);
     expect(recipesByTag).to.deep.equal([recipe2])
   })
 
-  it('Should be able to filter by multiple tags', () => {
-    const recipesByTag = recipeRepository.filterByTag('lunch','starter');
+  it('Should have a method that retrieves recipes by multiple tags', () => {
+    const recipesByTag = recipeRepository.filterByTag(['lunch', 'snack']);
 
-    expect(recipesByTag).to.deep.equal([recipe1, recipe2]);
-  });
+    expect(recipesByTag).to.deep.equal([recipe2, recipe1])
+  })
+
+  it('Should be able to filter recipes by any ingredient', () => {
+    recipe1 = new Recipe(recipeData[0]);
+    recipe2 = new Recipe(recipeData[1]);
+    const data = [recipe1, recipe2]
+    recipeRepository = new RecipeRepository(data);
+
+    
+    const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
+
+    expect(recipesByIngredient).to.deep.equal([recipe1])
+  })
+
+  it('Should be able to filter recipes by any name', () => {
+    recipe1 = new Recipe(recipeData[0]);
+    recipe2 = new Recipe(recipeData[1]);
+    const data = [recipe1, recipe2]
+    recipeRepository = new RecipeRepository(data);
+
+    
+    const recipesByName = recipeRepository.filterByName(['Loaded Chocolate Chip Pudding Cookie Cups']);
+
+    expect(recipesByName).to.deep.equal([recipe1])
+  })
 
 })

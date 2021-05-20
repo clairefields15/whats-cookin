@@ -10,6 +10,17 @@ const queueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
 
+const tags = { appetizers: [], breakfast: [], lunch: [], dinner: [], side: [] }
+//when you click the button, you can get the value of the button
+//use the value "breakfast"
+//use bracket notation tags['breakfast']
+//then you have access to the array of tags under that umbrella
+//iterate over that array of tags
+//see if this recipe.tags includes this tag
+//then return
+
+//on page load we make Recipes, Ingredients, RecipeRepository, User
+
 
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {

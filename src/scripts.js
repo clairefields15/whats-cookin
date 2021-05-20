@@ -1,3 +1,9 @@
+import RecipeRepository from "./classes/RecipeRepository";
+import Recipe from "./classes/Recipe"
+import Ingredient from "./classes/Ingredient"
+
+
+//////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
 const queuePage = document.getElementById('queuePage');
 const favoritesPage = document.getElementById('favoritesPage');
@@ -10,16 +16,34 @@ const queueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
 
-const tags = { appetizers: [], breakfast: [], lunch: [], dinner: [], side: [] }
-//when you click the button, you can get the value of the button
-//use the value "breakfast"
-//use bracket notation tags['breakfast']
-//then you have access to the array of tags under that umbrella
-//iterate over that array of tags
-//see if this recipe.tags includes this tag
-//then return
+//////////////// variables //////////////
+let recipe = new Recipe();
+let recipeRepository = new RecipeRepository();
+let ingredients = new Ingredients();
 
-//on page load we make Recipes, Ingredients, RecipeRepository, User
+
+const tags = { 
+  appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
+  breakfast: ['breakfast', 'morning meal','brunch'], 
+  lunch: ['salad', 'lunch', 'brunch'],
+  dinner: ['main course', 'dinner', 'main dish'], 
+  condiments: ['condiment', 'dip', 'spread', 'sauce'],
+  sides: ['salad', 'side dish', 'snack'] 
+};
+//when you click the button, you can get the value of the button
+    //use the value "breakfast"
+    //use bracket notation tags['breakfast']
+    //then you have access to the array of tags under that umbrella
+    //iterate over that array of tags
+    //see if this recipe.tags includes this tag
+    //then return
+
+
+////////////// functions and event handlers //////////////
+homeButton.addEventListener('click', goHome);
+favoriteButton.addEventListener('click', displayFavorites);
+queueButton.addEventListener('click', displayQueue);
+window.addEventListener('load', )
 
 
 function hide(elements) {
@@ -50,8 +74,4 @@ function displayFavorites() {
   show([favoritesPage]);
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
-
-homeButton.addEventListener('click', goHome);
-favoriteButton.addEventListener('click', displayFavorites);
-queueButton.addEventListener('click', displayQueue);
 

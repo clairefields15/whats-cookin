@@ -17,7 +17,7 @@ const queueButton = document.getElementById('queueButton');
 const browseMeals = document.getElementById('browseMeals');
 const allMeals = document.getElementById('allMeals');
 
-const appetizerButton = document.getElementById('appetizer')
+
 
 //////////////// variables //////////////
 let newRepository;
@@ -27,11 +27,42 @@ const tags = {
   breakfast: ['breakfast', 'morning meal','brunch'], 
   lunch: ['salad', 'lunch', 'brunch'],
   dinner: ['main course', 'dinner', 'main dish'], 
-  condiments: ['condiment', 'dip', 'spread', 'sauce'],
-  sides: ['salad', 'side dish', 'snack'] 
+  sides: ['salad', 'side dish', 'snack'], 
+  condiments: ['condiment', 'dip', 'spread', 'sauce']
 };
 
-////////////// functions and event handlers //////////////
+function filterByTags(button) {
+  let currentTags = [];
+  if (button.id === 'appetizers') {
+    currentTags = tags.appetizers
+  }
+  if (button.id === 'breakfast') {
+    currentTags = tags.breakfast
+  }
+  if (button.id === 'lunch') {
+    currentTags = tags.lunch
+  }
+  if (button.id === 'dinner') {
+    currentTags = tags.dinner
+  }
+  if (button.id === 'sides') {
+    currentTags = tags.sides
+  }
+  if (button.id ==='condiments'){
+    currentTags = tags.condiments
+  }
+  return currentTags
+}
+
+// pass that variable to newRepository.filterByTag(tags) 
+// change html to say "browse ${tags}"
+
+
+
+////////////// event listeners //////////////
+const allCourseButtons = document.querySelectorAll('button').forEach(button => 
+  button.addEventListener('click', function () {filterByTags(button)}));
+
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
@@ -41,13 +72,8 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
-// filter by tag event listeners
-appetizerButton.addEventListener('click', viewAppetizers)
 
-function viewAppetizers() {
-  console.log('appetizers')
-}
-
+////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
@@ -116,14 +142,6 @@ function displayFavorites() {
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
 
-////// filter by tags //////
-//event listeners on all the images
-//when you click an image
-// if the image id = appetizers
-// then go to tags.appetizers
-// store that in a variable (tags)
-// pass that variable to newRepository.filterByTag(tags) 
-// change html to say "browse ${tags}"
 
 
 

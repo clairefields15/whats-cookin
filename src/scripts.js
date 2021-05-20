@@ -1,7 +1,7 @@
 import RecipeRepository from "./classes/RecipeRepository";
 import Recipe from "./classes/Recipe"
 import Ingredient from "./classes/Ingredient"
-
+import { recipeData } from "./data/recipes"
 
 //////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
@@ -15,12 +15,16 @@ const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
+const allMeals = document.getElementById('allMeals');
 
 //////////////// variables //////////////
-let recipe = new Recipe();
-let recipeRepository = new RecipeRepository();
-let ingredients = new Ingredients();
+let newRepository;
 
+// when page loads in order to view photos of the recipes
+// we need to have Recipes
+// we need them to be stored in the recipeRepository
+// we need to access the data for recipes
+//let newRepository = [];
 
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
@@ -40,12 +44,50 @@ const tags = {
 
 
 ////////////// functions and event handlers //////////////
+window.addEventListener('load', pageLoad)
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
-window.addEventListener('load', )
 
+function pageLoad() {
+  const recipeDataArray = makeRecipeInstances();
+  newRepository = addRecipesToRepository(recipeDataArray);
+  // return newRepository
+  populateMainPage(newRepository);
+}
 
+function makeRecipeInstances() {
+  const recipeDataArray = [];
+  recipeData.forEach((recipe, index) => {
+    let recipe1 = new Recipe(recipeData[index])
+    recipeDataArray.push(recipe1)
+  })
+  return recipeDataArray
+}
+
+function addRecipesToRepository(recipeDataArray) {
+  return newRepository = new RecipeRepository(recipeDataArray);
+}
+
+function populateMainPage(newRepository) {
+  console.log(newRepository.recipesData[0].image)
+
+  const recipes = newRepository.recipesData; 
+  recipes.forEach((recipe, index) => {
+    allMeals.innerHTML += `
+    <article id="${recipe.id}" class="mini-recipe-card">
+      <div class="mini-recipe-img-container">
+      <img class="mini-recipe-img" src="${recipe.image}">
+      <div class="heart-overlay">
+        <img src="./images/heart-empty.png" alt="Empty heart btn">
+        </div>
+      </div>
+      <h1 class="recipe-name-mini"> ${recipes[index].name} </h1>
+    `
+  })
+
+}
+  
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     element = elements[i];
@@ -74,4 +116,5 @@ function displayFavorites() {
   show([favoritesPage]);
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
+
 

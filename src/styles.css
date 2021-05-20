@@ -177,6 +177,12 @@ nav {
   width: 80%;
 }
 
+/* mini recipe */
+
+.recipe-name-mini {
+  font-size: 15px;
+}
+
 /* Effects */
 
 .hover {

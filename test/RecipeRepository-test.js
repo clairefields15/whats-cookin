@@ -46,4 +46,16 @@ describe('RecipeRepository', () => {
     expect(recipesByIngredient).to.deep.equal([recipe1])
   })
 
+  it('Should be able to filter recipes by any name', () => {
+    recipe1 = new Recipe(recipeData[0]);
+    recipe2 = new Recipe(recipeData[1]);
+    const data = [recipe1, recipe2]
+    recipeRepository = new RecipeRepository(data);
+
+    
+    const recipesByName = recipeRepository.filterByName(['Loaded Chocolate Chip Pudding Cookie Cups']);
+
+    expect(recipesByName).to.deep.equal([recipe1])
+  })
+
 })

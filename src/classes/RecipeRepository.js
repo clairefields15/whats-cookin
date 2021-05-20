@@ -4,9 +4,8 @@ import { ingredientsData } from "../data/ingredients";
 import { recipeData } from "../data/recipes";
 import { recipeTestData } from '../data/recipe-test-data'
 class RecipeRepository {
-  constructor(recipes, ingredients) {
+  constructor(recipes) {
     this.recipesData = recipes;
-    this.ingredientsData = ingredients;
   }
 
   filterByTag(tags) {
@@ -26,6 +25,19 @@ class RecipeRepository {
       this.recipesData.forEach(recipe => {
         const recipeIngredients = recipe.getIngredientNames();
         if(recipeIngredients.includes(ingredient) && !acc.includes(ingredient)) {
+          acc.push(recipe)
+        }
+      });
+      return acc
+    }, []);
+    return filteredRecipes;
+  }
+
+  filterByName(names) {
+    const filteredRecipes = names.reduce((acc, name) => {
+      this.recipesData.forEach(recipe => {
+        const recipeNames = recipe.name;
+        if(recipeNames.includes(name) && !acc.includes(name)) {
           acc.push(recipe)
         }
       });

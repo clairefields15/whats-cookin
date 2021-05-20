@@ -6,10 +6,10 @@ import './images/main-page1.jpg'
 
 import './images/starter-icon.png'
 import './images/breakfast-icon.png'
-import './images/dessert-icon.png'
 import './images/dinner-icon.png'
 import './images/lunch-icon.png'
 import './images/side-icon.png'
+import './images/sauce-icon.png'
 
 
 import './images/heart-empty.png'

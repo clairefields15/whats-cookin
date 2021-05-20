@@ -17,6 +17,8 @@ const queueButton = document.getElementById('queueButton');
 const browseMeals = document.getElementById('browseMeals');
 const allMeals = document.getElementById('allMeals');
 
+const appetizerButton = document.getElementById('appetizer')
+
 //////////////// variables //////////////
 let newRepository;
 
@@ -38,6 +40,13 @@ window.addEventListener('load', pageLoad)
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
+
+// filter by tag event listeners
+appetizerButton.addEventListener('click', viewAppetizers)
+
+function viewAppetizers() {
+  console.log('appetizers')
+}
 
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();

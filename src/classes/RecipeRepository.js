@@ -12,7 +12,8 @@ class RecipeRepository {
       });
       return acc
     }, [])
-    return filteredRecipes;
+    this.recipesData = filteredRecipes;
+    console.log(this.recipesData)
   }
 
   filterByIngredients(ingredients) {

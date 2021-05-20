@@ -16,6 +16,7 @@ const queueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
 const allMeals = document.getElementById('allMeals');
+const browseHeader = document.getElementById('browseHeader')
 
 
 
@@ -30,33 +31,6 @@ const tags = {
   sides: ['salad', 'side dish', 'snack'], 
   condiments: ['condiment', 'dip', 'spread', 'sauce']
 };
-
-function filterByTags(button) {
-  let currentTags = [];
-  if (button.id === 'appetizers') {
-    currentTags = tags.appetizers
-  }
-  if (button.id === 'breakfast') {
-    currentTags = tags.breakfast
-  }
-  if (button.id === 'lunch') {
-    currentTags = tags.lunch
-  }
-  if (button.id === 'dinner') {
-    currentTags = tags.dinner
-  }
-  if (button.id === 'sides') {
-    currentTags = tags.sides
-  }
-  if (button.id ==='condiments'){
-    currentTags = tags.condiments
-  }
-  return currentTags
-}
-
-// pass that variable to newRepository.filterByTag(tags) 
-// change html to say "browse ${tags}"
-
 
 
 ////////////// event listeners //////////////
@@ -94,8 +68,7 @@ function addRecipesToRepository(recipeDataArray) {
 }
 
 function populateMainPage(newRepository) {
-  console.log(newRepository.recipesData[0].image)
-
+  allMeals.innerHTML = '';
   const recipes = newRepository.recipesData; 
   recipes.forEach((recipe, index) => {
     allMeals.innerHTML += `
@@ -142,6 +115,40 @@ function displayFavorites() {
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
 
+function filterByTags(button) {
+  let currentTags = [];
+  if (button.id === 'appetizers') {
+    currentTags = tags.appetizers
+  }
+  if (button.id === 'breakfast') {
+    currentTags = tags.breakfast
+  }
+  if (button.id === 'lunch') {
+    currentTags = tags.lunch
+  }
+  if (button.id === 'dinner') {
+    currentTags = tags.dinner
+  }
+  if (button.id === 'sides') {
+    currentTags = tags.sides
+  }
+  if (button.id === 'condiments') {
+    currentTags = tags.condiments
+  }
+  changeHeaderText(button.id);
+  newRepository.filterByTag(currentTags);
+  populateMainPage(newRepository);
+}
+
+function changeHeaderText(id) {
+  if (id.charAt(id.length-1) === 's') {
+    browseHeader.innerText = `Browse ${id}`
+  } else{
+    browseHeader.innerText = `Browse ${id} recipes`
+  }
+}
+
+// change html to say "browse ${tags}"
 
 
 

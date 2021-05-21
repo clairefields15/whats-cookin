@@ -14,7 +14,6 @@ class RecipeRepository {
       return acc
     }, [])
     this.filteredRecipes = filteredRecipes;
-    return filteredRecipes
   }
 
   filterByIngredients(ingredients) {

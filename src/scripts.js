@@ -72,13 +72,9 @@ function populateMainPage(someRepository) {
   someRepository.forEach((recipe, index) => {
     allMeals.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card">
-      <div class="mini-recipe-img-container">
-      <img class="mini-recipe-img" src="${recipe.image}">
-      <div class="heart-overlay">
-        <img src="./images/heart-empty.png" alt="Empty heart btn">
-        </div>
-      </div>
-      <h1 class="recipe-name-mini"> ${someRepository[index].name} </h1>
+          <img class="mini-recipe-img" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
       </article>
     `
   })

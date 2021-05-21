@@ -36,8 +36,12 @@ describe('User', () => {
   it('should have a list of recipes to cook', () => {
     expect(user).to.have.property('recipesToCook');
     expect(user.recipesToCook).to.deep.equal([]);
-
   })
+
+  it('should have a way to store filtered recipes', () => {
+    expect(user).to.have.property('filteredFavs');
+    expect(user.filteredFavs).to.deep.equal([]);
+  });
 
   it('should be able to add recipes to a list of recipes to cook', () => {
     user.addRecipeToCookList(recipe1)
@@ -63,5 +67,11 @@ describe('User', () => {
     expect(user.favoriteRecipes).to.deep.equal([recipe1]);
   });
 
+  it('should be able to filter favorite recipes by tag', () => {
+    user.addToFavorites(recipe2);
+    user.addToFavorites(recipe1);
+    const favoritesByTag = user.filterByTag(['lunch']);
+    expect(user.filteredFavs).to.deep.equal([recipe2])
+  })
 
 });

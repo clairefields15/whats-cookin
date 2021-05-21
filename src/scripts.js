@@ -51,7 +51,7 @@ queueButton.addEventListener('click', displayQueue);
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
-  populateMainPage(newRepository);
+  populateMainPage(newRepository.recipesData);
 }
 
 function makeRecipeInstances() {
@@ -67,10 +67,9 @@ function addRecipesToRepository(recipeDataArray) {
   return newRepository = new RecipeRepository(recipeDataArray);
 }
 
-function populateMainPage(newRepository) {
+function populateMainPage(someRepository) {
   allMeals.innerHTML = '';
-  const recipes = newRepository.recipesData; 
-  recipes.forEach((recipe, index) => {
+  someRepository.forEach((recipe, index) => {
     allMeals.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card">
       <div class="mini-recipe-img-container">
@@ -79,11 +78,10 @@ function populateMainPage(newRepository) {
         <img src="./images/heart-empty.png" alt="Empty heart btn">
         </div>
       </div>
-      <h1 class="recipe-name-mini"> ${recipes[index].name} </h1>
+      <h1 class="recipe-name-mini"> ${someRepository[index].name} </h1>
       </article>
     `
   })
-
 }
   
 function hide(elements) {
@@ -137,18 +135,16 @@ function filterByTags(button) {
   }
   changeHeaderText(button.id);
   newRepository.filterByTag(currentTags);
-  populateMainPage(newRepository);
+  populateMainPage(newRepository.filteredRecipes);
 }
 
 function changeHeaderText(id) {
-  if (id.charAt(id.length-1) === 's') {
+  if (id.charAt(id.length - 1) === 's') {
     browseHeader.innerText = `Browse ${id}`
-  } else{
+  } else {
     browseHeader.innerText = `Browse ${id} recipes`
   }
 }
-
-// change html to say "browse ${tags}"
 
 
 

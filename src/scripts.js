@@ -10,15 +10,25 @@ const favoritesPage = document.getElementById('favoritesPage');
 const recipeDetailPage = document.getElementById('recipeDetailPage');
 const searchResultsPage = document.getElementById('searchResultsPage');
 
+const courseChooser = document.getElementById('courseChooser');
+const sortByCourseHeader = document.getElementById('sortByCourseHeader');
+
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
+const addToQueueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
 const allMeals = document.getElementById('allMeals');
-const browseHeader = document.getElementById('browseHeader')
+const browseHeader = document.getElementById('browseHeader');
 
-
+//recipe page qs
+const recipeName = document.getElementById('recipeName');
+const recipeImage = document.getElementById('recipeImage');
+const recipeTags = document.getElementById('recipeTags');
+const ingredientRow = document.getElementById('ingredientRow');
+const ingredientTotal = document.getElementById('ingredientTotal');
+const recipeInstructions = document.getElementById('recipeInstructions');
 
 //////////////// variables //////////////
 let newRepository;
@@ -46,6 +56,8 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
+allMeals.addEventListener('click', clickRecipeCard);
+
 
 ////////////// functions and event handlers //////////////
 function pageLoad() {
@@ -71,7 +83,7 @@ function populateMainPage(someRepository) {
   allMeals.innerHTML = '';
   someRepository.forEach((recipe, index) => {
     allMeals.innerHTML += `
-    <article id="${recipe.id}" class="mini-recipe-card">
+    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
             <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
@@ -79,6 +91,7 @@ function populateMainPage(someRepository) {
     `
   })
 }
+
   
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
@@ -95,7 +108,7 @@ function show(elements) {
 };
 
 function goHome() {
-  show([homePage, browseMeals]);
+  show([homePage, browseMeals, sortByCourseHeader, courseChooser]);
   hide([recipeDetailPage, favoritesPage, searchResultsPage, queuePage]);
 }
 
@@ -106,7 +119,7 @@ function displayQueue() {
 
 function displayFavorites() {
   show([favoritesPage]);
-  hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
+  hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage, sortByCourseHeader, courseChooser]);
 }
 
 function filterByTags(button) {
@@ -139,6 +152,67 @@ function changeHeaderText(id) {
     browseHeader.innerText = `Browse ${id}`
   } else {
     browseHeader.innerText = `Browse ${id} recipes`
+  }
+}
+
+//recipe page 
+function recipeDetails(recipe) {
+  recipeTags.innerHTML = '';
+  recipePageImageContainer.id = `${recipe.id}`
+  recipeName.innerText = `${recipe.name}`;
+  recipeImage.src = `${recipe.image}`;
+  displayTags(recipe, recipeTags);
+  displayIngredients(recipe);
+}
+
+function displayTags(recipe, placement) {
+  recipe.tags.forEach(tag => {
+    placement.innerHTML += `
+    <li class="recipe-tag">${tag}</li>
+    `
+  })
+}
+
+function displayMeasurements(ingredient) {
+  ingredientRow.innerHTML += `
+  <div class="ingredient-row-spacing">
+    <p class="ingredient-row-text">${ingredient.quantity.amount} ${ingredient.quantity.unit} ${name}</p>
+    <p id="ingredientRowText"class="ingredient-row-price">$${((ingredient.quantity.amount * ingredient.estimatedCostInCents) / 100)}</p>
+  </div>
+  `
+}
+
+function displayInstructions(recipe) {
+  recipeInstructions.innerHTML = ''
+  recipe.instructions.forEach(step => {
+    recipeInstructions.innerHTML += `
+    <section class="recipe-instructions-numbered">
+    <p class="recipe-step-number">${step.number}.</p>
+    <p>${step.instruction}</p>
+    </section>
+    `
+  })
+}
+
+function displayIngredients(recipe) {
+  ingredientRow.innerHTML = '';
+  recipe.ingredients.forEach(ingredient => {
+    displayMeasurements(ingredient);
+  })
+  displayInstructions(recipe)
+}
+
+function showRecipe() {
+  show([recipeDetailPage]);
+  hide([homePage, sortByCourseHeader, searchResultsPage, browseMeals, queuePage, favoritesPage, courseChooser])
+  const targetId = parseInt(event.target.closest('.recipe-target').id);
+  const foundRecipe = newRepository.recipesData.find(recipe => targetId === recipe.id);
+  recipeDetails(foundRecipe);
+}
+
+function clickRecipeCard(event) {
+  if (event.target.closest('.recipe-target')) {
+    showRecipe();
   }
 }
 

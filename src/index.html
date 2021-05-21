@@ -29,8 +29,8 @@
         <h1 class="welcome" id="welcomeUser">Claire</h1>
       </div>
       </section>
-      <h1 class="sort-by-course-header">Sort by Course</h1>
-      <section class="course-chooser">
+      <h1 class="sort-by-course-header" id="sortByCourseHeader">Sort by Course</h1>
+      <section class="course-chooser" id="courseChooser">
         <div id="appetizer" class="course-chooser-topic">
           <button id="appetizers">
             <img src="./images/starter-icon.png" alt="Appetizer icon">
@@ -88,12 +88,43 @@
       <section id="searchResultMeals" class="meals-grid">
       </section>
     </section>
-    <section id="recipeDetailPage" class="recipe-detail-page .recipe-target hidden">
-      <h1 id="recipeDetailsName">Name of Recipe Here</h1>
-    </section>
     <section id="queuePage" class="cookin-queue-page hidden">
       <h1 id="userQueue">User Name's Cookin' Queue</h1>
       <section id="cookinQueueBlock">
+      </section>
+    </section>
+    <section id="recipeDetailPage" class="recipe-detail-page .recipe-target hidden">
+      <h1 id="recipeName">RECIPE NAME</h1>
+      <section class="recipe-page-grid">
+      <div class="recipe-visual">
+        <div id="recipePageImageContainer" class="recipe-target recipe-page-image-container">
+          <img id="recipeImage" class="recipe-page-image">
+          <div class="heart-overlay">
+            <img src="images/heart-empty.png" alt="empty heart" id="grey-heart" class="heart unfilled-heart">
+            <img src="images/heart-filled.png" alt="filled heart" id="pink-heart" class="heart hidden">
+          </div>
+          <button id="addToQueueButton" class="add-to-queue-button">Add to Cooking Queue</button>
+        </div>
+        <ul id="recipeTags" class="recipe-page-tags">
+        </ul>
+      </div>
+      <section class="recipe-ingredients">
+        <h2>Recipe Ingredients:</h2>
+        <section class="ingredient-list">
+          <section id="ingredientRow" class="ingredient-row">
+          </section>
+          <div class="ingredient-row">
+            <div class="ingredient-row-spacing ingredient-total">
+              <p class="ingredient-row-text">Total</p>
+              <p id="ingredientTotal" class="ingredient-row-price"></p>
+            </div>
+        </section>
+      </section>
+      </section>
+      <section>
+        <h2>Instructions</h2>
+        <ul id="recipeInstructions" class="recipe-instructions">
+        </ul>
       </section>
     </section>
   </main>

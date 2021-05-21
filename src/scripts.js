@@ -29,9 +29,10 @@ const recipeTags = document.getElementById('recipeTags');
 const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
+const recipePageImageContainer = document.getElementById('recipePageImageContainer');
 
 //////////////// variables //////////////
-let newRepository;
+let newRepository, user;
 
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
@@ -92,7 +93,6 @@ function populateMainPage(someRepository) {
   })
 }
 
-  
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -157,18 +157,20 @@ function changeHeaderText(id) {
 
 //recipe page 
 function recipeDetails(recipe) {
-  recipeTags.innerHTML = '';
   recipePageImageContainer.id = `${recipe.id}`
   recipeName.innerText = `${recipe.name}`;
   recipeImage.src = `${recipe.image}`;
-  displayTags(recipe, recipeTags);
+  let totalCost = recipe.getRecipeCost();
+  ingredientTotal.innerText = `${totalCost}`
+  displayTags(recipe);
   displayIngredients(recipe);
   displayInstructions(recipe)
 }
 
-function displayTags(recipe, placement) {
+function displayTags(recipe) {
+  recipeTags.innerHTML = '';
   recipe.tags.forEach(tag => {
-    placement.innerHTML += `
+    recipeTags.innerHTML += `
     <li class="recipe-tag">${tag}</li>
     `
   })

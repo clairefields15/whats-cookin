@@ -22,7 +22,6 @@ const browseRecipesSection = document.getElementById('browseRecipesSection');
 const recipeCardGrid = document.getElementById('recipeCardGrid');
 const browseHeader = document.getElementById('browseHeader');
 
-//recipe page qs
 const recipeName = document.getElementById('recipeName');
 const recipeImage = document.getElementById('recipeImage');
 const recipeTags = document.getElementById('recipeTags');
@@ -30,6 +29,8 @@ const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
+
+const searchBar = document.getElementById('searchBar');
 
 //////////////// variables //////////////
 let newRepository, user;
@@ -59,6 +60,13 @@ queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
 
+// searchBar.addEventListener('input', filterSearchResults);
+
+searchBar.querySelector('#txtSearch').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      filterSearchResults();
+    }
+});
 
 ////////////// functions and event handlers //////////////
 function pageLoad() {
@@ -144,7 +152,7 @@ function filterByTags(button) {
   }
   changeHeaderText(button.id);
   newRepository.filterByTag(currentTags);
-  populateMainPage(newRepository.filteredRecipes);
+  populateMainPage(newRepository.filteredByTag);
 }
 
 function changeHeaderText(id) {
@@ -216,6 +224,18 @@ function clickRecipeCard(event) {
     showRecipe(event);
   }
 }
+
+function filterSearchResults(event) {
+  event.preventDefault()
+  show([searchResultsPage]);
+  hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
+}
+// need to access the searchBar.input
+// turn that input into an array, called input, even if it's just one word
+// pass input to recipeRepository
+// run newRepository.filterByIngredients(input)
+// run newRepository.filterByName(input)
+// running those functions 
 
 
 

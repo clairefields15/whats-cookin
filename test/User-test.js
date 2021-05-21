@@ -30,10 +30,23 @@ describe('User', () => {
 
   it('should have a list of favorite recipes', () => {
     expect(user).to.have.property('favoriteRecipes')
+    expect(user.favoriteRecipes).to.deep.equal([])
   })
 
   it('should have a list of recipes to cook', () => {
     expect(user).to.have.property('recipesToCook');
+    expect(user.recipesToCook).to.deep.equal([]);
+
+  })
+
+  it('should be able to add recipes to a list of recipes to cook', () => {
+    user.addRecipeToCookList(recipe1)
+    expect(user.recipesToCook).to.deep.equal([recipe1])
+  })
+
+  it('should be able to add recipes to a list of favorites', () => {
+    user.addToFavorites(recipe2)
+    expect(user.favoriteRecipes).to.deep.equal([recipe2])
   })
 
 

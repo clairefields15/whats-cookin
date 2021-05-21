@@ -29,9 +29,10 @@ const recipeTags = document.getElementById('recipeTags');
 const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
+const recipePageImageContainer = document.getElementById('recipePageImageContainer');
 
 //////////////// variables //////////////
-let newRepository;
+let newRepository, user;
 
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
@@ -92,7 +93,6 @@ function populateMainPage(someRepository) {
   })
 }
 
-  
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -157,29 +157,37 @@ function changeHeaderText(id) {
 
 //recipe page 
 function recipeDetails(recipe) {
-  recipeTags.innerHTML = '';
   recipePageImageContainer.id = `${recipe.id}`
   recipeName.innerText = `${recipe.name}`;
   recipeImage.src = `${recipe.image}`;
-  displayTags(recipe, recipeTags);
-  displayIngredients(recipe);
+  let totalCost = recipe.getRecipeCost();
+  ingredientTotal.innerText = `${totalCost}`
+  displayTags(recipe);
+  displayInstructions(recipe)
+  displayMeasurements(recipe)
 }
 
-function displayTags(recipe, placement) {
+function displayTags(recipe) {
+  recipeTags.innerHTML = '';
   recipe.tags.forEach(tag => {
-    placement.innerHTML += `
+    recipeTags.innerHTML += `
     <li class="recipe-tag">${tag}</li>
     `
   })
 }
 
-function displayMeasurements(ingredient) {
-  ingredientRow.innerHTML += `
-  <div class="ingredient-row-spacing">
-    <p class="ingredient-row-text">${ingredient.quantity.amount} ${ingredient.quantity.unit} ${name}</p>
-    <p id="ingredientRowText"class="ingredient-row-price">$${((ingredient.quantity.amount * ingredient.estimatedCostInCents) / 100)}</p>
-  </div>
-  `
+function displayMeasurements(recipe) {
+  ingredientRow.innerHTML = '';
+  let allIngredientInfo = recipe.getIngredients();
+  allIngredientInfo.forEach(ingredient => {
+    return ingredientRow.innerHTML += `
+    <div class="ingredient-row-spacing">
+      <p class="ingredient-row-text">${ingredient.amount} ${ingredient.unit} ${ingredient.name}</p>
+      <p id="ingredientRowText"class="ingredient-row-price">$${((ingredient.amount * ingredient.estimatedCostInCents) / 100)}</p>
+    </div>
+    `
+  })
+
 }
 
 function displayInstructions(recipe) {
@@ -194,25 +202,18 @@ function displayInstructions(recipe) {
   })
 }
 
-function displayIngredients(recipe) {
-  ingredientRow.innerHTML = '';
-  recipe.ingredients.forEach(ingredient => {
-    displayMeasurements(ingredient);
-  })
-  displayInstructions(recipe)
-}
-
-function showRecipe() {
+function showRecipe(event) {
   show([recipeDetailPage]);
   hide([homePage, sortByCourseHeader, searchResultsPage, browseRecipesSection, queuePage, favoritesPage, courseChooser])
   const targetId = parseInt(event.target.closest('.recipe-target').id);
-  const foundRecipe = newRepository.recipesData.find(recipe => targetId === recipe.id);
+  const foundRecipe = newRepository.recipesData.find(recipe => {
+    return targetId === recipe.id});
   recipeDetails(foundRecipe);
 }
 
 function clickRecipeCard(event) {
   if (event.target.closest('.recipe-target')) {
-    showRecipe();
+    showRecipe(event);
   }
 }
 

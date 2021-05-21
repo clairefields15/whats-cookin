@@ -1,35 +1,19 @@
 import { expect } from 'chai';
 import RecipeRepository from '../src/classes/RecipeRepository';
 import User from '../src/classes/User';
-import { userData } from '../src/data/users';
+import Recipe from '../src/classes/Recipe'
+import { recipeTestData } from '../src/data/recipe-test-data'; 
+import { recipeData } from '../src/data/recipes';
+
 
 describe('User', () => {
-  let user, pantry;
+  let user, recipeRepository, recipe1, recipe2;
 
   beforeEach(() => {
-    pantry = [
-      {
-        "ingredient": 11297,
-        "amount": 4
-      },
-      {
-        "ingredient": 1082047,
-        "amount": 10
-      },
-      {
-        "ingredient": 20081,
-        "amount": 5
-      },
-      {
-        "ingredient": 11215,
-        "amount": 5
-      },
-      {
-        "ingredient": 2047,
-        "amount": 6
-      }
-    ]
-    user = new User("Saige O'Kon", 1, pantry)
+    user = new User("Saige O'Kon", 1)
+    recipeRepository = new RecipeRepository(recipeTestData);
+    recipe1 = new Recipe(recipeData[0]);
+    recipe2 = new Recipe(recipeData[1]);
   })
 
   it('should instantiate a new User', () => {
@@ -44,16 +28,12 @@ describe('User', () => {
     expect(user.id).to.equal(1)
   })
 
-  it('should have a pantry of ingredients', () => {
-    expect(user.pantry).to.deep.equal(pantry)
-  })
-
-  it('should have favorite recipes', () => {
-    expect(user.favoriteRecipes).to.deep.equal()
+  it('should have a list of favorite recipes', () => {
+    expect(user).to.have.property('favoriteRecipes')
   })
 
   it('should have a list of recipes to cook', () => {
-    expect(user.recipesToCook).to.deep.equal()
+    expect(user).to.have.property('recipesToCook');
   })
 
 

@@ -18,8 +18,8 @@ const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
 const addToQueueButton = document.getElementById('queueButton');
 
-const browseMeals = document.getElementById('browseMeals');
-const allMeals = document.getElementById('allMeals');
+const browseRecipesSection = document.getElementById('browseRecipesSection');
+const recipeCardGrid = document.getElementById('recipeCardGrid');
 const browseHeader = document.getElementById('browseHeader');
 
 //recipe page qs
@@ -56,7 +56,7 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
-allMeals.addEventListener('click', clickRecipeCard);
+recipeCardGrid.addEventListener('click', clickRecipeCard);
 
 
 ////////////// functions and event handlers //////////////
@@ -80,9 +80,9 @@ function addRecipesToRepository(recipeDataArray) {
 }
 
 function populateMainPage(someRepository) {
-  allMeals.innerHTML = '';
+  recipeCardGrid.innerHTML = '';
   someRepository.forEach((recipe, index) => {
-    allMeals.innerHTML += `
+    recipeCardGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
@@ -108,18 +108,18 @@ function show(elements) {
 };
 
 function goHome() {
-  show([homePage, browseMeals, sortByCourseHeader, courseChooser]);
+  show([homePage, browseRecipesSection, sortByCourseHeader, courseChooser]);
   hide([recipeDetailPage, favoritesPage, searchResultsPage, queuePage]);
 }
 
 function displayQueue() {
   show([queuePage]);
-  hide([homePage, recipeDetailPage, favoritesPage, searchResultsPage, browseMeals]);
+  hide([homePage, recipeDetailPage, favoritesPage, searchResultsPage, browseRecipesSection]);
 }
 
 function displayFavorites() {
   show([favoritesPage]);
-  hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage, sortByCourseHeader, courseChooser]);
+  hide([homePage, searchResultsPage, recipeDetailPage, browseRecipesSection, queuePage, sortByCourseHeader, courseChooser]);
 }
 
 function filterByTags(button) {
@@ -204,7 +204,7 @@ function displayIngredients(recipe) {
 
 function showRecipe() {
   show([recipeDetailPage]);
-  hide([homePage, sortByCourseHeader, searchResultsPage, browseMeals, queuePage, favoritesPage, courseChooser])
+  hide([homePage, sortByCourseHeader, searchResultsPage, browseRecipesSection, queuePage, favoritesPage, courseChooser])
   const targetId = parseInt(event.target.closest('.recipe-target').id);
   const foundRecipe = newRepository.recipesData.find(recipe => targetId === recipe.id);
   recipeDetails(foundRecipe);

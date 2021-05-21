@@ -1,6 +1,7 @@
 class RecipeRepository {
   constructor(recipes) {
     this.recipesData = recipes;
+    this.filteredRecipes = null;
   }
 
   filterByTag(tags) {
@@ -12,7 +13,7 @@ class RecipeRepository {
       });
       return acc
     }, [])
-    return filteredRecipes;
+    this.filteredRecipes = filteredRecipes;
   }
 
   filterByIngredients(ingredients) {

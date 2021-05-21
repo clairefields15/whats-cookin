@@ -7,6 +7,15 @@ html {
   height: 100%;
 }
 
+button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: url('./images/red-cursor.png'), pointer;
+	outline: inherit;
+}
 /* fonts,etc */
 
 * {

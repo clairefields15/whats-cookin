@@ -16,6 +16,9 @@ const queueButton = document.getElementById('queueButton');
 
 const browseMeals = document.getElementById('browseMeals');
 const allMeals = document.getElementById('allMeals');
+const browseHeader = document.getElementById('browseHeader')
+
+
 
 //////////////// variables //////////////
 let newRepository;
@@ -25,11 +28,15 @@ const tags = {
   breakfast: ['breakfast', 'morning meal','brunch'], 
   lunch: ['salad', 'lunch', 'brunch'],
   dinner: ['main course', 'dinner', 'main dish'], 
-  condiments: ['condiment', 'dip', 'spread', 'sauce'],
-  sides: ['salad', 'side dish', 'snack'] 
+  sides: ['salad', 'side dish', 'snack'], 
+  condiments: ['condiment', 'dip', 'spread', 'sauce']
 };
 
-////////////// functions and event handlers //////////////
+
+////////////// event listeners //////////////
+const allCourseButtons = document.querySelectorAll('button').forEach(button => 
+  button.addEventListener('click', function () {filterByTags(button)}));
+
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
@@ -39,10 +46,12 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
+
+////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
-  populateMainPage(newRepository);
+  populateMainPage(newRepository.recipesData);
 }
 
 function makeRecipeInstances() {
@@ -58,11 +67,9 @@ function addRecipesToRepository(recipeDataArray) {
   return newRepository = new RecipeRepository(recipeDataArray);
 }
 
-function populateMainPage(newRepository) {
-  console.log(newRepository.recipesData[0].image)
-
-  const recipes = newRepository.recipesData; 
-  recipes.forEach((recipe, index) => {
+function populateMainPage(someRepository) {
+  allMeals.innerHTML = '';
+  someRepository.forEach((recipe, index) => {
     allMeals.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card">
       <div class="mini-recipe-img-container">
@@ -71,11 +78,10 @@ function populateMainPage(newRepository) {
         <img src="./images/heart-empty.png" alt="Empty heart btn">
         </div>
       </div>
-      <h1 class="recipe-name-mini"> ${recipes[index].name} </h1>
+      <h1 class="recipe-name-mini"> ${someRepository[index].name} </h1>
       </article>
     `
   })
-
 }
   
 function hide(elements) {
@@ -107,14 +113,38 @@ function displayFavorites() {
   hide([homePage, searchResultsPage, recipeDetailPage, browseMeals, queuePage]);
 }
 
-////// filter by tags //////
-//event listeners on all the images
-//when you click an image
-// if the image id = appetizers
-// then go to tags.appetizers
-// store that in a variable (tags)
-// pass that variable to newRepository.filterByTag(tags) 
-// change html to say "browse ${tags}"
+function filterByTags(button) {
+  let currentTags = [];
+  if (button.id === 'appetizers') {
+    currentTags = tags.appetizers
+  }
+  if (button.id === 'breakfast') {
+    currentTags = tags.breakfast
+  }
+  if (button.id === 'lunch') {
+    currentTags = tags.lunch
+  }
+  if (button.id === 'dinner') {
+    currentTags = tags.dinner
+  }
+  if (button.id === 'sides') {
+    currentTags = tags.sides
+  }
+  if (button.id === 'condiments') {
+    currentTags = tags.condiments
+  }
+  changeHeaderText(button.id);
+  newRepository.filterByTag(currentTags);
+  populateMainPage(newRepository.filteredRecipes);
+}
+
+function changeHeaderText(id) {
+  if (id.charAt(id.length - 1) === 's') {
+    browseHeader.innerText = `Browse ${id}`
+  } else {
+    browseHeader.innerText = `Browse ${id} recipes`
+  }
+}
 
 
 

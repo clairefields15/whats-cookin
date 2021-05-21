@@ -84,5 +84,15 @@ describe('User', () => {
 
     expect(user.filteredFavs).to.deep.equal([recipe1]);
   });
+  
+  it('Should be able to filter recipes by any ingredient', () => {
+    user.addToFavorites(recipe2);
+    user.addToFavorites(recipe1);
+    const recipesByIngredient = user.filterByIngredients([
+      'wheat flour'
+    ]);
+
+    expect(user.filteredFavs).to.deep.equal([recipe1]);
+  });
 
 });

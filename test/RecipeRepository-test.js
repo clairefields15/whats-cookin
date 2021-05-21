@@ -23,6 +23,11 @@ describe('RecipeRepository', () => {
     expect(recipeRepository.recipesData).to.equal(recipeTestData);
   })
 
+  it('should have a way to store filtered recipes', () => {
+    expect(recipeRepository).to.have.property('filteredRecipes');
+    expect(recipeRepository.filteredRecipes).to.deep.equal([]);
+  });
+
   it('Should have a method that retrieves recipes by a tag', () => {
     const recipesByTag = recipeRepository.filterByTag(['lunch']);
     expect(recipeRepository.filteredRecipes).to.deep.equal([recipe2])
@@ -43,7 +48,7 @@ describe('RecipeRepository', () => {
     
     const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
 
-    expect(recipesByIngredient).to.deep.equal([recipe1])
+    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);
   })
 
   it('Should be able to filter recipes by any name', () => {
@@ -55,7 +60,7 @@ describe('RecipeRepository', () => {
     
     const recipesByName = recipeRepository.filterByName(['Loaded Chocolate Chip Pudding Cookie Cups']);
 
-    expect(recipesByName).to.deep.equal([recipe1])
+    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);
   })
 
 })

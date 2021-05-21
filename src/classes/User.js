@@ -55,6 +55,23 @@ class User {
     }, []);
     this.filteredFavs = filteredRecipes;
   }
+
+  filterByIngredients(ingredients) {
+    const filteredRecipes = ingredients.reduce((acc, ingredient) => {
+      this.favoriteRecipes.forEach(recipe => {
+        const recipeIngredients = recipe.getIngredientNames();
+        if (
+          recipeIngredients.includes(ingredient) &&
+          !acc.includes(ingredient)
+        ) {
+          acc.push(recipe);
+        }
+      });
+      return acc;
+    }, []);
+    this.filteredFavs = filteredRecipes;
+  }
+
 }
 
 export default User

@@ -8,11 +8,11 @@ class User {
   }
 
   addRecipeToCookList(recipe) {
-    this.recipesToCook.push(recipe)
+    this.recipesToCook.push(recipe);
   }
 
   addToFavorites(recipe) {
-    this.favoriteRecipes.push(recipe)
+    this.favoriteRecipes.push(recipe);
   }
 
   removeFromCookList(id) {
@@ -20,15 +20,15 @@ class User {
       if (item.id === id) {
         this.recipesToCook.splice(index, 1);
       }
-    })
+    });
   }
 
   removeFromFavorites(id) {
     this.favoriteRecipes.forEach((item, index) => {
       if (item.id === id) {
-        this.favoriteRecipes.splice(index, 1)
+        this.favoriteRecipes.splice(index, 1);
       }
-    })
+    });
   }
 
   filterByTag(tags) {
@@ -43,6 +43,18 @@ class User {
     this.filteredFavs = filteredFavoriteRecipes;
   }
 
+  filterFavsByName(names) {
+    const filteredRecipes = names.reduce((acc, name) => {
+      this.favoriteRecipes.forEach(recipe => {
+        const recipeNames = recipe.name;
+        if (recipeNames.includes(name) && !acc.includes(name)) {
+          acc.push(recipe);
+        }
+      });
+      return acc;
+    }, []);
+    this.filteredFavs = filteredRecipes;
+  }
 }
 
 export default User

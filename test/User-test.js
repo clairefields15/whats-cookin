@@ -7,13 +7,14 @@ import { recipeData } from '../src/data/recipes';
 
 
 describe('User', () => {
-  let user, recipeRepository, recipe1, recipe2;
+  let user, recipeRepository, recipe1, recipe2, data;
 
   beforeEach(() => {
     user = new User("Saige O'Kon", 1)
-    recipeRepository = new RecipeRepository(recipeTestData);
-    recipe1 = new Recipe(recipeData[0]);
-    recipe2 = new Recipe(recipeData[1]);
+    recipe1 = new Recipe(recipeTestData[0]);
+    recipe2 = new Recipe(recipeTestData[1]);
+    data = [recipe1, recipe2]
+    recipeRepository = new RecipeRepository(data);
   })
 
   it('should instantiate a new User', () => {
@@ -73,5 +74,15 @@ describe('User', () => {
     const favoritesByTag = user.filterByTag(['lunch']);
     expect(user.filteredFavs).to.deep.equal([recipe2])
   })
+
+  it('Should be able to filter favorite recipes by any name', () => {
+    user.addToFavorites(recipe2);
+    user.addToFavorites(recipe1);
+    const recipesByName = user.filterFavsByName([
+      'Loaded Chocolate Chip Pudding Cookie Cups'
+    ]);
+
+    expect(user.filteredFavs).to.deep.equal([recipe1]);
+  });
 
 });

@@ -15,10 +15,11 @@
     <nav>
       <div class="header-menu">
         <h1>What's Cookin'</h1>
+        <label for="searchBar">🔍</label>
         <input id="searchBar" class="search-bar" type="text" placeholder="What do you want to cook?" alt="Enter Search Criteria">
-        <a id="homeButton" class="nav-buttons">Home</a>
-        <a id="favoriteButton" class="nav-buttons">Favorites</a>
-        <a id="queueButton" class="nav-buttons">Queue</a>
+          <a id="homeButton" class="nav-buttons">Home</a>
+          <a id="favoriteButton" class="nav-buttons">Favorites</a>
+          <a id="queueButton" class="nav-buttons">Queue</a>
       </div>
     </nav>
   </header>
@@ -29,71 +30,103 @@
         <h1 class="welcome" id="welcomeUser">Claire</h1>
       </div>
       </section>
-      <h1 class="sort-by-course-header">Sort by Course</h1>
-      <section class="course-chooser">
+      <h1 class="sort-by-course-header" id="sortByCourseHeader">Sort by Course</h1>
+      <section class="course-chooser" id="courseChooser">
         <div id="appetizer" class="course-chooser-topic">
           <button id="appetizers">
             <img src="./images/starter-icon.png" alt="Appetizer icon">
-            <h4 class="icon-text">Appetizers</h4>
+            <h2 class="icon-text">Appetizers</h2>
           </button>
         </div>
         <div id="breakfast" class="course-chooser-topic">
           <button id="breakfast">
             <img src="./images/breakfast-icon.png" alt="Breakfast icon">
-            <h4 class="icon-text">Breakfast</h4>
+            <h2 class="icon-text">Breakfast</h2>
           </button>
         </div>
         <div id="lunch" class="course-chooser-topic">
           <button id="lunch">
             <img src="./images/lunch-icon.png" alt="Lunch icon">
-            <h4 class="icon-text">Lunch</h4>
+            <h2 class="icon-text">Lunch</h2>
           </button>
         </div>
         <div id="dinner" class="course-chooser-topic">
           <button id="dinner">
           <img src="./images/dinner-icon.png" alt="Dinner icon">
-          <h4 class="icon-text">Dinner</h4>
+          <h2 class="icon-text">Dinner</h2>
           </button>
         </div>
         <div id="side" class="course-chooser-topic">
           <button id="sides">
             <img src="./images/side-icon.png" alt="Side icon">
-            <h4 class="icon-text">Sides</h4>
+            <h2 class="icon-text">Sides</h2>
           </button>
         </div>
         <div id="condiments" class="course-chooser-topic">
           <button id="condiments">
             <img src="./images/sauce-icon.png" alt="Condiment icon">
-            <h4 class="icon-text">Condiments</h4>
+            <h2 class="icon-text">Condiments</h2>
           </button>
         </div>
       </section>
-      <section id="browseMeals" class="browse-meals">
+      <section id="browseRecipesSection" class="browse-recipes-section">
         <h1 id="browseHeader">Browse all recipes</h1>
-        <section id="allMeals" class="meals-grid">
+        <section id="recipeCardGrid" class="recipe-card-grid">
         </section>
       </section>
     </section>
     <section id="favoritesPage" class="favorites-page hidden">
       <h1 id="userFavorites">User Name's Favorite Recipes</h1>
       <div class="favorites-search-container">
+        <label for="favoritesSearchBar">🔍</label>
         <input id="favoritesSearchBar" class="search-bar favorite-bar" type="text" placeholder="Search Favorites"
           alt="Enter Search Criteria">
       </div>
-      <section id="favoritesMealsGrid" class="meals-grid">
+      <section id="favoritesPageGrid" class="recipe-card-grid">
       </section>
     </section>
     <section id="searchResultsPage" class="search-result-page hidden">
       <h1>Search Results</h1>
-      <section id="searchResultMeals" class="meals-grid">
+      <section id="searchResultRecipes" class="recipe-card-grid">
       </section>
-    </section>
-    <section id="recipeDetailPage" class="recipe-detail-page .recipe-target hidden">
-      <h1 id="recipeDetailsName">Name of Recipe Here</h1>
     </section>
     <section id="queuePage" class="cookin-queue-page hidden">
       <h1 id="userQueue">User Name's Cookin' Queue</h1>
       <section id="cookinQueueBlock">
+      </section>
+    </section>
+    <section id="recipeDetailPage" class="recipe-detail-page .recipe-target hidden">
+      <h1 id="recipeName">RECIPE NAME</h1>
+      <section class="recipe-page-grid">
+      <div class="recipe-visual">
+        <div id="recipePageImageContainer" class="recipe-target recipe-page-image-container">
+          <img id="recipeImage" class="recipe-page-image" alt="Picture of sheet meal">
+          <div class="heart-overlay">
+            <img src="images/heart-empty.png" alt="empty heart" id="grey-heart" class="heart unfilled-heart">
+            <img src="images/heart-filled.png" alt="filled heart" id="pink-heart" class="heart hidden">
+          </div>
+          <button id="addToQueueButton" class="add-to-queue-button">Add to Cooking Queue</button>
+        </div>
+        <ul id="recipeTags" class="recipe-page-tags">
+        </ul>
+      </div>
+      <section class="recipe-ingredients">
+        <h2>Recipe Ingredients:</h2>
+        <section class="ingredient-list">
+          <section id="ingredientRow" class="ingredient-row">
+          </section>
+          <div class="ingredient-row">
+            <div class="ingredient-row-spacing ingredient-total">
+              <p class="ingredient-row-text">Total</p>
+              <p id="ingredientTotal" class="ingredient-row-price"></p>
+            </div>
+        </section>
+      </section>
+      </section>
+      <section>
+        <h2>Instructions</h2>
+        <ul id="recipeInstructions" class="recipe-instructions">
+        </ul>
       </section>
     </section>
   </main>

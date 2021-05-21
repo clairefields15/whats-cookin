@@ -14,6 +14,14 @@ class User {
     this.favoriteRecipes.push(recipe)
   }
 
+  removeFromCookList(id) {
+    this.recipesToCook.forEach((item, index) => {
+      if (item.id === id) {
+        this.recipesToCook.splice(index, 1);
+      }
+    })
+  }
+
 }
 
 export default User

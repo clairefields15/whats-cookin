@@ -163,8 +163,8 @@ function recipeDetails(recipe) {
   let totalCost = recipe.getRecipeCost();
   ingredientTotal.innerText = `${totalCost}`
   displayTags(recipe);
-  displayIngredients(recipe);
   displayInstructions(recipe)
+  displayMeasurements(recipe)
 }
 
 function displayTags(recipe) {
@@ -177,6 +177,7 @@ function displayTags(recipe) {
 }
 
 function displayMeasurements(recipe) {
+  ingredientRow.innerHTML = '';
   let allIngredientInfo = recipe.getIngredients();
   allIngredientInfo.forEach(ingredient => {
     return ingredientRow.innerHTML += `
@@ -199,11 +200,6 @@ function displayInstructions(recipe) {
     </section>
     `
   })
-}
-
-function displayIngredients(recipe) {
-  ingredientRow.innerHTML = '';
-  displayMeasurements(recipe);
 }
 
 function showRecipe(event) {

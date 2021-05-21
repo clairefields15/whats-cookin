@@ -22,6 +22,14 @@ class User {
     })
   }
 
+  removeFromFavorites(id) {
+    this.favoriteRecipes.forEach((item, index) => {
+      if (item.id === id) {
+        this.favoriteRecipes.splice(index, 1)
+      }
+    })
+  }
+
 }
 
 export default User

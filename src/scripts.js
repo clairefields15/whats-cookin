@@ -60,14 +60,10 @@ queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
 
-// searchBar.addEventListener('input', filterSearchResults);
-
-searchBar.querySelector('#txtSearch').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      filterSearchResults();
-    }
+searchBar.addEventListener('input', function() {
+  filterSearchResults(event)
 });
-
+  
 ////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
@@ -229,12 +225,14 @@ function filterSearchResults(event) {
   event.preventDefault()
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
+  let input = [];
+  input.push(searchBar.value)
+  newRepository.filterByIngredients(input)
+  newRepository.filterByName(input)
+  console.log(newRepository.filteredByName)
+  console.log(newRepository.filteredByIngredients)
 }
-// need to access the searchBar.input
-// turn that input into an array, called input, even if it's just one word
 // pass input to recipeRepository
-// run newRepository.filterByIngredients(input)
-// run newRepository.filterByName(input)
 // running those functions 
 
 

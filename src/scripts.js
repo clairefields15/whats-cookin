@@ -60,6 +60,7 @@ favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
+searchResultGrid.addEventListener('click', clickRecipeCard)
 
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
@@ -231,7 +232,7 @@ function filterSearchResults(event) {
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
   let input = [];
-  input.push(searchBar.value)
+  input.push(searchBar.value.toLowerCase())
   newRepository.filterByName(input)
   newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)

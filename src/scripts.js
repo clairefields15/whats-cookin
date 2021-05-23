@@ -278,10 +278,11 @@ function populateSearchPage(someRepository) {
     if (event.target.classList.contains('unfilled-heart')) {
       hide([emptyHeart]);
       show([filledHeart]);
-    const targetID = event.target.parentNode.parentNode.id
-    const allRecipes = newRepository.recipesData
-    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
-    return user.addToFavorites(foundRecipe);
+      const targetID = event.target.parentNode.parentNode.id
+      const allRecipes = newRepository.recipesData
+      const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+      user.addToFavorites(foundRecipe);
+      console.log('add', user.favoriteRecipes)
     }
   }
     
@@ -290,7 +291,10 @@ function populateSearchPage(someRepository) {
     if (event.target.classList.contains('filled-heart')) {
       hide([filledHeart]);
       show([emptyHeart]);
-    return user.removeFromFavorites(recipe.id);
+    const targetID = event.target.parentNode.parentNode.id
+    console.log(targetID)
+    user.removeFromFavorites(targetID);
+    console.log('remove', user.favoriteRecipes)
   }
 }
 

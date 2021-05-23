@@ -78,7 +78,6 @@ function pageLoad() {
   populateMainPage(newRepository.recipesData);
   let userIndex = getRandomIndex()
   user = new User(usersData[userIndex].name, usersData[userIndex].id)
-  console.log('new user is...', user.name)
   welcomeUser.innerText = user.name;
 }
 
@@ -106,7 +105,6 @@ function populateMainPage(someRepository) {
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image heart-target" src="./images/heart-empty.png" alt="Empty heart btn">
       </article>
     `
   })
@@ -266,7 +264,6 @@ function populateSearchPage(someRepository) {
       <article id="${recipe.id}" class="mini-recipe-card recipe-target">
             <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
             <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
         </article>
             
       `;

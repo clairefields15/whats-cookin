@@ -1,7 +1,9 @@
 class RecipeRepository {
   constructor(recipes) {
     this.recipesData = recipes;
-    this.filteredRecipes = [];
+    this.filteredByTag = [];
+    this.filteredNyName = [];
+    this.filteredByIngredient= [];
   }
 
   filterByTag(tags) {
@@ -13,7 +15,7 @@ class RecipeRepository {
       });
       return acc
     }, [])
-    this.filteredRecipes = filteredRecipes;
+    this.filteredByTag = filteredRecipes;
   }
 
   filterByIngredients(ingredients) {
@@ -26,8 +28,7 @@ class RecipeRepository {
       });
       return acc
     }, []);
-    this.filteredRecipes = filteredRecipes;
-;
+    this.filteredByIngredient = filteredRecipes;
   }
 
   filterByName(names) {
@@ -40,7 +41,7 @@ class RecipeRepository {
       });
       return acc
     }, []);
-    this.filteredRecipes = filteredRecipes;
+    this.filteredNyName = filteredRecipes;
   }
   
 

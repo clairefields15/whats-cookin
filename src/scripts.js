@@ -22,7 +22,6 @@ const browseRecipesSection = document.getElementById('browseRecipesSection');
 const recipeCardGrid = document.getElementById('recipeCardGrid');
 const browseHeader = document.getElementById('browseHeader');
 
-//recipe page qs
 const recipeName = document.getElementById('recipeName');
 const recipeImage = document.getElementById('recipeImage');
 const recipeTags = document.getElementById('recipeTags');
@@ -30,6 +29,8 @@ const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
+
+const searchBar = document.getElementById('searchBar');
 
 //////////////// variables //////////////
 let newRepository, user;
@@ -59,7 +60,10 @@ queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
 
-
+searchBar.addEventListener('input', function() {
+  filterSearchResults(event)
+});
+  
 ////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
@@ -144,7 +148,7 @@ function filterByTags(button) {
   }
   changeHeaderText(button.id);
   newRepository.filterByTag(currentTags);
-  populateMainPage(newRepository.filteredRecipes);
+  populateMainPage(newRepository.filteredByTag);
 }
 
 function changeHeaderText(id) {
@@ -216,6 +220,20 @@ function clickRecipeCard(event) {
     showRecipe(event);
   }
 }
+
+function filterSearchResults(event) {
+  event.preventDefault()
+  show([searchResultsPage]);
+  hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
+  let input = [];
+  input.push(searchBar.value)
+  newRepository.filterByIngredients(input)
+  newRepository.filterByName(input)
+  console.log(newRepository.filteredByName)
+  console.log(newRepository.filteredByIngredients)
+}
+// pass input to recipeRepository
+// running those functions 
 
 
 

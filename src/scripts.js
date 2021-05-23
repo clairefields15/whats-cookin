@@ -89,7 +89,7 @@ function addRecipesToRepository(recipeDataArray) {
 
 function populateMainPage(someRepository) {
   recipeCardGrid.innerHTML = '';
-  someRepository.forEach((recipe, index) => {
+  someRepository.forEach((recipe) => {
     recipeCardGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
@@ -233,23 +233,26 @@ function filterSearchResults(event) {
   let input = [];
   input.push(searchBar.value)
   newRepository.filterByName(input)
-  //newRepository.filterByIngredients(input)
-  //console.log(newRepository.filteredByIngredients)
+  newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)
 }
 
 function populateSearchPage(someRepository) {
   searchResultGrid.innerHTML = '';
   const searchByName = someRepository.filteredByName;
-  searchByName.forEach((recipe, index) => {
-    searchResultGrid.innerHTML += `
-    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
-          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
-          <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
-      </article>
-    `;
-  });
+  const searchByIngredient = someRepository.filteredByIngredient;
+  const searchAll = [searchByName, searchByIngredient]
+  searchAll.forEach(type => {
+    type.forEach((recipe) => {
+      searchResultGrid.innerHTML += `
+      <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+            <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+            <h1 class="recipe-name-mini">${recipe.name}</h1>
+              <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
+        </article>
+      `;
+    });
+  })
 }
 
 // test items directly from data files

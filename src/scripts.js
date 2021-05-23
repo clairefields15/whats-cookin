@@ -95,7 +95,7 @@ function populateMainPage(someRepository) {
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
+            <img class="heart-mini-image inactive heart-target" src="./images/heart-empty.png" alt="Empty heart btn">
       </article>
     `
   })
@@ -222,6 +222,8 @@ function showRecipe(event) {
 function clickRecipeCard(event) {
   if (event.target.closest('.recipe-target')) {
     showRecipe(event);
+  } else if (event.target.closest('.heart-target')) {
+    favoriteRecipe();
   }
 }
 
@@ -232,7 +234,9 @@ function filterSearchResults(event) {
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
   let input = [];
-  input.push(searchBar.value.toLowerCase())
+  let lowerCaseInput = searchBar.value.toLowerCase();
+  let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
+  input.push(lowerCaseNoSpacesInput)
   newRepository.filterByName(input)
   newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)
@@ -257,7 +261,13 @@ function populateSearchPage(someRepository) {
   })
 }
 
+  // function favoriteRecipe(event) {
+  //   event.preventDefault();
+  //   if (event.target.classList.contains('inactive'))
+  // }
+
 // edge case scenarios:
+// need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
 // need to add some error handling (lowercase, weird spaces, only part of the name etc.)
 // When user clicks on any link from result and navigates back, then result should be maintained
 // When user start typing word in text box it should suggest words that matches typed keyword

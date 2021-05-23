@@ -65,7 +65,5 @@ describe('RecipeRepository', () => {
 })
 
 // edge case scenarios for search bar:
-// lowercase/uppercase ("Wheat Flour" should )
 // (double spaces like "wheat  flour")
 // random characters (%$&)
-// only part of the name etc

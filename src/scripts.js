@@ -2,6 +2,7 @@ import RecipeRepository from "./classes/RecipeRepository";
 import Recipe from "./classes/Recipe"
 import Ingredient from "./classes/Ingredient"
 import { recipeData } from "./data/recipes"
+import { userData } from "./data/users"
 
 //////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
@@ -54,14 +55,14 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
-window.addEventListener('load', pageLoad)
+window.addEventListener('load', pageLoad);
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
-recipeCardGrid.addEventListener('click', clickRecipeCard);
-searchResultGrid.addEventListener('click', clickRecipeCard)
-
+// recipeCardGrid.addEventListener('click', clickRecipeCard);
+// searchResultGrid.addEventListener('click', clickRecipeCard)
+window.addEventListener('click', clickRecipeCard)
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
     filterSearchResults(event)
@@ -73,7 +74,14 @@ function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
   populateMainPage(newRepository.recipesData);
+  const userIndex = getRandomIndex(userData)
+  user = new User(userData[userIndex].name, userData[userIndex].id)
+  console.log('new user is...', user)
 }
+
+function getRandomIndex(array) {
+  return Math.floor(Math.random() * array.length);
+};
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
@@ -95,7 +103,7 @@ function populateMainPage(someRepository) {
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image inactive heart-target" src="./images/heart-empty.png" alt="Empty heart btn">
+            <img class="heart-mini-image heart-target" src="./images/heart-empty.png" alt="Empty heart btn">
       </article>
     `
   })
@@ -261,14 +269,24 @@ function populateSearchPage(someRepository) {
   })
 }
 
-  // function favoriteRecipe(event) {
-  //   event.preventDefault();
-  //   if (event.target.classList.contains('inactive'))
-  // }
+  function favoriteRecipe(event) {
+    event.preventDefault();
+    if (event.target.classList.contains('empty')) {
+    event.target.src = './images/heart-filled.png';
+    event.target.classList.remove('empty');
+    event.target.classList.add('filled');
+    user.addToFavorites();
+  } else if (event.target.classList.contains('filled')) {
+    event.target.src = './images/heart-empty.png';
+    event.target.classList.remove('filled');
+    event.target.classList.add('empty');
+   user.removeFromFavorites();
+  }
+}
 
+  // }
 // edge case scenarios:
 // need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
-// need to add some error handling (lowercase, weird spaces, only part of the name etc.)
 // When user clicks on any link from result and navigates back, then result should be maintained
 // When user start typing word in text box it should suggest words that matches typed keyword
 // Search keyword should get highlighted with color in the search results

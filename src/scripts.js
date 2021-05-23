@@ -29,6 +29,7 @@ const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
+const searchResultGrid = document.getElementById('searchResultRecipes');
 
 const searchBar = document.getElementById('searchBar');
 
@@ -60,8 +61,10 @@ queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
 
-searchBar.addEventListener('input', function() {
-  filterSearchResults(event)
+searchBar.addEventListener('keypress', function() {
+  if (event.keyCode === 13) {
+    filterSearchResults(event)
+  }
 });
   
 ////////////// functions and event handlers //////////////
@@ -86,7 +89,7 @@ function addRecipesToRepository(recipeDataArray) {
 
 function populateMainPage(someRepository) {
   recipeCardGrid.innerHTML = '';
-  someRepository.forEach((recipe, index) => {
+  someRepository.forEach((recipe) => {
     recipeCardGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
@@ -221,19 +224,48 @@ function clickRecipeCard(event) {
   }
 }
 
+
+//search and display recipes
 function filterSearchResults(event) {
   event.preventDefault()
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
   let input = [];
   input.push(searchBar.value)
-  newRepository.filterByIngredients(input)
   newRepository.filterByName(input)
-  console.log(newRepository.filteredByName)
-  console.log(newRepository.filteredByIngredients)
+  newRepository.filterByIngredients(input)
+  populateSearchPage(newRepository)
+  searchBar.value = ''
 }
-// pass input to recipeRepository
-// running those functions 
 
+function populateSearchPage(someRepository) {
+  searchResultGrid.innerHTML = '';
+  const searchByName = someRepository.filteredByName;
+  const searchByIngredient = someRepository.filteredByIngredient;
+  const searchAll = [searchByName, searchByIngredient]
+  searchAll.forEach(type => {
+    type.forEach((recipe) => {
+      searchResultGrid.innerHTML += `
+      <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+            <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+            <h1 class="recipe-name-mini">${recipe.name}</h1>
+              <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
+        </article>
+      `;
+    });
+  })
+}
 
+// edge case scenarios:
+// need to add some error handling (lowercase, weird spaces, only part of the name etc.)
+// When user clicks on any link from result and navigates back, then result should be maintained
+// When user start typing word in text box it should suggest words that matches typed keyword
+// Search keyword should get highlighted with color in the search results
+
+// test items from data file:
+// Maple Dijon Apple Cider Grilled Pork Chops
+// Hummus Deviled Eggs
+// wheat flour
+// cilantro
+// artichokes
 

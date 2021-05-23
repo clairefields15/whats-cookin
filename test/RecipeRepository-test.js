@@ -45,7 +45,6 @@ describe('RecipeRepository', () => {
     const data = [recipe1, recipe2]
     recipeRepository = new RecipeRepository(data);
 
-    
     const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
 
     expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);
@@ -64,3 +63,9 @@ describe('RecipeRepository', () => {
   })
 
 })
+
+// edge case scenarios for search bar:
+// lowercase/uppercase ("Wheat Flour" should )
+// (double spaces like "wheat  flour")
+// random characters (%$&)
+// only part of the name etc

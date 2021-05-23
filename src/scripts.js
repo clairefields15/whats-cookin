@@ -1,8 +1,9 @@
 import RecipeRepository from "./classes/RecipeRepository";
 import Recipe from "./classes/Recipe"
+import User from "./classes/User"
 import Ingredient from "./classes/Ingredient"
 import { recipeData } from "./data/recipes"
-import { userData } from "./data/users"
+import { usersData } from "./data/users"
 
 //////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
@@ -13,6 +14,7 @@ const searchResultsPage = document.getElementById('searchResultsPage');
 
 const courseChooser = document.getElementById('courseChooser');
 const sortByCourseHeader = document.getElementById('sortByCourseHeader');
+const welcomeUser = document.getElementById('welcomeUser')
 
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
@@ -74,13 +76,14 @@ function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
   populateMainPage(newRepository.recipesData);
-  const userIndex = getRandomIndex(userData)
-  user = new User(userData[userIndex].name, userData[userIndex].id)
-  console.log('new user is...', user)
+  let userIndex = getRandomIndex()
+  user = new User(usersData[userIndex].name, usersData[userIndex].id)
+  console.log('new user is...', user.name)
+  welcomeUser.innerText = user.name;
 }
 
-function getRandomIndex(array) {
-  return Math.floor(Math.random() * array.length);
+function getRandomIndex() {
+  return Math.floor(Math.random() * 42);
 };
 
 function makeRecipeInstances() {
@@ -230,7 +233,8 @@ function showRecipe(event) {
 function clickRecipeCard(event) {
   if (event.target.closest('.recipe-target')) {
     showRecipe(event);
-  } else if (event.target.closest('.heart-target')) {
+  } else if (event.target.contains('.heart-target')) {
+    console.log('hi')
     favoriteRecipe();
   }
 }
@@ -262,8 +266,9 @@ function populateSearchPage(someRepository) {
       <article id="${recipe.id}" class="mini-recipe-card recipe-target">
             <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
             <h1 class="recipe-name-mini">${recipe.name}</h1>
-              <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
+            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
         </article>
+            
       `;
     });
   })

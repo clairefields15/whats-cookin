@@ -235,6 +235,7 @@ function filterSearchResults(event) {
   newRepository.filterByName(input)
   newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)
+  searchBar.value = ''
 }
 
 function populateSearchPage(someRepository) {
@@ -258,5 +259,8 @@ function populateSearchPage(someRepository) {
 // test items directly from data files
 // need to add some error handling (lowercase, weird spaces, only part of the name etc.)
 // Maple Dijon Apple Cider Grilled Pork Chops
+// Hummus Deviled Eggs
 // wheat flour
+// cilantro
+// artichokes
 

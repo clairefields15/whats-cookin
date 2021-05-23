@@ -45,7 +45,6 @@ describe('RecipeRepository', () => {
     const data = [recipe1, recipe2]
     recipeRepository = new RecipeRepository(data);
 
-    
     const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
 
     expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);

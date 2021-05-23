@@ -60,8 +60,10 @@ queueButton.addEventListener('click', displayQueue);
 
 recipeCardGrid.addEventListener('click', clickRecipeCard);
 
-searchBar.addEventListener('input', function() {
-  filterSearchResults(event)
+searchBar.addEventListener('keypress', function() {
+  if (event.keyCode === 13) {
+    filterSearchResults(event)
+  }
 });
   
 ////////////// functions and event handlers //////////////
@@ -229,8 +231,8 @@ function filterSearchResults(event) {
   input.push(searchBar.value)
   newRepository.filterByIngredients(input)
   newRepository.filterByName(input)
-  console.log(newRepository.filteredByName)
-  console.log(newRepository.filteredByIngredients)
+  //console.log(newRepository.filteredByName)
+  //console.log(newRepository.filteredByIngredients)
 }
 // pass input to recipeRepository
 // running those functions 

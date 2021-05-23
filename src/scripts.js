@@ -37,6 +37,7 @@ const searchResultGrid = document.getElementById('searchResultRecipes');
 const searchBar = document.getElementById('searchBar');
 
 const emptyHeart = document.getElementById('emptyHeart');
+const filledHeart = document.getElementById('filledHeart');
 
 //////////////// variables //////////////
 let newRepository, user;
@@ -64,6 +65,7 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
+filledHeart.addEventListener('click', unFavoriteRecipe);
 window.addEventListener('click', clickRecipeCard);
 
 searchBar.addEventListener('keypress', function() {
@@ -80,6 +82,7 @@ function pageLoad() {
   let userIndex = getRandomIndex(usersData)
   user = new User(usersData[userIndex].name, usersData[userIndex].id)
   welcomeUser.innerText = user.name;
+  return user, newRepository;
 }
 
 function getRandomIndex(array) {
@@ -271,18 +274,23 @@ function populateSearchPage(someRepository) {
 }
 
   function favoriteRecipe(event) {
-    console.log('hi')
     event.preventDefault();
-    if (event.target.classList.contains('empty')) {
-    event.target.src = './images/heart-filled.png';
-    event.target.classList.remove('empty');
-    event.target.classList.add('filled');
-    user.addToFavorites();
-  } else if (event.target.classList.contains('filled')) {
-    event.target.src = './images/heart-empty.png';
-    event.target.classList.remove('filled');
-    event.target.classList.add('empty');
-   user.removeFromFavorites();
+    if (event.target.classList.contains('unfilled-heart')) {
+      hide([emptyHeart]);
+      show([filledHeart]);
+    const targetID = event.target.parentNode.parentNode.id
+    const allRecipes = newRepository.recipesData
+    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+    return user.addToFavorites(foundRecipe);
+    }
+  }
+    
+  function unFavoriteRecipe (event) {
+    event.preventDefault();
+    if (event.target.classList.contains('filled-heart')) {
+      hide([filledHeart]);
+      show([emptyHeart]);
+    return user.removeFromFavorites(recipe.id);
   }
 }
 

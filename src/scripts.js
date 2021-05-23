@@ -39,6 +39,7 @@ const searchBar = document.getElementById('searchBar');
 const emptyHeart = document.getElementById('emptyHeart');
 const filledHeart = document.getElementById('filledHeart');
 
+const favoritesGrid = document.getElementById('favoritesPageGrid');
 //////////////// variables //////////////
 let newRepository, user;
 
@@ -61,8 +62,6 @@ favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
 window.addEventListener('load', pageLoad);
-homeButton.addEventListener('click', goHome);
-favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
@@ -114,6 +113,19 @@ function populateMainPage(someRepository) {
   })
 }
 
+function populateFavoritesPage() {
+  favoritesGrid.innerHTML = '';
+  const userFavorites = user.favoriteRecipes;
+  userFavorites.forEach((recipe) => {
+    favoritesGrid.innerHTML += `
+    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+      </article>
+    `
+  })
+}
+
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -141,6 +153,7 @@ function displayQueue() {
 function displayFavorites() {
   show([favoritesPage]);
   hide([homePage, searchResultsPage, recipeDetailPage, browseRecipesSection, queuePage, sortByCourseHeader, courseChooser]);
+  populateFavoritesPage();
 }
 
 function filterByTags(button) {
@@ -201,10 +214,12 @@ function displayMeasurements(recipe) {
   ingredientRow.innerHTML = '';
   let allIngredientInfo = recipe.getIngredients();
   allIngredientInfo.forEach(ingredient => {
+    let ingredientPrice = ((ingredient.amount * ingredient.estimatedCostInCents) / 100)
+    let roundedPrice = ingredientPrice.toFixed(2)
     return ingredientRow.innerHTML += `
     <div class="ingredient-row-spacing">
       <p class="ingredient-row-text">${ingredient.amount} ${ingredient.unit} ${ingredient.name}</p>
-      <p id="ingredientRowText"class="ingredient-row-price">$${((ingredient.amount * ingredient.estimatedCostInCents) / 100)}</p>
+      <p id="ingredientRowText"class="ingredient-row-price">$${roundedPrice}</p>
     </div>
     `
   })
@@ -230,6 +245,11 @@ function showRecipe(event) {
   const foundRecipe = newRepository.recipesData.find(recipe => {
     return targetId === recipe.id});
   recipeDetails(foundRecipe);
+   if (user.favoriteRecipes.includes(foundRecipe)) {
+     show([filledHeart])
+   } else {
+     show([emptyHeart])
+   }
 }
 
 function clickRecipeCard(event) {
@@ -276,13 +296,12 @@ function populateSearchPage(someRepository) {
   function favoriteRecipe(event) {
     event.preventDefault();
     if (event.target.classList.contains('unfilled-heart')) {
-      hide([emptyHeart]);
       show([filledHeart]);
+      hide([emptyHeart]);
       const targetID = event.target.parentNode.parentNode.id
       const allRecipes = newRepository.recipesData
       const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
       user.addToFavorites(foundRecipe);
-      console.log('add', user.favoriteRecipes)
     }
   }
     
@@ -292,9 +311,7 @@ function populateSearchPage(someRepository) {
       hide([filledHeart]);
       show([emptyHeart]);
     const targetID = event.target.parentNode.parentNode.id
-    console.log(targetID)
     user.removeFromFavorites(targetID);
-    console.log('remove', user.favoriteRecipes)
   }
 }
 

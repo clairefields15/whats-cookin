@@ -256,8 +256,13 @@ function populateSearchPage(someRepository) {
   })
 }
 
-// test items directly from data files
+// edge case scenarios:
 // need to add some error handling (lowercase, weird spaces, only part of the name etc.)
+// When user clicks on any link from result and navigates back, then result should be maintained
+// When user start typing word in text box it should suggest words that matches typed keyword
+// Search keyword should get highlighted with color in the search results
+
+// test items from data file:
 // Maple Dijon Apple Cider Grilled Pork Chops
 // Hummus Deviled Eggs
 // wheat flour

@@ -29,6 +29,7 @@ const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
+const searchResultGrid = document.getElementById('searchResultRecipes');
 
 const searchBar = document.getElementById('searchBar');
 
@@ -223,19 +224,36 @@ function clickRecipeCard(event) {
   }
 }
 
+
+//search and display recipes
 function filterSearchResults(event) {
   event.preventDefault()
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
   let input = [];
   input.push(searchBar.value)
-  newRepository.filterByIngredients(input)
   newRepository.filterByName(input)
-  //console.log(newRepository.filteredByName)
+  //newRepository.filterByIngredients(input)
   //console.log(newRepository.filteredByIngredients)
+  populateSearchPage(newRepository)
 }
-// pass input to recipeRepository
-// running those functions 
 
+function populateSearchPage(someRepository) {
+  searchResultGrid.innerHTML = '';
+  const searchByName = someRepository.filteredByName;
+  searchByName.forEach((recipe, index) => {
+    searchResultGrid.innerHTML += `
+    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
+      </article>
+    `;
+  });
+}
 
+// test items directly from data files
+// need to add some error handling (lowercase, weird spaces, only part of the name etc.)
+// Maple Dijon Apple Cider Grilled Pork Chops
+// wheat flour
 

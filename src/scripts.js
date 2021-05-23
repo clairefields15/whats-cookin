@@ -36,6 +36,8 @@ const searchResultGrid = document.getElementById('searchResultRecipes');
 
 const searchBar = document.getElementById('searchBar');
 
+const emptyHeart = document.getElementById('emptyHeart');
+
 //////////////// variables //////////////
 let newRepository, user;
 
@@ -61,10 +63,9 @@ window.addEventListener('load', pageLoad);
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
+emptyHeart.addEventListener('click', favoriteRecipe);
+window.addEventListener('click', clickRecipeCard);
 
-// recipeCardGrid.addEventListener('click', clickRecipeCard);
-// searchResultGrid.addEventListener('click', clickRecipeCard)
-window.addEventListener('click', clickRecipeCard)
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
     filterSearchResults(event)
@@ -76,13 +77,13 @@ function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
   populateMainPage(newRepository.recipesData);
-  let userIndex = getRandomIndex()
+  let userIndex = getRandomIndex(usersData)
   user = new User(usersData[userIndex].name, usersData[userIndex].id)
   welcomeUser.innerText = user.name;
 }
 
-function getRandomIndex() {
-  return Math.floor(Math.random() * 42);
+function getRandomIndex(array) {
+  return Math.floor(Math.random() * array.length);
 };
 
 function makeRecipeInstances() {
@@ -231,11 +232,9 @@ function showRecipe(event) {
 function clickRecipeCard(event) {
   if (event.target.closest('.recipe-target')) {
     showRecipe(event);
-  } else if (event.target.contains('.heart-target')) {
-    console.log('hi')
-    favoriteRecipe();
   }
 }
+
 
 
 //search and display recipes
@@ -272,6 +271,7 @@ function populateSearchPage(someRepository) {
 }
 
   function favoriteRecipe(event) {
+    console.log('hi')
     event.preventDefault();
     if (event.target.classList.contains('empty')) {
     event.target.src = './images/heart-filled.png';
@@ -299,4 +299,3 @@ function populateSearchPage(someRepository) {
 // wheat flour
 // cilantro
 // artichokes
-

@@ -23,20 +23,25 @@ describe('RecipeRepository', () => {
     expect(recipeRepository.recipesData).to.equal(recipeTestData);
   })
 
-  it('should have a way to store filtered recipes', () => {
-    expect(recipeRepository).to.have.property('filteredRecipes');
-    expect(recipeRepository.filteredRecipes).to.deep.equal([]);
+  it('should have a way to store different lists of filtered recipes', () => {
+    expect(recipeRepository).to.have.property('filteredByTag');
+    expect(recipeRepository).to.have.property('filteredByName');
+    expect(recipeRepository).to.have.property('filteredByIngredient');
+    expect(recipeRepository.filteredByTag).to.deep.equal([]);
+    expect(recipeRepository.filteredByName).to.deep.equal([]);
+    expect(recipeRepository.filteredByIngredient).to.deep.equal([]);
+
   });
 
   it('Should have a method that retrieves recipes by a tag', () => {
     const recipesByTag = recipeRepository.filterByTag(['lunch']);
-    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe2])
+    expect(recipeRepository.filteredByTag).to.deep.equal([recipe2])
   })
 
   it('Should have a method that retrieves recipes by multiple tags', () => {
     const recipesByTag = recipeRepository.filterByTag(['lunch', 'snack']);
 
-    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe2, recipe1])
+    expect(recipeRepository.filteredByTag).to.deep.equal([recipe2, recipe1])
   })
 
   it('Should be able to filter recipes by any ingredient', () => {
@@ -47,7 +52,7 @@ describe('RecipeRepository', () => {
 
     const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
 
-    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);
+    expect(recipeRepository.filteredByIngredient).to.deep.equal([recipe1]);
   })
 
   it('Should be able to filter recipes by any name', () => {
@@ -56,10 +61,9 @@ describe('RecipeRepository', () => {
     const data = [recipe1, recipe2]
     recipeRepository = new RecipeRepository(data);
 
-    
-    const recipesByName = recipeRepository.filterByName(['Loaded Chocolate Chip Pudding Cookie Cups']);
+    const recipesByName = recipeRepository.filterByName(['loaded chocolate chip pudding cookie cups']);
 
-    expect(recipeRepository.filteredRecipes).to.deep.equal([recipe1]);
+    expect(recipeRepository.filteredByName).to.deep.equal([recipe1]);
   })
 
 })

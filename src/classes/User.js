@@ -17,7 +17,7 @@ class User {
 
   removeFromCookList(id) {
     this.recipesToCook.forEach((item, index) => {
-      if (item.id === id) {
+      if (item.id === parseInt(id)) {
         this.recipesToCook.splice(index, 1);
       }
     });
@@ -25,7 +25,7 @@ class User {
 
   removeFromFavorites(id) {
     this.favoriteRecipes.forEach((item, index) => {
-      if (item.id === id) {
+      if (item.id === parseInt(id)) {
         this.favoriteRecipes.splice(index, 1);
       }
     });

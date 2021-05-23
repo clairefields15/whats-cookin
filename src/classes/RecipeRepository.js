@@ -34,7 +34,7 @@ class RecipeRepository {
   filterByName(names) {
     const filteredRecipes = names.reduce((acc, name) => {
       this.recipesData.forEach(recipe => {
-        const recipeNames = recipe.name;
+        const recipeNames = recipe.name.toLowerCase();
         if(recipeNames.includes(name) && !acc.includes(name)) {
           acc.push(recipe)
         }

@@ -1,7 +1,9 @@
 import RecipeRepository from "./classes/RecipeRepository";
 import Recipe from "./classes/Recipe"
+import User from "./classes/User"
 import Ingredient from "./classes/Ingredient"
 import { recipeData } from "./data/recipes"
+import { usersData } from "./data/users"
 
 //////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
@@ -12,6 +14,7 @@ const searchResultsPage = document.getElementById('searchResultsPage');
 
 const courseChooser = document.getElementById('courseChooser');
 const sortByCourseHeader = document.getElementById('sortByCourseHeader');
+const welcomeUser = document.getElementById('welcomeUser')
 
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
@@ -32,6 +35,9 @@ const recipePageImageContainer = document.getElementById('recipePageImageContain
 const searchResultGrid = document.getElementById('searchResultRecipes');
 
 const searchBar = document.getElementById('searchBar');
+
+const emptyHeart = document.getElementById('emptyHeart');
+const filledHeart = document.getElementById('filledHeart');
 
 //////////////// variables //////////////
 let newRepository, user;
@@ -54,12 +60,13 @@ homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 
-window.addEventListener('load', pageLoad)
+window.addEventListener('load', pageLoad);
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
-
-recipeCardGrid.addEventListener('click', clickRecipeCard);
+emptyHeart.addEventListener('click', favoriteRecipe);
+filledHeart.addEventListener('click', unFavoriteRecipe);
+window.addEventListener('click', clickRecipeCard);
 
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
@@ -72,7 +79,15 @@ function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
   populateMainPage(newRepository.recipesData);
+  let userIndex = getRandomIndex(usersData)
+  user = new User(usersData[userIndex].name, usersData[userIndex].id)
+  welcomeUser.innerText = user.name;
+  return user, newRepository;
 }
+
+function getRandomIndex(array) {
+  return Math.floor(Math.random() * array.length);
+};
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
@@ -94,7 +109,6 @@ function populateMainPage(someRepository) {
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
-            <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
       </article>
     `
   })
@@ -225,13 +239,16 @@ function clickRecipeCard(event) {
 }
 
 
+
 //search and display recipes
 function filterSearchResults(event) {
   event.preventDefault()
   show([searchResultsPage]);
   hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
   let input = [];
-  input.push(searchBar.value)
+  let lowerCaseInput = searchBar.value.toLowerCase();
+  let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
+  input.push(lowerCaseNoSpacesInput)
   newRepository.filterByName(input)
   newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)
@@ -249,15 +266,41 @@ function populateSearchPage(someRepository) {
       <article id="${recipe.id}" class="mini-recipe-card recipe-target">
             <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
             <h1 class="recipe-name-mini">${recipe.name}</h1>
-              <img class="heart-mini-image" src="./images/heart-empty.png" alt="Empty heart btn">
         </article>
+            
       `;
     });
   })
 }
 
+  function favoriteRecipe(event) {
+    event.preventDefault();
+    if (event.target.classList.contains('unfilled-heart')) {
+      hide([emptyHeart]);
+      show([filledHeart]);
+      const targetID = event.target.parentNode.parentNode.id
+      const allRecipes = newRepository.recipesData
+      const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+      user.addToFavorites(foundRecipe);
+      console.log('add', user.favoriteRecipes)
+    }
+  }
+    
+  function unFavoriteRecipe (event) {
+    event.preventDefault();
+    if (event.target.classList.contains('filled-heart')) {
+      hide([filledHeart]);
+      show([emptyHeart]);
+    const targetID = event.target.parentNode.parentNode.id
+    console.log(targetID)
+    user.removeFromFavorites(targetID);
+    console.log('remove', user.favoriteRecipes)
+  }
+}
+
+  // }
 // edge case scenarios:
-// need to add some error handling (lowercase, weird spaces, only part of the name etc.)
+// need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
 // When user clicks on any link from result and navigates back, then result should be maintained
 // When user start typing word in text box it should suggest words that matches typed keyword
 // Search keyword should get highlighted with color in the search results
@@ -268,4 +311,3 @@ function populateSearchPage(someRepository) {
 // wheat flour
 // cilantro
 // artichokes
-

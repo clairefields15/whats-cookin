@@ -1,10 +1,8 @@
 {
   "name": "whats-cookin",
-  "versUser from "./classes/User"
-import ion": "1.0.0",
+  "version": "1.0.0",
   "description": "Starter kit for Turing FE2 paired project",
-import { usersData } from "./data/users"  "main": "index.js",
-
+  "main": "index.js",
   "devDependencies": {
     "chai": "^4.2.0",
     "css-loader": "^5.0.1",
@@ -14,8 +12,7 @@ import { usersData } from "./data/users"  "main": "index.js",
     "mocha": "^8.2.1",
     "mochapack": "^2.0.6",
     "prettier": "^2.3.0",
-const welcomeUser = document.getElementById('welcomeUser')    "sass-loader": "^10.1.0",
-
+    "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
@@ -33,46 +30,3 @@ const welcomeUser = document.getElementById('welcomeUser')    "sass-loader": "^1
     "sass": "^1.32.13"
   }
 }
-Bar');
-
-const emptyHeart = document.getElementById('emptyHeart');
-const filledHeart = document.getElementyId('filledHet;emptyHeat.addEvntListener('lck', favoriteReci);
-filledHet.adEventListener('click', unFavoiteRecipe);
-wnowesData);
-  let userIndex = getRandomIndex(usersData)
-  user = new User(usersData[userIndx].name, uers[userIndex].id
-  welcomeUser.innerText = user.name;
-  return user, newRepositorygetRandoIndex(arry) {
-  return Math.floor(Math.random() * array.length);
-};
-
-function ma
- letlowerCaseI = e.toLowerCas(;let lowerCaseNoSpacesIput = lowerCaseInput.replace(/  +/g, ' ');
-  input.push(lowerCaseNoSpacesInput)
-  n>
-        </article      
-`;
-  });
-  })
-}
-
-  functonfavoriteReipe(event) {
-    event.preventDefaut();
-    if (event.trget.claList.contains('unfilled-')) {
-      hide([eptyHeart]);
-      show([flledHeart]);
-      cost targetID = event.target.parentNode.parentNode.d
-      const allRecpes = newRepository.recipesDta
-      const foundRcipe= allRecipe.find(eipe > reciped === prseInt(tartID))
-      uer.addToFavorites(foundRecipe);
-      console.log('add', user.favoriteRecips)
-    }
-  }
-    
-  function unFvoieRcie (event) {
-    evenrevetDefault();
-    if(event.trget.cassList.conains('filled-hear')) {
-     ide([filledH]);
-     show([emptyHear]);consttargetID=event.target.parentNode.penNode.d
-    onsole.og(targtID)user.removeFromFavorites(targetID) console.log('remove',user.favoriteRecipes
-  // } bebletsach pkcop  onye(okchp isa and aningredin

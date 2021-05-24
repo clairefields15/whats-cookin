@@ -9,7 +9,7 @@ import './images/dinner-icon.png'
 import './images/lunch-icon.png'
 import './images/side-icon.png'
 import './images/sauce-icon.png'
-
+import './images/spam-icon.png'
 
 import './images/heart-empty.png'
 import './images/heart-filled.png'

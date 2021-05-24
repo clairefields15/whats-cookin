@@ -20,7 +20,7 @@ const welcomeUser = document.getElementById('welcomeUser')
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
-const addToQueueButton = document.getElementById('queueButton');
+const addToQueueButton = document.getElementById('addToQueueButton');
 
 const browseRecipesSection = document.getElementById('browseRecipesSection');
 const recipeCardGrid = document.getElementById('recipeCardGrid');
@@ -44,7 +44,8 @@ const filledHeart = document.getElementById('filledHeart');
 const favoritesGrid = document.getElementById('favoritesPageGrid');
 const filterFavorites = document.getElementById('filterFavorites');
 
-const favoritesSearchBar = document.getElementById('favoritesSearchBar')
+const favoritesSearchBar = document.getElementById('favoritesSearchBar');
+const queuePageGrid = document.getElementById('queuePageGrid');
 //////////////// variables //////////////
 let newRepository, user;
 let currentTags = [];
@@ -73,6 +74,7 @@ window.addEventListener('load', pageLoad);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
+addToQueueButton.addEventListener('click', addToQueue);
 window.addEventListener('click', clickRecipeCard);
 
 
@@ -318,6 +320,7 @@ function showRecipe(event) {
     return targetId === recipe.id
   });
   recipeDetails(foundRecipe);
+  checkIfInQueue(foundRecipe)
   if (user.favoriteRecipes.includes(foundRecipe)) {
     show([filledHeart])
   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
@@ -382,8 +385,35 @@ function unFavoriteRecipe (event) {
   }
 }
 
+function populateQueuePage(someRecipes) {
+  queuePageGrid.innerHTML = '';
+  someRecipes.forEach(recipe => {
+    queuePageGrid.innerHTML += `
+      <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+        <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+        <h1 class="recipe-name-mini">${recipe.name}</h1>
+      </article>
+    `;
+  });
+}
 
+function checkIfInQueue(recipe) {
+  if (user.recipesToCook.includes(recipe)){
+    addToQueueButton.innerText = ''
+    addToQueueButton.innerText += `
+    Remove from Queue
+    `
+  }
+}
 
+function addToQueue (event) {
+  event.preventDefault();
+    const targetID = event.target.parentNode.id
+    const allRecipes = newRepository.recipesData
+    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+    user.addRecipeToCookList(foundRecipe);
+    populateQueuePage(user.recipesToCook);
+  }
 // edge case scenarios:
 // need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
 // When user clicks on any link from result and navigates back, then result should be maintained

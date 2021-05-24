@@ -34,6 +34,7 @@ const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
 const searchResultGrid = document.getElementById('searchResultRecipes');
+const showAllButton = document.getElementById('showAll');
 
 const searchBar = document.getElementById('searchBar');
 
@@ -50,7 +51,7 @@ let currentTags = [];
 
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
-  breakfast: ['breakfast', 'morning meal','brunch'], 
+  breakfast: ['breakfast', 'morning meal', 'brunch'], 
   lunch: ['salad', 'lunch', 'brunch'],
   dinner: ['main course', 'dinner', 'main dish'], 
   sides: ['salad', 'side dish', 'snack'], 
@@ -60,7 +61,11 @@ const tags = {
 
 ////////////// event listeners //////////////
 const allCourseButtons = document.querySelectorAll('button').forEach(button => 
-  button.addEventListener('click', function () {filterByTags(button)}));
+  button.addEventListener('click', function () {
+    filterByTags(button)
+  }));
+
+showAllButton.addEventListener('click', showAllRecipes)  
 
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
@@ -96,7 +101,7 @@ function pageLoad() {
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
-};
+}
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
@@ -125,8 +130,7 @@ function populateMainPage(someRepository) {
 
 function populateFavoritesPage(someFavorites) {
   favoritesGrid.innerHTML = '';
-  const userFavorites = someFavorites;
-  userFavorites.forEach((recipe) => {
+  someFavorites.forEach((recipe) => {
     favoritesGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
@@ -141,14 +145,14 @@ function hide(elements) {
     var element = elements[i];
     element.classList.add("hidden");
   }
-};
+}
 
 function show(elements) {
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
     element.classList.remove("hidden");
   }
-};
+}
 
 function goHome() {
   show([homePage, browseRecipesSection, sortByCourseHeader, courseChooser]);
@@ -195,19 +199,24 @@ function filterByTags(button) {
   if (button.id === 'condiments') {
     currentTags = tags.condiments
   }
-  if (button.id === 'showAll') {
-    currentTags = [];
-    populateMainPage(newRepository.recipesData);
-    populateFavoritesPage(user.favoriteRecipes);
-  }
   checkWhatPageImOn();
 }
 
+function showAllRecipes() {
+  console.log('all')
+  currentTags = [];
+  console.log('user favs', user.favoriteRecipes)
+  populateMainPage(newRepository.recipesData);
+  populateFavoritesPage(user.favoriteRecipes);
+}
+
 function checkWhatPageImOn() {
-  if(sortByCourseHeader.innerText === "Sort by Course") {
+  if (sortByCourseHeader.innerText === "Sort by Course") {
+    console.log('main')
     newRepository.filterByTag(currentTags);
     populateMainPage(newRepository.filteredByTag);
-  } else if (sortByCourseHeader.innerText === "Filter your favorites by course"){
+  } else if (sortByCourseHeader.innerText === "Filter your favorites by course") {
+    console.log('fav page')
     user.filterByTag(currentTags);
     populateFavoritesPage(user.favsByTag);
   }
@@ -275,7 +284,8 @@ function showRecipe(event) {
   hide([homePage, sortByCourseHeader, searchResultsPage, browseRecipesSection, queuePage, favoritesPage, courseChooser])
   const targetId = parseInt(event.target.closest('.recipe-target').id);
   const foundRecipe = newRepository.recipesData.find(recipe => {
-    return targetId === recipe.id});
+    return targetId === recipe.id
+  });
   recipeDetails(foundRecipe);
   if (user.favoriteRecipes.includes(foundRecipe)) {
     show([filledHeart])
@@ -354,8 +364,8 @@ function unFavoriteRecipe (event) {
   if (event.target.classList.contains('filled-heart')) {
     hide([filledHeart]);
     show([emptyHeart]);
-  const targetID = event.target.parentNode.parentNode.id
-  user.removeFromFavorites(targetID);
+    const targetID = event.target.parentNode.parentNode.id
+    user.removeFromFavorites(targetID);
   }
 }
 

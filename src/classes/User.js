@@ -72,7 +72,6 @@ class User {
       return acc;
     }, []);
     this.favsByIngredient = filteredRecipes;
-    console.log('user favs by ingredient', this.favsByIngredient)
   }
 
 }

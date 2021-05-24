@@ -129,7 +129,6 @@ function populateMainPage(someRepository) {
 }
 
 function populateFavoritesPage(someFavorites) {
-  console.log('POPULATE!!')
   favoritesGrid.innerHTML = '';
   someFavorites.forEach(recipe => {
     favoritesGrid.innerHTML += `
@@ -142,7 +141,6 @@ function populateFavoritesPage(someFavorites) {
 }
 
 function populateFavoritesPageAfterSearch() {
-  console.log('after search')
   favoritesGrid.innerHTML = '';
   const searchByName = user.favsByName;
   const searchByIngredient = user.favsByIngredient;
@@ -193,7 +191,7 @@ function show(elements) {
 function goHome() {
   show([homePage, browseRecipesSection, sortByCourseHeader, courseChooser]);
   hide([recipeDetailPage, favoritesPage, searchResultsPage, queuePage]);
-  populateMainPage(newRepository.recipesData);
+  showAllRecipes()
   sortByCourseHeader.innerHTML = ''
   sortByCourseHeader.innerHTML += `
   <h1 class="sort-by-course-header" id="sortByCourseHeader">Sort by Course</h1>
@@ -239,6 +237,7 @@ function filterByTags(button) {
 }
 
 function showAllRecipes() {
+  changeHeaderText('all');
   currentTags = [];
   populateMainPage(newRepository.recipesData);
   populateFavoritesPage(user.favoriteRecipes);
@@ -338,9 +337,7 @@ function filterFavoritesViaSearchBar(event) {
   let input = [];
   let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
-  // console.log('lower case input', lowerCaseNoSpacesInput)
   input.push(lowerCaseNoSpacesInput)
-  console.log('input array', input)
   user.filterFavsByName(input)
   user.filterFavsByIngredients(input)
   populateFavoritesPageAfterSearch();

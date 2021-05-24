@@ -40,7 +40,8 @@ class Recipe {
       acc += item.amount * item.estimatedCostInCents;
       return acc;
     }, 0);
-    return `$${total / 100}`;
+    const costInDollars = (total/100).toFixed(2)
+    return `$${costInDollars}`;
   }
 
   getRecipeInstructions() {

@@ -11,6 +11,7 @@ const queuePage = document.getElementById('queuePage');
 const favoritesPage = document.getElementById('favoritesPage');
 const recipeDetailPage = document.getElementById('recipeDetailPage');
 const searchResultsPage = document.getElementById('searchResultsPage');
+const userFavoritesHeader = document.getElementById('userFavorites')
 
 const courseChooser = document.getElementById('courseChooser');
 const sortByCourseHeader = document.getElementById('sortByCourseHeader');
@@ -39,8 +40,13 @@ const searchBar = document.getElementById('searchBar');
 const emptyHeart = document.getElementById('emptyHeart');
 const filledHeart = document.getElementById('filledHeart');
 
+const favoritesGrid = document.getElementById('favoritesPageGrid');
+const filterFavorites = document.getElementById('filterFavorites');
+
+const favoritesSearchBar = document.getElementById('favoritesSearchBar')
 //////////////// variables //////////////
 let newRepository, user;
+let currentTags = [];
 
 const tags = { 
   appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
@@ -58,22 +64,24 @@ const allCourseButtons = document.querySelectorAll('button').forEach(button =>
 
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
-queueButton.addEventListener('click', displayQueue);
-
 window.addEventListener('load', pageLoad);
-homeButton.addEventListener('click', goHome);
-favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
 window.addEventListener('click', clickRecipeCard);
+
 
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
     filterSearchResults(event)
   }
 });
-  
+
+favoritesSearchBar.addEventListener('keypress', function() {
+  if (event.keyCode === 13) {
+    filterFavoritesViaSearchBar(event)
+  }
+});
 ////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
@@ -82,6 +90,7 @@ function pageLoad() {
   let userIndex = getRandomIndex(usersData)
   user = new User(usersData[userIndex].name, usersData[userIndex].id)
   welcomeUser.innerText = user.name;
+  userFavoritesHeader.innerText =  `${user.name}'s Favorite Recipes`
   return user, newRepository;
 }
 
@@ -114,6 +123,19 @@ function populateMainPage(someRepository) {
   })
 }
 
+function populateFavoritesPage(someFavorites) {
+  favoritesGrid.innerHTML = '';
+  const userFavorites = someFavorites;
+  userFavorites.forEach((recipe) => {
+    favoritesGrid.innerHTML += `
+    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+      </article>
+    `
+  })
+}
+
 function hide(elements) {
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -131,6 +153,11 @@ function show(elements) {
 function goHome() {
   show([homePage, browseRecipesSection, sortByCourseHeader, courseChooser]);
   hide([recipeDetailPage, favoritesPage, searchResultsPage, queuePage]);
+  populateMainPage(newRepository.recipesData);
+  sortByCourseHeader.innerHTML = ''
+  sortByCourseHeader.innerHTML += `
+  <h1 class="sort-by-course-header" id="sortByCourseHeader">Sort by Course</h1>
+  `
 }
 
 function displayQueue() {
@@ -139,12 +166,17 @@ function displayQueue() {
 }
 
 function displayFavorites() {
-  show([favoritesPage]);
-  hide([homePage, searchResultsPage, recipeDetailPage, browseRecipesSection, queuePage, sortByCourseHeader, courseChooser]);
+  show([favoritesPage, courseChooser, sortByCourseHeader]);
+  hide([homePage, searchResultsPage, recipeDetailPage, browseRecipesSection, queuePage]);
+  sortByCourseHeader.innerHTML = ''
+  sortByCourseHeader.innerHTML += `
+  <h1 class="sort-by-course-header" id="sortByCourseHeader">Filter your favorites by course</h1>
+  `
+  populateFavoritesPage(user.favoriteRecipes);
 }
 
 function filterByTags(button) {
-  let currentTags = [];
+  changeHeaderText(button.id);
   if (button.id === 'appetizers') {
     currentTags = tags.appetizers
   }
@@ -163,9 +195,22 @@ function filterByTags(button) {
   if (button.id === 'condiments') {
     currentTags = tags.condiments
   }
-  changeHeaderText(button.id);
-  newRepository.filterByTag(currentTags);
-  populateMainPage(newRepository.filteredByTag);
+  if (button.id === 'showAll') {
+    currentTags = [];
+    populateMainPage(newRepository.recipesData);
+    populateFavoritesPage(user.favoriteRecipes);
+  }
+  checkWhatPageImOn();
+}
+
+function checkWhatPageImOn() {
+  if(sortByCourseHeader.innerText === "Sort by Course") {
+    newRepository.filterByTag(currentTags);
+    populateMainPage(newRepository.filteredByTag);
+  } else if (sortByCourseHeader.innerText === "Filter your favorites by course"){
+    user.filterByTag(currentTags);
+    populateFavoritesPage(user.favsByTag);
+  }
 }
 
 function changeHeaderText(id) {
@@ -201,10 +246,12 @@ function displayMeasurements(recipe) {
   ingredientRow.innerHTML = '';
   let allIngredientInfo = recipe.getIngredients();
   allIngredientInfo.forEach(ingredient => {
+    let ingredientPrice = ((ingredient.amount * ingredient.estimatedCostInCents) / 100)
+    let roundedPrice = ingredientPrice.toFixed(2)
     return ingredientRow.innerHTML += `
     <div class="ingredient-row-spacing">
       <p class="ingredient-row-text">${ingredient.amount} ${ingredient.unit} ${ingredient.name}</p>
-      <p id="ingredientRowText"class="ingredient-row-price">$${((ingredient.amount * ingredient.estimatedCostInCents) / 100)}</p>
+      <p id="ingredientRowText"class="ingredient-row-price">$${roundedPrice}</p>
     </div>
     `
   })
@@ -215,11 +262,11 @@ function displayInstructions(recipe) {
   recipeInstructions.innerHTML = ''
   recipe.instructions.forEach(step => {
     recipeInstructions.innerHTML += `
-    <section class="recipe-instructions-numbered">
-    <p class="recipe-step-number">${step.number}.</p>
-    <p>${step.instruction}</p>
-    </section>
-    `
+      <section class="recipe-instructions-numbered">
+        <p class="recipe-step-number">${step.number}.</p>
+        <p>${step.instruction}</p>
+      </section>
+      `
   })
 }
 
@@ -230,6 +277,12 @@ function showRecipe(event) {
   const foundRecipe = newRepository.recipesData.find(recipe => {
     return targetId === recipe.id});
   recipeDetails(foundRecipe);
+  if (user.favoriteRecipes.includes(foundRecipe)) {
+    show([filledHeart])
+  } else if (!user.favoriteRecipes.includes(foundRecipe)) {
+    hide([filledHeart])
+    show([emptyHeart])
+  }
 }
 
 function clickRecipeCard(event) {
@@ -238,6 +291,18 @@ function clickRecipeCard(event) {
   }
 }
 
+function filterFavoritesViaSearchBar(event) {
+  event.preventDefault()
+  let input = [];
+  let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
+  let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
+  input.push(lowerCaseNoSpacesInput)
+  user.filterFavsByName(input)
+  user.filterFavsByIngredients(input)
+  populateFavoritesPage(user.favsByName);
+  populateFavoritesPage(user.favsByIngredient);
+  favoritesSearchBar.value = ''
+}
 
 
 //search and display recipes
@@ -263,42 +328,39 @@ function populateSearchPage(someRepository) {
   searchAll.forEach(type => {
     type.forEach((recipe) => {
       searchResultGrid.innerHTML += `
-      <article id="${recipe.id}" class="mini-recipe-card recipe-target">
-            <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
-            <h1 class="recipe-name-mini">${recipe.name}</h1>
-        </article>
-            
+        <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+        </article>  
       `;
     });
   })
 }
 
-  function favoriteRecipe(event) {
-    event.preventDefault();
-    if (event.target.classList.contains('unfilled-heart')) {
-      hide([emptyHeart]);
-      show([filledHeart]);
-      const targetID = event.target.parentNode.parentNode.id
-      const allRecipes = newRepository.recipesData
-      const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
-      user.addToFavorites(foundRecipe);
-      console.log('add', user.favoriteRecipes)
-    }
-  }
-    
-  function unFavoriteRecipe (event) {
-    event.preventDefault();
-    if (event.target.classList.contains('filled-heart')) {
-      hide([filledHeart]);
-      show([emptyHeart]);
+function favoriteRecipe(event) {
+  event.preventDefault();
+  if (event.target.classList.contains('unfilled-heart')) {
+    show([filledHeart]);
+    hide([emptyHeart]);
     const targetID = event.target.parentNode.parentNode.id
-    console.log(targetID)
-    user.removeFromFavorites(targetID);
-    console.log('remove', user.favoriteRecipes)
+    const allRecipes = newRepository.recipesData
+    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+    user.addToFavorites(foundRecipe);
+  }
+}
+    
+function unFavoriteRecipe (event) {
+  event.preventDefault();
+  if (event.target.classList.contains('filled-heart')) {
+    hide([filledHeart]);
+    show([emptyHeart]);
+  const targetID = event.target.parentNode.parentNode.id
+  user.removeFromFavorites(targetID);
   }
 }
 
-  // }
+
+
 // edge case scenarios:
 // need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
 // When user clicks on any link from result and navigates back, then result should be maintained

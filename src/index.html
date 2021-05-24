@@ -68,6 +68,12 @@
             <h2 class="icon-text">Condiments</h2>
           </button>
         </div>
+        <div id="spam" class="course-chooser-topic">
+          <button id="showAll">
+            <img src="./images/spam-icon.png" alt="Show all icon">
+            <h2 class="icon-text">Show All</h2>
+          </button>
+        </div>
       </section>
       <section id="browseRecipesSection" class="browse-recipes-section">
         <h1 id="browseHeader">Browse all recipes</h1>
@@ -76,12 +82,12 @@
       </section>
     </section>
     <section id="favoritesPage" class="favorites-page hidden">
-      <h1 id="userFavorites">User Name's Favorite Recipes</h1>
       <div class="favorites-search-container">
         <label for="favoritesSearchBar">🔍</label>
         <input id="favoritesSearchBar" class="search-bar favorite-bar" type="text" placeholder="Search Favorites"
-          alt="Enter Search Criteria">
+        alt="Enter Search Criteria">
       </div>
+      <h1 id="userFavorites">Name's Favorite Recipes</h1>
       <section id="favoritesPageGrid" class="recipe-card-grid">
       </section>
     </section>
@@ -102,7 +108,7 @@
         <div id="recipePageImageContainer" class="recipe-target recipe-page-image-container">
           <img id="recipeImage" class="recipe-page-image" alt="Picture of sheet meal">
           <div class="heart-overlay">
-            <img src="images/heart-empty.png" alt="empty heart" id="emptyHeart" class="heart unfilled-heart">
+            <img src="images/heart-empty.png" alt="empty heart" id="emptyHeart" class="heart unfilled-heart hidden">
             <img src="images/heart-filled.png" alt="filled heart" id="filledHeart" class="heart filled-heart hidden">
           </div>
           <button id="addToQueueButton" class="add-to-queue-button">Add to Cooking Queue</button>

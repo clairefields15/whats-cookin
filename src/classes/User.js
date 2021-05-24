@@ -4,7 +4,9 @@ class User {
     this.id = id;
     this.favoriteRecipes = [];
     this.recipesToCook = [];
-    this.filteredFavs = [];
+    this.favsByTag = [];
+    this.favsByName = [];
+    this.favsByIngredient = [];
   }
 
   addRecipeToCookList(recipe) {
@@ -40,7 +42,7 @@ class User {
       });
       return acc;
     }, []);
-    this.filteredFavs = filteredFavoriteRecipes;
+    this.favsByTag = filteredFavoriteRecipes;
   }
 
   filterFavsByName(names) {
@@ -53,10 +55,10 @@ class User {
       });
       return acc;
     }, []);
-    this.filteredFavs = filteredRecipes;
+    this.favsByName = filteredRecipes;
   }
 
-  filterByIngredients(ingredients) {
+  filterFavsByIngredients(ingredients) {
     const filteredRecipes = ingredients.reduce((acc, ingredient) => {
       this.favoriteRecipes.forEach(recipe => {
         const recipeIngredients = recipe.getIngredientNames();
@@ -69,7 +71,7 @@ class User {
       });
       return acc;
     }, []);
-    this.filteredFavs = filteredRecipes;
+    this.favsByIngredient = filteredRecipes;
   }
 
 }

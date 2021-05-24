@@ -115,9 +115,9 @@ function populateMainPage(someRepository) {
   })
 }
 
-function populateFavoritesPage() {
+function populateFavoritesPage(someFavorites) {
   favoritesGrid.innerHTML = '';
-  const userFavorites = user.favoriteRecipes;
+  const userFavorites = someFavorites;
   userFavorites.forEach((recipe) => {
     favoritesGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
@@ -164,7 +164,7 @@ function displayFavorites() {
   sortByCourseHeader.innerHTML += `
   <h1 class="sort-by-course-header" id="sortByCourseHeader">Filter your favorites by course</h1>
   `
-  populateFavoritesPage();
+  populateFavoritesPage(user.favoriteRecipes);
 }
 
 function filterByTags(button) {
@@ -199,8 +199,9 @@ function checkWhatPageImOn() {
     newRepository.filterByTag(currentTags);
     populateMainPage(newRepository.filteredByTag);
   } else if (sortByCourseHeader.innerText === "Filter your favorites by course"){
-    user.filterByTag(currentTags)
-    populateFavoritesPage()
+    console.log(currentTags)
+    user.filterByTag(currentTags);
+    populateFavoritesPage(user.filteredFavs);
   }
 }
 

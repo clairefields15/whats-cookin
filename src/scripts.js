@@ -97,6 +97,7 @@ favoritesSearchBar.addEventListener('keypress', function () {
 });
 ////////////// functions and event handlers //////////////
 
+//page load functions
 export function assignVariables(data) {
   usersData = data[0];
   recipeData = data[1];
@@ -115,12 +116,6 @@ export function pageLoad() {
   user = new User(usersData.usersData[userIndex].name, usersData.usersData[userIndex].id);
   welcomeUser.innerText = user.name;
   userFavoritesHeader.innerText = `${user.name}'s Favorite Recipes`;
-  return user, newRepository;
-}
-
-
-function getRandomIndex(array) {
-  return Math.floor(Math.random() * array.length);
 }
 
 function makeRecipeInstances() {
@@ -147,6 +142,13 @@ function populateMainPage(someRepository) {
     `;
   });
 }
+
+function getRandomIndex(array) {
+  return Math.floor(Math.random() * array.length);
+}
+
+//view recipe card functions
+
 
 function populateFavoritesPage(someFavorites) {
   favoritesGrid.innerHTML = '';
@@ -194,6 +196,8 @@ function populateSearchPage(someRepository) {
   });
 }
 
+
+//hide and show DOM functions
 function hide(elements) {
  elements.forEach(element => element.classList.add('hidden'));
 }
@@ -237,6 +241,39 @@ function displayFavorites() {
   <h1 class="sort-by-course-header" id="sortByCourseHeader">Filter your favorites by course</h1>
   `;
   populateFavoritesPage(user.favoriteRecipes);
+}
+
+function showRecipe(event) {
+  show([recipeDetailPage]);
+  hide([
+    homePage,
+    sortByCourseHeader,
+    searchResultsPage,
+    browseRecipesSection,
+    queuePage,
+    favoritesPage,
+    courseChooser
+  ]);
+
+  const targetId = parseInt(event.target.closest('.recipe-target').id);
+  const foundRecipe = newRepository.recipesData.find(recipe => {
+    return targetId === recipe.id;
+  });
+  recipeDetails(foundRecipe);
+  checkIfInQueue(foundRecipe);
+  showHeart(foundRecipe)
+}
+
+function showHeart(foundRecipe) {
+  console.log('favs', user.favoriteRecipes)
+  console.log('found', foundRecipe)
+  if (user.favoriteRecipes.includes(foundRecipe)) {
+    show([filledHeart]);
+    hide([emptyHeart]);
+  } else if (!user.favoriteRecipes.includes(foundRecipe)) {
+    hide([filledHeart]);
+    show([emptyHeart]);
+  }
 }
 
 function filterByTags(button) {
@@ -338,31 +375,6 @@ function displayInstructions(recipe) {
   });
 }
 
-function showRecipe(event) {
-  show([recipeDetailPage]);
-  hide([
-    homePage,
-    sortByCourseHeader,
-    searchResultsPage,
-    browseRecipesSection,
-    queuePage,
-    favoritesPage,
-    courseChooser
-  ]);
-  const targetId = parseInt(event.target.closest('.recipe-target').id);
-  const foundRecipe = newRepository.recipesData.find(recipe => {
-    return targetId === recipe.id;
-  });
-  recipeDetails(foundRecipe);
-  checkIfInQueue(foundRecipe);
-  if (user.favoriteRecipes.includes(foundRecipe)) {
-    show([filledHeart]);
-  } else if (!user.favoriteRecipes.includes(foundRecipe)) {
-    hide([filledHeart]);
-    show([emptyHeart]);
-  }
-}
-
 function checkIfInQueue(recipe) {
   if (user.recipesToCook.includes(recipe)) {
     addToQueueButton.innerText = '';
@@ -391,7 +403,6 @@ function filterFavoritesViaSearchBar(event) {
   favoritesSearchBar.value = '';
 }
 
-//search and display recipes
 function filterSearchResults(event) {
   event.preventDefault();
   show([searchResultsPage]);
@@ -473,21 +484,3 @@ function addToQueue() {
 // wheat flour
 // cilantro
 // artichokes
-
-async function getUsers() {
-  let url = 'http://localhost:3001/api/v1/users';
-  try {
-    let res = await fetch(url);
-    return await res.json();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function renderUsers() {
-  let users = await getUsers();
-  console.log(users);
-  return users;
-}
-
-//renderUsers();

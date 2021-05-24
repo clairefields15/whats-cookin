@@ -17,7 +17,7 @@ button {
 	outline: inherit;
 }
 
-/* fonts,etc */
+/* fonts, headers, p */
 
 * {
   font-family: "Roboto", sans-serif;
@@ -118,11 +118,10 @@ nav {
   margin: 0;
   background: rgba(184, 182, 182, 0.7);
   width: 20%;
-  /* height: 25.75em; */
   margin-left: 40%;
 }
 
-/* Main Containers */
+/* main pages containers */
 
 .home-page,
 .cookin-queue-page,
@@ -168,7 +167,7 @@ nav {
   padding: 20px;
 }
 
-/* mini recipe */
+/* mini recipe cards */
 .mini-recipe-card {
   display: flex;
   position: relative;
@@ -184,14 +183,12 @@ nav {
   border-radius: 25px;
 }
 
-
 .recipe-name-mini {
   font-size: 25px;
   text-align: center;
 }
 
 /* choose tag  */
-
 .sort-by-course-header {
   padding: 20px;
   margin-top: 25px;
@@ -218,9 +215,7 @@ nav {
   transform: scale(1.2);
 }
 
-
-
-/* Recipe Page */
+/* recipe page */
 .recipe-visual {
   display: flex;
   position: relative;
@@ -298,12 +293,6 @@ nav {
   border-bottom: 2px solid #707070;
 }
 
-.check-box {
-  display: flex;
-  line-height: 1;
-  margin-right: 9px;
-}
-
 .ingredient-list {
  width: 70%;
  padding: none;
@@ -358,8 +347,7 @@ nav {
   transition: all 0.2s ease-in-out;
 }
 
-/* Effects */
-
+/* effects */
 .hover {
   cursor: pointer;
 }

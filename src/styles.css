@@ -184,10 +184,6 @@ nav {
   border-radius: 25px;
 }
 
-.heart-mini-image {
-  max-width: 100%;
-  width: 15%;
-}
 
 .recipe-name-mini {
   font-size: 25px;
@@ -250,6 +246,17 @@ nav {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 35px;
   padding: 20px;
+}
+
+.heart {
+  transform: scale(1);
+  transition: transform 300ms;
+}
+
+.heart:hover {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.2);
 }
 
 .recipe-page-tags {

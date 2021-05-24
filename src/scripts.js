@@ -2,8 +2,6 @@ import RecipeRepository from './classes/RecipeRepository';
 import Recipe from './classes/Recipe';
 import User from './classes/User';
 import Ingredient from './classes/Ingredient';
-// import { recipeData } from "./data/recipes"
-// import { usersData } from "./data/users"
 import apiCalls from './data/api-calls';
 
 //////////////// query selectors //////////////
@@ -12,43 +10,41 @@ const queuePage = document.getElementById('queuePage');
 const favoritesPage = document.getElementById('favoritesPage');
 const recipeDetailPage = document.getElementById('recipeDetailPage');
 const searchResultsPage = document.getElementById('searchResultsPage');
-const userFavoritesHeader = document.getElementById('userFavorites');
-
-const courseChooser = document.getElementById('courseChooser');
-const sortByCourseHeader = document.getElementById('sortByCourseHeader');
 const welcomeUser = document.getElementById('welcomeUser');
-
+const courseChooser = document.getElementById('courseChooser');
+//header qs
+const userFavoritesHeader = document.getElementById('userFavorites');
+const sortByCourseHeader = document.getElementById('sortByCourseHeader');
+const browseHeader = document.getElementById('browseHeader');
+//button qs
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
 const addToQueueButton = document.getElementById('addToQueueButton');
-
-const browseRecipesSection = document.getElementById('browseRecipesSection');
+const showAllButton = document.getElementById('showAll');
+//grid qs
 const recipeCardGrid = document.getElementById('recipeCardGrid');
-const browseHeader = document.getElementById('browseHeader');
-
+const searchResultGrid = document.getElementById('searchResultRecipes');
+const favoritesGrid = document.getElementById('favoritesPageGrid');
+const queuePageGrid = document.getElementById('queuePageGrid');
+const browseRecipesSection = document.getElementById('browseRecipesSection');
+//qs for recipe pg
 const recipeName = document.getElementById('recipeName');
 const recipeImage = document.getElementById('recipeImage');
 const recipeTags = document.getElementById('recipeTags');
 const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
-const recipePageImageContainer = document.getElementById(
-  'recipePageImageContainer'
-);
-const searchResultGrid = document.getElementById('searchResultRecipes');
-const showAllButton = document.getElementById('showAll');
-
+const recipePageImageContainer = document.getElementById('recipePageImageContainer');
+//qs search bars
 const searchBar = document.getElementById('searchBar');
-
+const favoritesSearchBar = document.getElementById('favoritesSearchBar');
+//qs hearts
 const emptyHeart = document.getElementById('emptyHeart');
 const filledHeart = document.getElementById('filledHeart');
-
-const favoritesGrid = document.getElementById('favoritesPageGrid');
+//fav filter qs
 const filterFavorites = document.getElementById('filterFavorites');
 
-const favoritesSearchBar = document.getElementById('favoritesSearchBar');
-const queuePageGrid = document.getElementById('queuePageGrid');
 //////////////// variables //////////////
 let newRepository, user, usersData, recipeData, ingredientData;
 let currentTags = [];
@@ -71,6 +67,8 @@ const tags = {
 };
 
 ////////////// event listeners //////////////
+window.addEventListener('load', getDataFromAPI);
+
 const allCourseButtons = document.querySelectorAll('button').forEach(button =>
   button.addEventListener('click', function () {
     filterByTags(button);
@@ -78,7 +76,6 @@ const allCourseButtons = document.querySelectorAll('button').forEach(button =>
 );
 
 showAllButton.addEventListener('click', showAllRecipes);
-window.addEventListener('load', getDataFromAPI);
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
 queueButton.addEventListener('click', displayQueue);
@@ -198,17 +195,11 @@ function populateSearchPage(someRepository) {
 }
 
 function hide(elements) {
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    element.classList.add('hidden');
-  }
+ elements.forEach(element => element.classList.add('hidden'));
 }
 
 function show(elements) {
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    element.classList.remove('hidden');
-  }
+  elements.forEach(element => element.classList.remove('hidden'))
 }
 
 function goHome() {

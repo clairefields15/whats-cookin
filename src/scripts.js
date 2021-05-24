@@ -129,15 +129,51 @@ function populateMainPage(someRepository) {
 }
 
 function populateFavoritesPage(someFavorites) {
+  console.log('POPULATE!!')
   favoritesGrid.innerHTML = '';
-  someFavorites.forEach((recipe) => {
+  someFavorites.forEach(recipe => {
     favoritesGrid.innerHTML += `
-    <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+      <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+        <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+        <h1 class="recipe-name-mini">${recipe.name}</h1>
+      </article>
+    `;
+  });
+}
+
+function populateFavoritesPageAfterSearch() {
+  console.log('after search')
+  favoritesGrid.innerHTML = '';
+  const searchByName = user.favsByName;
+  const searchByIngredient = user.favsByIngredient;
+  const searchAll = [searchByName, searchByIngredient];
+  searchAll.forEach(type => {
+    type.forEach(recipe => {
+      favoritesGrid.innerHTML += `
+        <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
-      </article>
-    `
+        </article>
+      `
+    })
   })
+}
+
+function populateSearchPage(someRepository) {
+  searchResultGrid.innerHTML = '';
+  const searchByName = someRepository.filteredByName;
+  const searchByIngredient = someRepository.filteredByIngredient;
+  const searchAll = [searchByName, searchByIngredient];
+  searchAll.forEach(type => {
+    type.forEach(recipe => {
+      searchResultGrid.innerHTML += `
+        <article id="${recipe.id}" class="mini-recipe-card recipe-target">
+          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <h1 class="recipe-name-mini">${recipe.name}</h1>
+        </article>  
+      `;
+    });
+  });
 }
 
 function hide(elements) {
@@ -203,20 +239,16 @@ function filterByTags(button) {
 }
 
 function showAllRecipes() {
-  console.log('all')
   currentTags = [];
-  console.log('user favs', user.favoriteRecipes)
   populateMainPage(newRepository.recipesData);
   populateFavoritesPage(user.favoriteRecipes);
 }
 
 function checkWhatPageImOn() {
   if (sortByCourseHeader.innerText === "Sort by Course") {
-    console.log('main')
     newRepository.filterByTag(currentTags);
     populateMainPage(newRepository.filteredByTag);
   } else if (sortByCourseHeader.innerText === "Filter your favorites by course") {
-    console.log('fav page')
     user.filterByTag(currentTags);
     populateFavoritesPage(user.favsByTag);
   }
@@ -302,15 +334,16 @@ function clickRecipeCard(event) {
 }
 
 function filterFavoritesViaSearchBar(event) {
-  event.preventDefault()
+  event.preventDefault();
   let input = [];
   let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
+  // console.log('lower case input', lowerCaseNoSpacesInput)
   input.push(lowerCaseNoSpacesInput)
+  console.log('input array', input)
   user.filterFavsByName(input)
   user.filterFavsByIngredients(input)
-  populateFavoritesPage(user.favsByName);
-  populateFavoritesPage(user.favsByIngredient);
+  populateFavoritesPageAfterSearch();
   favoritesSearchBar.value = ''
 }
 
@@ -328,23 +361,6 @@ function filterSearchResults(event) {
   newRepository.filterByIngredients(input)
   populateSearchPage(newRepository)
   searchBar.value = ''
-}
-
-function populateSearchPage(someRepository) {
-  searchResultGrid.innerHTML = '';
-  const searchByName = someRepository.filteredByName;
-  const searchByIngredient = someRepository.filteredByIngredient;
-  const searchAll = [searchByName, searchByIngredient]
-  searchAll.forEach(type => {
-    type.forEach((recipe) => {
-      searchResultGrid.innerHTML += `
-        <article id="${recipe.id}" class="mini-recipe-card recipe-target">
-          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
-          <h1 class="recipe-name-mini">${recipe.name}</h1>
-        </article>  
-      `;
-    });
-  })
 }
 
 function favoriteRecipe(event) {

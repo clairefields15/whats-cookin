@@ -48,7 +48,7 @@ class User {
   filterFavsByName(names) {
     const filteredRecipes = names.reduce((acc, name) => {
       this.favoriteRecipes.forEach(recipe => {
-        const recipeNames = recipe.name;
+        const recipeNames = recipe.name.toLowerCase();
         if (recipeNames.includes(name) && !acc.includes(name)) {
           acc.push(recipe);
         }
@@ -72,6 +72,7 @@ class User {
       return acc;
     }, []);
     this.favsByIngredient = filteredRecipes;
+    console.log('user favs by ingredient', this.favsByIngredient)
   }
 
 }

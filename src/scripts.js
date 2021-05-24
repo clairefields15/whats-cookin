@@ -59,8 +59,6 @@ const allCourseButtons = document.querySelectorAll('button').forEach(button =>
 
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
-queueButton.addEventListener('click', displayQueue);
-
 window.addEventListener('load', pageLoad);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
@@ -246,8 +244,11 @@ function showRecipe(event) {
     return targetId === recipe.id});
   recipeDetails(foundRecipe);
    if (user.favoriteRecipes.includes(foundRecipe)) {
+     console.log("in favorites");
      show([filledHeart])
-   } else {
+   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
+     console.log('not in favorites')
+     hide([filledHeart])
      show([emptyHeart])
    }
 }

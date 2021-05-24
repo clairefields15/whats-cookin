@@ -1,9 +1,8 @@
-import RecipeRepository from "./classes/RecipeRepository";
-import Recipe from "./classes/Recipe"
-import User from "./classes/User"
-import Ingredient from "./classes/Ingredient"
-import { recipeData } from "./data/recipes"
-import { usersData } from "./data/users"
+import RecipeRepository from './classes/RecipeRepository';
+import Recipe from './classes/Recipe';
+import User from './classes/User';
+import Ingredient from './classes/Ingredient';
+import apiCalls from './data/api-calls';
 
 //////////////// query selectors //////////////
 const homePage = document.getElementById('homePage');
@@ -11,21 +10,25 @@ const queuePage = document.getElementById('queuePage');
 const favoritesPage = document.getElementById('favoritesPage');
 const recipeDetailPage = document.getElementById('recipeDetailPage');
 const searchResultsPage = document.getElementById('searchResultsPage');
-const userFavoritesHeader = document.getElementById('userFavorites')
-
+const welcomeUser = document.getElementById('welcomeUser');
 const courseChooser = document.getElementById('courseChooser');
+//header qs
+const userFavoritesHeader = document.getElementById('userFavorites');
 const sortByCourseHeader = document.getElementById('sortByCourseHeader');
-const welcomeUser = document.getElementById('welcomeUser')
-
+const browseHeader = document.getElementById('browseHeader');
+//button qs
 const homeButton = document.getElementById('homeButton');
 const favoriteButton = document.getElementById('favoriteButton');
 const queueButton = document.getElementById('queueButton');
 const addToQueueButton = document.getElementById('addToQueueButton');
-
-const browseRecipesSection = document.getElementById('browseRecipesSection');
+const showAllButton = document.getElementById('showAll');
+//grid qs
 const recipeCardGrid = document.getElementById('recipeCardGrid');
-const browseHeader = document.getElementById('browseHeader');
-
+const searchResultGrid = document.getElementById('searchResultRecipes');
+const favoritesGrid = document.getElementById('favoritesPageGrid');
+const queuePageGrid = document.getElementById('queuePageGrid');
+const browseRecipesSection = document.getElementById('browseRecipesSection');
+//qs for recipe pg
 const recipeName = document.getElementById('recipeName');
 const recipeImage = document.getElementById('recipeImage');
 const recipeTags = document.getElementById('recipeTags');
@@ -33,73 +36,88 @@ const ingredientRow = document.getElementById('ingredientRow');
 const ingredientTotal = document.getElementById('ingredientTotal');
 const recipeInstructions = document.getElementById('recipeInstructions');
 const recipePageImageContainer = document.getElementById('recipePageImageContainer');
-const searchResultGrid = document.getElementById('searchResultRecipes');
-const showAllButton = document.getElementById('showAll');
-
+//qs search bars
 const searchBar = document.getElementById('searchBar');
-
+const favoritesSearchBar = document.getElementById('favoritesSearchBar');
+//qs hearts
 const emptyHeart = document.getElementById('emptyHeart');
 const filledHeart = document.getElementById('filledHeart');
-
-const favoritesGrid = document.getElementById('favoritesPageGrid');
+//fav filter qs
 const filterFavorites = document.getElementById('filterFavorites');
 
-const favoritesSearchBar = document.getElementById('favoritesSearchBar');
-const queuePageGrid = document.getElementById('queuePageGrid');
 //////////////// variables //////////////
-let newRepository, user;
+let newRepository, user, usersData, recipeData, ingredientData;
 let currentTags = [];
 
-const tags = { 
-  appetizers: ['antipasti', 'salad', 'antipasto', "hor d'oeuvre", 'starter', 'appetizer', 'snack'], 
-  breakfast: ['breakfast', 'morning meal', 'brunch'], 
+const tags = {
+  appetizers: [
+    'antipasti',
+    'salad',
+    'antipasto',
+    "hor d'oeuvre",
+    'starter',
+    'appetizer',
+    'snack'
+  ],
+  breakfast: ['breakfast', 'morning meal', 'brunch'],
   lunch: ['salad', 'lunch', 'brunch'],
-  dinner: ['main course', 'dinner', 'main dish'], 
-  sides: ['salad', 'side dish', 'snack'], 
+  dinner: ['main course', 'dinner', 'main dish'],
+  sides: ['salad', 'side dish', 'snack'],
   condiments: ['condiment', 'dip', 'spread', 'sauce']
 };
 
-
 ////////////// event listeners //////////////
-const allCourseButtons = document.querySelectorAll('button').forEach(button => 
+window.addEventListener('load', getDataFromAPI);
+
+const allCourseButtons = document.querySelectorAll('button').forEach(button =>
   button.addEventListener('click', function () {
-    filterByTags(button)
-  }));
+    filterByTags(button);
+  })
+);
 
-showAllButton.addEventListener('click', showAllRecipes)  
-
+showAllButton.addEventListener('click', showAllRecipes);
 homeButton.addEventListener('click', goHome);
 favoriteButton.addEventListener('click', displayFavorites);
-window.addEventListener('load', pageLoad);
 queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
 addToQueueButton.addEventListener('click', addToQueue);
 window.addEventListener('click', clickRecipeCard);
 
-
-searchBar.addEventListener('keypress', function() {
+searchBar.addEventListener('keypress', function () {
   if (event.keyCode === 13) {
-    filterSearchResults(event)
+    filterSearchResults(event);
   }
 });
 
-favoritesSearchBar.addEventListener('keypress', function() {
+favoritesSearchBar.addEventListener('keypress', function () {
   if (event.keyCode === 13) {
-    filterFavoritesViaSearchBar(event)
+    filterFavoritesViaSearchBar(event);
   }
 });
 ////////////// functions and event handlers //////////////
-function pageLoad() {
+
+export function assignVariables(data) {
+  usersData = data[0];
+  recipeData = data[1];
+  ingredientData = data[2];
+}
+
+function getDataFromAPI() {
+  apiCalls.getData()
+}
+
+export function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
   newRepository = addRecipesToRepository(recipeDataArray);
   populateMainPage(newRepository.recipesData);
-  let userIndex = getRandomIndex(usersData)
-  user = new User(usersData[userIndex].name, usersData[userIndex].id)
+  let userIndex = getRandomIndex(usersData.usersData);
+  user = new User(usersData.usersData[userIndex].name, usersData.usersData[userIndex].id);
   welcomeUser.innerText = user.name;
-  userFavoritesHeader.innerText =  `${user.name}'s Favorite Recipes`
+  userFavoritesHeader.innerText = `${user.name}'s Favorite Recipes`;
   return user, newRepository;
 }
+
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -107,27 +125,27 @@ function getRandomIndex(array) {
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
-  recipeData.forEach((recipe, index) => {
-    let recipe1 = new Recipe(recipeData[index])
-    recipeDataArray.push(recipe1)
-  })
-  return recipeDataArray
+  recipeData.recipeData.forEach((recipe, index) => {
+    let recipe1 = new Recipe(recipe);
+    recipeDataArray.push(recipe1);
+  });
+  return recipeDataArray;
 }
 
 function addRecipesToRepository(recipeDataArray) {
-  return newRepository = new RecipeRepository(recipeDataArray);
+  return (newRepository = new RecipeRepository(recipeDataArray));
 }
 
 function populateMainPage(someRepository) {
   recipeCardGrid.innerHTML = '';
-  someRepository.forEach((recipe) => {
+  someRepository.forEach(recipe => {
     recipeCardGrid.innerHTML += `
     <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
       </article>
-    `
-  })
+    `;
+  });
 }
 
 function populateFavoritesPage(someFavorites) {
@@ -154,9 +172,9 @@ function populateFavoritesPageAfterSearch() {
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
         </article>
-      `
-    })
-  })
+      `;
+    });
+  });
 }
 
 function populateSearchPage(someRepository) {
@@ -177,63 +195,69 @@ function populateSearchPage(someRepository) {
 }
 
 function hide(elements) {
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    element.classList.add("hidden");
-  }
+ elements.forEach(element => element.classList.add('hidden'));
 }
 
 function show(elements) {
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    element.classList.remove("hidden");
-  }
+  elements.forEach(element => element.classList.remove('hidden'))
 }
 
 function goHome() {
   show([homePage, browseRecipesSection, sortByCourseHeader, courseChooser]);
   hide([recipeDetailPage, favoritesPage, searchResultsPage, queuePage]);
-  showAllRecipes()
-  sortByCourseHeader.innerHTML = ''
+  showAllRecipes();
+  sortByCourseHeader.innerHTML = '';
   sortByCourseHeader.innerHTML += `
   <h1 class="sort-by-course-header" id="sortByCourseHeader">Sort by Course</h1>
-  `
+  `;
 }
 
 function displayQueue() {
   show([queuePage]);
-  hide([homePage, recipeDetailPage, favoritesPage, searchResultsPage, browseRecipesSection]);
+  hide([
+    homePage,
+    recipeDetailPage,
+    favoritesPage,
+    searchResultsPage,
+    browseRecipesSection
+  ]);
 }
 
 function displayFavorites() {
   show([favoritesPage, courseChooser, sortByCourseHeader]);
-  hide([homePage, searchResultsPage, recipeDetailPage, browseRecipesSection, queuePage]);
-  sortByCourseHeader.innerHTML = ''
+  hide([
+    homePage,
+    searchResultsPage,
+    recipeDetailPage,
+    browseRecipesSection,
+    queuePage
+  ]);
+  sortByCourseHeader.innerHTML = '';
   sortByCourseHeader.innerHTML += `
   <h1 class="sort-by-course-header" id="sortByCourseHeader">Filter your favorites by course</h1>
-  `
+  `;
   populateFavoritesPage(user.favoriteRecipes);
 }
 
 function filterByTags(button) {
   changeHeaderText(button.id);
   if (button.id === 'appetizers') {
-    currentTags = tags.appetizers
+    currentTags = tags.appetizers;
   }
   if (button.id === 'breakfast') {
-    currentTags = tags.breakfast
+    currentTags = tags.breakfast;
   }
   if (button.id === 'lunch') {
-    currentTags = tags.lunch
+    currentTags = tags.lunch;
   }
   if (button.id === 'dinner') {
-    currentTags = tags.dinner
+    currentTags = tags.dinner;
   }
   if (button.id === 'sides') {
-    currentTags = tags.sides
+    currentTags = tags.sides;
   }
   if (button.id === 'condiments') {
-    currentTags = tags.condiments
+    currentTags = tags.condiments;
   }
   checkWhatPageImOn();
 }
@@ -246,10 +270,12 @@ function showAllRecipes() {
 }
 
 function checkWhatPageImOn() {
-  if (sortByCourseHeader.innerText === "Sort by Course") {
+  if (sortByCourseHeader.innerText === 'Sort by Course') {
     newRepository.filterByTag(currentTags);
     populateMainPage(newRepository.filteredByTag);
-  } else if (sortByCourseHeader.innerText === "Filter your favorites by course") {
+  } else if (
+    sortByCourseHeader.innerText === 'Filter your favorites by course'
+  ) {
     user.filterByTag(currentTags);
     populateFavoritesPage(user.favsByTag);
   }
@@ -257,22 +283,22 @@ function checkWhatPageImOn() {
 
 function changeHeaderText(id) {
   if (id.charAt(id.length - 1) === 's') {
-    browseHeader.innerText = `Browse ${id}`
+    browseHeader.innerText = `Browse ${id}`;
   } else {
-    browseHeader.innerText = `Browse ${id} recipes`
+    browseHeader.innerText = `Browse ${id} recipes`;
   }
 }
 
-//recipe page 
+//recipe page
 function recipeDetails(recipe) {
-  recipePageImageContainer.id = `${recipe.id}`
+  recipePageImageContainer.id = `${recipe.id}`;
   recipeName.innerText = `${recipe.name}`;
   recipeImage.src = `${recipe.image}`;
   let totalCost = recipe.getRecipeCost();
-  ingredientTotal.innerText = `${totalCost}`
+  ingredientTotal.innerText = `${totalCost}`;
   displayTags(recipe);
-  displayInstructions(recipe)
-  displayMeasurements(recipe)
+  displayInstructions(recipe);
+  displayMeasurements(recipe);
 }
 
 function displayTags(recipe) {
@@ -280,63 +306,70 @@ function displayTags(recipe) {
   recipe.tags.forEach(tag => {
     recipeTags.innerHTML += `
     <li class="recipe-tag">${tag}</li>
-    `
-  })
+    `;
+  });
 }
 
 function displayMeasurements(recipe) {
   ingredientRow.innerHTML = '';
   let allIngredientInfo = recipe.getIngredients();
   allIngredientInfo.forEach(ingredient => {
-    let ingredientPrice = ((ingredient.amount * ingredient.estimatedCostInCents) / 100)
-    let roundedPrice = ingredientPrice.toFixed(2)
-    return ingredientRow.innerHTML += `
+    let ingredientPrice =
+      (ingredient.amount * ingredient.estimatedCostInCents) / 100;
+    let roundedPrice = ingredientPrice.toFixed(2);
+    return (ingredientRow.innerHTML += `
     <div class="ingredient-row-spacing">
       <p class="ingredient-row-text">${ingredient.amount} ${ingredient.unit} ${ingredient.name}</p>
       <p id="ingredientRowText"class="ingredient-row-price">$${roundedPrice}</p>
     </div>
-    `
-  })
-
+    `);
+  });
 }
 
 function displayInstructions(recipe) {
-  recipeInstructions.innerHTML = ''
+  recipeInstructions.innerHTML = '';
   recipe.instructions.forEach(step => {
     recipeInstructions.innerHTML += `
       <section class="recipe-instructions-numbered">
         <p class="recipe-step-number">${step.number}.</p>
         <p>${step.instruction}</p>
       </section>
-      `
-  })
+      `;
+  });
 }
-
 
 function showRecipe(event) {
   show([recipeDetailPage]);
-  hide([homePage, sortByCourseHeader, searchResultsPage, browseRecipesSection, queuePage, favoritesPage, courseChooser])
+  hide([
+    homePage,
+    sortByCourseHeader,
+    searchResultsPage,
+    browseRecipesSection,
+    queuePage,
+    favoritesPage,
+    courseChooser
+  ]);
   const targetId = parseInt(event.target.closest('.recipe-target').id);
   const foundRecipe = newRepository.recipesData.find(recipe => {
-    return targetId === recipe.id
+    return targetId === recipe.id;
   });
   recipeDetails(foundRecipe);
   checkIfInQueue(foundRecipe);
   if (user.favoriteRecipes.includes(foundRecipe)) {
-    show([filledHeart])
+    show([filledHeart]);
   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
-    hide([filledHeart])
-    show([emptyHeart])
+    hide([filledHeart]);
+    show([emptyHeart]);
   }
 }
 
 function checkIfInQueue(recipe) {
   if (user.recipesToCook.includes(recipe)) {
-    addToQueueButton.innerText = ''
-    addToQueueButton.innerText += `Added to Cooking Queue`
+    addToQueueButton.innerText = '';
+    addToQueueButton.innerText += `Added to Cooking Queue`;
   } else if (!user.recipesToCook.includes(recipe)) {
-    addToQueueButton.innerText = ''
-    addToQueueButton.innerText += `Add to Cooking Queue`
+    addToQueueButton.innerText = '';
+    addToQueueButton.innerText += `Add to Cooking Queue`;
   }
 }
 
@@ -351,27 +384,34 @@ function filterFavoritesViaSearchBar(event) {
   let input = [];
   let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
-  input.push(lowerCaseNoSpacesInput)
-  user.filterFavsByName(input)
-  user.filterFavsByIngredients(input)
+  input.push(lowerCaseNoSpacesInput);
+  user.filterFavsByName(input);
+  user.filterFavsByIngredients(input);
   populateFavoritesPageAfterSearch();
-  favoritesSearchBar.value = ''
+  favoritesSearchBar.value = '';
 }
-
 
 //search and display recipes
 function filterSearchResults(event) {
-  event.preventDefault()
+  event.preventDefault();
   show([searchResultsPage]);
-  hide([homePage, sortByCourseHeader, browseRecipesSection, queuePage, favoritesPage, courseChooser, recipeDetailPage])
+  hide([
+    homePage,
+    sortByCourseHeader,
+    browseRecipesSection,
+    queuePage,
+    favoritesPage,
+    courseChooser,
+    recipeDetailPage
+  ]);
   let input = [];
   let lowerCaseInput = searchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
-  input.push(lowerCaseNoSpacesInput)
-  newRepository.filterByName(input)
-  newRepository.filterByIngredients(input)
-  populateSearchPage(newRepository)
-  searchBar.value = ''
+  input.push(lowerCaseNoSpacesInput);
+  newRepository.filterByName(input);
+  newRepository.filterByIngredients(input);
+  populateSearchPage(newRepository);
+  searchBar.value = '';
 }
 
 function favoriteRecipe(event) {
@@ -379,19 +419,21 @@ function favoriteRecipe(event) {
   if (event.target.classList.contains('unfilled-heart')) {
     show([filledHeart]);
     hide([emptyHeart]);
-    const targetID = event.target.parentNode.parentNode.id
-    const allRecipes = newRepository.recipesData
-    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+    const targetID = event.target.parentNode.parentNode.id;
+    const allRecipes = newRepository.recipesData;
+    const foundRecipe = allRecipes.find(
+      recipe => recipe.id === parseInt(targetID)
+    );
     user.addToFavorites(foundRecipe);
   }
 }
-    
-function unFavoriteRecipe (event) {
+
+function unFavoriteRecipe(event) {
   event.preventDefault();
   if (event.target.classList.contains('filled-heart')) {
     hide([filledHeart]);
     show([emptyHeart]);
-    const targetID = event.target.parentNode.parentNode.id
+    const targetID = event.target.parentNode.parentNode.id;
     user.removeFromFavorites(targetID);
   }
 }
@@ -408,15 +450,17 @@ function populateQueuePage(someRecipes) {
   });
 }
 
-function addToQueue () {
-  if(addToQueueButton.innerText === "Add to Cooking Queue") {
-    const targetID = event.target.parentNode.id
-    const allRecipes = newRepository.recipesData
-    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID));
+function addToQueue() {
+  if (addToQueueButton.innerText === 'Add to Cooking Queue') {
+    const targetID = event.target.parentNode.id;
+    const allRecipes = newRepository.recipesData;
+    const foundRecipe = allRecipes.find(
+      recipe => recipe.id === parseInt(targetID)
+    );
     user.addRecipeToCookList(foundRecipe);
     populateQueuePage(user.recipesToCook);
-  } 
   }
+}
 // edge case scenarios:
 // need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
 // When user clicks on any link from result and navigates back, then result should be maintained
@@ -429,3 +473,21 @@ function addToQueue () {
 // wheat flour
 // cilantro
 // artichokes
+
+async function getUsers() {
+  let url = 'http://localhost:3001/api/v1/users';
+  try {
+    let res = await fetch(url);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function renderUsers() {
+  let users = await getUsers();
+  console.log(users);
+  return users;
+}
+
+//renderUsers();

@@ -312,6 +312,7 @@ function displayInstructions(recipe) {
   })
 }
 
+
 function showRecipe(event) {
   show([recipeDetailPage]);
   hide([homePage, sortByCourseHeader, searchResultsPage, browseRecipesSection, queuePage, favoritesPage, courseChooser])
@@ -320,12 +321,22 @@ function showRecipe(event) {
     return targetId === recipe.id
   });
   recipeDetails(foundRecipe);
-  checkIfInQueue(foundRecipe)
+  checkIfInQueue(foundRecipe);
   if (user.favoriteRecipes.includes(foundRecipe)) {
     show([filledHeart])
   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
     hide([filledHeart])
     show([emptyHeart])
+  }
+}
+
+function checkIfInQueue(recipe) {
+  if (user.recipesToCook.includes(recipe)) {
+    addToQueueButton.innerText = ''
+    addToQueueButton.innerText += `Added to Cooking Queue`
+  } else if (!user.recipesToCook.includes(recipe)) {
+    addToQueueButton.innerText = ''
+    addToQueueButton.innerText += `Add to Cooking Queue`
   }
 }
 
@@ -397,22 +408,14 @@ function populateQueuePage(someRecipes) {
   });
 }
 
-function checkIfInQueue(recipe) {
-  if (user.recipesToCook.includes(recipe)){
-    addToQueueButton.innerText = ''
-    addToQueueButton.innerText += `
-    Remove from Queue
-    `
-  }
-}
-
-function addToQueue (event) {
-  event.preventDefault();
+function addToQueue () {
+  if(addToQueueButton.innerText === "Add to Cooking Queue") {
     const targetID = event.target.parentNode.id
     const allRecipes = newRepository.recipesData
-    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID))
+    const foundRecipe = allRecipes.find(recipe => recipe.id === parseInt(targetID));
     user.addRecipeToCookList(foundRecipe);
     populateQueuePage(user.recipesToCook);
+  } 
   }
 // edge case scenarios:
 // need to be able to search pork chop and only see one (pork chop is a name and an ingredient)

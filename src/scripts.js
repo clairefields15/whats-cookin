@@ -42,6 +42,8 @@ const filledHeart = document.getElementById('filledHeart');
 
 const favoritesGrid = document.getElementById('favoritesPageGrid');
 const filterFavorites = document.getElementById('filterFavorites');
+
+const favoritesSearchBar = document.getElementById('favoritesSearchBar')
 //////////////// variables //////////////
 let newRepository, user;
 let currentTags = [];
@@ -68,12 +70,18 @@ emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
 window.addEventListener('click', clickRecipeCard);
 
+
 searchBar.addEventListener('keypress', function() {
   if (event.keyCode === 13) {
     filterSearchResults(event)
   }
 });
-  
+
+favoritesSearchBar.addEventListener('keypress', function() {
+  if (event.keyCode === 13) {
+    filterFavoritesViaSearchBar(event)
+  }
+});
 ////////////// functions and event handlers //////////////
 function pageLoad() {
   const recipeDataArray = makeRecipeInstances();
@@ -190,6 +198,7 @@ function filterByTags(button) {
   if (button.id === 'showAll') {
     currentTags = [];
     populateMainPage(newRepository.recipesData);
+    populateFavoritesPage(user.favoriteRecipes);
   }
   checkWhatPageImOn();
 }
@@ -199,9 +208,8 @@ function checkWhatPageImOn() {
     newRepository.filterByTag(currentTags);
     populateMainPage(newRepository.filteredByTag);
   } else if (sortByCourseHeader.innerText === "Filter your favorites by course"){
-    console.log(currentTags)
     user.filterByTag(currentTags);
-    populateFavoritesPage(user.filteredFavs);
+    populateFavoritesPage(user.favsByTag);
   }
 }
 
@@ -283,6 +291,18 @@ function clickRecipeCard(event) {
   }
 }
 
+function filterFavoritesViaSearchBar(event) {
+  event.preventDefault()
+  let input = [];
+  let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
+  let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
+  input.push(lowerCaseNoSpacesInput)
+  user.filterFavsByName(input)
+  user.filterFavsByIngredients(input)
+  populateFavoritesPage(user.favsByName);
+  populateFavoritesPage(user.favsByIngredient);
+  favoritesSearchBar.value = ''
+}
 
 
 //search and display recipes

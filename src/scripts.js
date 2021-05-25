@@ -176,7 +176,7 @@ function populateFavoritesPageAfterSearch() {
   filteredFavs.forEach(recipe => {
     favoritesGrid.innerHTML += `
         <article id="${recipe.id}" class="mini-recipe-card recipe-target">
-          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <img class="mini-recipe-img" alt="${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
         </article>
       `;
@@ -189,7 +189,7 @@ function populateSearchPage(someRepository) {
   filteredRecipes.forEach(recipe => {
     searchResultGrid.innerHTML += `
         <article id="${recipe.id}" class="mini-recipe-card recipe-target">
-          <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
+          <img class="mini-recipe-img" alt="${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
         </article>  
       `;
@@ -269,25 +269,13 @@ function showHeart(foundRecipe) {
 }
 
 function filterByTags(button) {
+  const tagKeys = Object.keys(tags)
+  tagKeys.forEach(tag => {
+    if (button.id === tag) {
+      currentTags = tags[button.id];
+    }
+  })
   changeHeaderText(button.id);
-  if (button.id === 'appetizers') {
-    currentTags = tags.appetizers;
-  }
-  if (button.id === 'breakfast') {
-    currentTags = tags.breakfast;
-  }
-  if (button.id === 'lunch') {
-    currentTags = tags.lunch;
-  }
-  if (button.id === 'dinner') {
-    currentTags = tags.dinner;
-  }
-  if (button.id === 'sides') {
-    currentTags = tags.sides;
-  }
-  if (button.id === 'condiments') {
-    currentTags = tags.condiments;
-  }
   checkWhatPageImOn();
 }
 

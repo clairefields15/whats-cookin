@@ -5,8 +5,7 @@ class User {
     this.favoriteRecipes = [];
     this.recipesToCook = [];
     this.favsByTag = [];
-    this.favsByName = [];
-    this.favsByIngredient = [];
+    this.favsByNameOrIngredient = []
   }
 
   addRecipeToCookList(recipe) {
@@ -15,14 +14,6 @@ class User {
 
   addToFavorites(recipe) {
     this.favoriteRecipes.push(recipe);
-  }
-
-  removeFromCookList(id) {
-    this.recipesToCook.forEach((item, index) => {
-      if (item.id === parseInt(id)) {
-        this.recipesToCook.splice(index, 1);
-      }
-    });
   }
 
   removeFromFavorites(id) {
@@ -45,34 +36,31 @@ class User {
     this.favsByTag = filteredFavoriteRecipes;
   }
 
-  filterFavsByName(names) {
-    const filteredRecipes = names.reduce((acc, name) => {
+  filterFavsByNameOrIngredient(inputs) {
+    const filteredRecipes = inputs.reduce((acc, item) => {
       this.favoriteRecipes.forEach(recipe => {
         const recipeNames = recipe.name.toLowerCase();
-        if (recipeNames.includes(name) && !acc.includes(name)) {
+        if (recipeNames.includes(item) && !acc.includes(recipe)) {
           acc.push(recipe);
         }
       });
-      return acc;
-    }, []);
-    this.favsByName = filteredRecipes;
-  }
-
-  filterFavsByIngredients(ingredients) {
-    const filteredRecipes = ingredients.reduce((acc, ingredient) => {
+      
       this.favoriteRecipes.forEach(recipe => {
         const recipeIngredients = recipe.getIngredientNames();
-        const splitIngredients = recipeIngredients.map(ingredient => ingredient.split(' ')).flat()
+        const splitIngredients = recipeIngredients
+          .map(ingredient => ingredient.split(' '))
+          .flat();
         if (
-          splitIngredients.includes(ingredient) &&
-          !acc.includes(ingredient)
+          splitIngredients.includes(item) &&
+          !acc.includes(recipe)
         ) {
           acc.push(recipe);
         }
       });
       return acc;
     }, []);
-    this.favsByIngredient = filteredRecipes;
+
+    this.favsByNameOrIngredient = filteredRecipes
   }
 
 }

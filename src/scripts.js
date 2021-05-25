@@ -70,9 +70,7 @@ const tags = {
 window.addEventListener('load', getDataFromAPI);
 
 const allCourseButtons = document.querySelectorAll('button').forEach(button =>
-  button.addEventListener('click', function () {
-    filterByTags(button);
-  })
+  button.addEventListener('click', () => filterByTags(button))
 );
 
 showAllButton.addEventListener('click', showAllRecipes);
@@ -82,15 +80,15 @@ queueButton.addEventListener('click', displayQueue);
 emptyHeart.addEventListener('click', favoriteRecipe);
 filledHeart.addEventListener('click', unFavoriteRecipe);
 addToQueueButton.addEventListener('click', addToQueue);
-window.addEventListener('click', clickRecipeCard);
+window.addEventListener('click', () => clickRecipeCard(event));
 
-searchBar.addEventListener('keypress', function () {
+searchBar.addEventListener('keypress', () => {
   if (event.keyCode === 13) {
     filterSearchResults(event);
   }
 });
 
-favoritesSearchBar.addEventListener('keypress', function () {
+favoritesSearchBar.addEventListener('keypress', () => {
   if (event.keyCode === 13) {
     filterFavoritesViaSearchBar(event);
   }
@@ -115,9 +113,18 @@ export function pageLoad() {
   let userIndex = getRandomIndex(usersData.usersData);
   user = new User(usersData.usersData[userIndex].name, usersData.usersData[userIndex].id);
   welcomeUser.innerText = user.name;
-  userFavoritesHeader.innerText = `${user.name}'s Favorite Recipes`;
-
 }
+
+function changeHeaderText(id) {
+  if (id.charAt(id.length - 1) === 's') {
+    browseHeader.innerText = `Browse ${id}`;
+    userFavoritesHeader.innerText = `Your favorite ${id}`;
+  } else {
+    browseHeader.innerText = `Browse ${id} recipes`;
+    userFavoritesHeader.innerText = `Your favorite ${id} recipes`;
+  }
+}
+
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
@@ -165,18 +172,14 @@ function populateFavoritesPage(someFavorites) {
 
 function populateFavoritesPageAfterSearch() {
   favoritesGrid.innerHTML = '';
-  const searchByName = user.favsByName;
-  const searchByIngredient = user.favsByIngredient;
-  const searchAll = [searchByName, searchByIngredient];
-  searchAll.forEach(type => {
-    type.forEach(recipe => {
-      favoritesGrid.innerHTML += `
+  const filteredFavs = user.favsByNameOrIngredient;
+  filteredFavs.forEach(recipe => {
+    favoritesGrid.innerHTML += `
         <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
         </article>
       `;
-    });
   });
 }
 
@@ -220,7 +223,9 @@ function displayQueue() {
     recipeDetailPage,
     favoritesPage,
     searchResultsPage,
-    browseRecipesSection
+    browseRecipesSection,
+    sortByCourseHeader,
+    courseChooser
   ]);
 }
 
@@ -240,7 +245,7 @@ function displayFavorites() {
   populateFavoritesPage(user.favoriteRecipes);
 }
 
-function showRecipe(event) {
+function showRecipeView() {
   show([recipeDetailPage]);
   hide([
     homePage,
@@ -251,13 +256,6 @@ function showRecipe(event) {
     favoritesPage,
     courseChooser
   ]);
-  const targetId = parseInt(event.target.closest('.recipe-target').id);
-  const foundRecipe = newRepository.recipesData.find(recipe => {
-    return targetId === recipe.id;
-  });
-  recipeDetails(foundRecipe);
-  checkIfInQueue(foundRecipe);
-  showHeart(foundRecipe)
 }
 
 function showHeart(foundRecipe) {
@@ -267,14 +265,6 @@ function showHeart(foundRecipe) {
   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
     hide([filledHeart]);
     show([emptyHeart]);
-  }
-}
-
-function changeHeaderText(id) {
-  if (id.charAt(id.length - 1) === 's') {
-    browseHeader.innerText = `Browse ${id}`;
-  } else {
-    browseHeader.innerText = `Browse ${id} recipes`;
   }
 }
 
@@ -302,7 +292,7 @@ function filterByTags(button) {
 }
 
 function showAllRecipes() {
-  changeHeaderText('all');
+  changeHeaderText('');
   currentTags = [];
   populateMainPage(newRepository.recipesData);
   populateFavoritesPage(user.favoriteRecipes);
@@ -380,8 +370,14 @@ function checkIfInQueue(recipe) {
 }
 
 function clickRecipeCard(event) {
-  if (event.target.closest('.recipe-target')) {
-    showRecipe(event);
+  let eventTarget = event.target.closest('.recipe-target')
+  if (eventTarget) {
+    const targetId = parseInt(eventTarget.id);
+    const foundRecipe = newRepository.recipesData.find(recipe => targetId === recipe.id);
+    showRecipeView();
+    recipeDetails(foundRecipe);
+    checkIfInQueue(foundRecipe);
+    showHeart(foundRecipe);
   }
 }
 
@@ -391,8 +387,7 @@ function filterFavoritesViaSearchBar(event) {
   let lowerCaseInput = favoritesSearchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
   input.push(lowerCaseNoSpacesInput);
-  user.filterFavsByName(input);
-  user.filterFavsByIngredients(input);
+  user.filterFavsByNameOrIngredient(input);
   populateFavoritesPageAfterSearch();
   favoritesSearchBar.value = '';
 }

@@ -3,7 +3,6 @@ import RecipeRepository from '../src/classes/RecipeRepository';
 import User from '../src/classes/User';
 import Recipe from '../src/classes/Recipe'
 import { recipeTestData } from '../src/data/recipe-test-data'; 
-import { recipeData } from '../src/data/recipes';
 
 
 describe('User', () => {

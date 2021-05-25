@@ -104,7 +104,7 @@ export function assignVariables(data) {
   ingredientData = data[2];
 }
 
-function getDataFromAPI() {
+export function getDataFromAPI() {
   apiCalls.getData()
 }
 
@@ -116,12 +116,13 @@ export function pageLoad() {
   user = new User(usersData.usersData[userIndex].name, usersData.usersData[userIndex].id);
   welcomeUser.innerText = user.name;
   userFavoritesHeader.innerText = `${user.name}'s Favorite Recipes`;
+
 }
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
   recipeData.recipeData.forEach((recipe, index) => {
-    let recipe1 = new Recipe(recipe);
+    let recipe1 = new Recipe(recipe, ingredientData);
     recipeDataArray.push(recipe1);
   });
   return recipeDataArray;
@@ -254,7 +255,6 @@ function showRecipe(event) {
     favoritesPage,
     courseChooser
   ]);
-
   const targetId = parseInt(event.target.closest('.recipe-target').id);
   const foundRecipe = newRepository.recipesData.find(recipe => {
     return targetId === recipe.id;
@@ -265,14 +265,20 @@ function showRecipe(event) {
 }
 
 function showHeart(foundRecipe) {
-  console.log('favs', user.favoriteRecipes)
-  console.log('found', foundRecipe)
   if (user.favoriteRecipes.includes(foundRecipe)) {
     show([filledHeart]);
     hide([emptyHeart]);
   } else if (!user.favoriteRecipes.includes(foundRecipe)) {
     hide([filledHeart]);
     show([emptyHeart]);
+  }
+}
+
+function changeHeaderText(id) {
+  if (id.charAt(id.length - 1) === 's') {
+    browseHeader.innerText = `Browse ${id}`;
+  } else {
+    browseHeader.innerText = `Browse ${id} recipes`;
   }
 }
 
@@ -315,14 +321,6 @@ function checkWhatPageImOn() {
   ) {
     user.filterByTag(currentTags);
     populateFavoritesPage(user.favsByTag);
-  }
-}
-
-function changeHeaderText(id) {
-  if (id.charAt(id.length - 1) === 's') {
-    browseHeader.innerText = `Browse ${id}`;
-  } else {
-    browseHeader.innerText = `Browse ${id} recipes`;
   }
 }
 
@@ -472,15 +470,3 @@ function addToQueue() {
     populateQueuePage(user.recipesToCook);
   }
 }
-// edge case scenarios:
-// need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
-// When user clicks on any link from result and navigates back, then result should be maintained
-// When user start typing word in text box it should suggest words that matches typed keyword
-// Search keyword should get highlighted with color in the search results
-
-// test items from data file:
-// Maple Dijon Apple Cider Grilled Pork Chops
-// Hummus Deviled Eggs
-// wheat flour
-// cilantro
-// artichokes

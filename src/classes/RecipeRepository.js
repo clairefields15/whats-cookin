@@ -4,6 +4,7 @@ class RecipeRepository {
     this.filteredByTag = [];
     this.filteredByName = [];
     this.filteredByIngredient = [];
+    this.filteredByNameOrIngredient = [];
   }
 
   filterByTag(tags) {
@@ -22,8 +23,11 @@ class RecipeRepository {
     const filteredRecipes = ingredients.reduce((acc, ingredient) => {
       this.recipesData.forEach(recipe => {
         const recipeIngredients = recipe.getIngredientNames();
-        if(recipeIngredients.includes(ingredient) && !acc.includes(ingredient)) {
-          acc.push(recipe)
+        const splitIngredients = recipeIngredients.map(ingredient => ingredient.split(' ')).flat()
+        if (splitIngredients.includes(ingredient) &&
+          !acc.includes(ingredient)
+        ) {
+          acc.push(recipe);
         }
       });
       return acc
@@ -44,6 +48,37 @@ class RecipeRepository {
     this.filteredByName = filteredRecipes;
   }
   
+  filterByNameOrIngredient(inputs) {
+    console.log(inputs)
+    const filteredRecipes = inputs.reduce((acc, item) => {
+      
+      this.recipesData.forEach(recipe => {
+        const recipeNames = recipe.name.toLowerCase();
+        if (recipeNames.includes(item) && !acc.includes(recipe)) {
+          acc.push(recipe)
+        }
+      });
+      console.log('acc after names', acc)
+      
+      this.recipesData.forEach(recipe => {
+        const recipeIngredients = recipe.getIngredientNames();
+        const splitIngredients = recipeIngredients
+          .map(ingredient => ingredient.split(' '))
+          .flat();
+        if (
+          splitIngredients.includes(item) &&
+          !acc.includes(recipe)
+        ) {
+          acc.push(recipe);
+        }
+      });
+      console.log('acc after ingredients >>>', acc)
+
+      return acc;
+    }, []);
+
+    this.filteredByNameOrIngredient = filteredRecipes;
+  }
 
 };
 

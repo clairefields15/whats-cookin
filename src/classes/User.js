@@ -62,8 +62,9 @@ class User {
     const filteredRecipes = ingredients.reduce((acc, ingredient) => {
       this.favoriteRecipes.forEach(recipe => {
         const recipeIngredients = recipe.getIngredientNames();
+        const splitIngredients = recipeIngredients.map(ingredient => ingredient.split(' ')).flat()
         if (
-          recipeIngredients.includes(ingredient) &&
+          splitIngredients.includes(ingredient) &&
           !acc.includes(ingredient)
         ) {
           acc.push(recipe);

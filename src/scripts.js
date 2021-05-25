@@ -182,9 +182,10 @@ function populateFavoritesPageAfterSearch() {
 
 function populateSearchPage(someRepository) {
   searchResultGrid.innerHTML = '';
-  const searchByName = someRepository.filteredByName;
-  const searchByIngredient = someRepository.filteredByIngredient;
-  const searchAll = [searchByName, searchByIngredient];
+  //const searchByName = someRepository.filteredByName;
+  //const searchByIngredient = someRepository.filteredByIngredient;
+  //const searchAll = [searchByName, searchByIngredient];
+  const searchAll = [someRepository.filteredByNameOrIngredient];
   searchAll.forEach(type => {
     type.forEach(recipe => {
       searchResultGrid.innerHTML += `
@@ -417,8 +418,9 @@ function filterSearchResults(event) {
   let lowerCaseInput = searchBar.value.toLowerCase();
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
   input.push(lowerCaseNoSpacesInput);
-  newRepository.filterByName(input);
-  newRepository.filterByIngredients(input);
+  newRepository.filterByNameOrIngredient(input);
+  //newRepository.filterByName(input);
+  //newRepository.filterByIngredients(input);
   populateSearchPage(newRepository);
   searchBar.value = '';
 }

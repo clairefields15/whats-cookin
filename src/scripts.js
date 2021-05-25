@@ -182,26 +182,21 @@ function populateFavoritesPageAfterSearch() {
 
 function populateSearchPage(someRepository) {
   searchResultGrid.innerHTML = '';
-  //const searchByName = someRepository.filteredByName;
-  //const searchByIngredient = someRepository.filteredByIngredient;
-  //const searchAll = [searchByName, searchByIngredient];
-  const searchAll = [someRepository.filteredByNameOrIngredient];
-  searchAll.forEach(type => {
-    type.forEach(recipe => {
-      searchResultGrid.innerHTML += `
+  const filteredRecipes = someRepository.filteredByNameOrIngredient;
+  filteredRecipes.forEach(recipe => {
+    searchResultGrid.innerHTML += `
         <article id="${recipe.id}" class="mini-recipe-card recipe-target">
           <img class="mini-recipe-img" alt="Picture of ${recipe.name}" src="${recipe.image}">
           <h1 class="recipe-name-mini">${recipe.name}</h1>
         </article>  
       `;
-    });
   });
 }
 
 
 //hide and show DOM functions
 function hide(elements) {
- elements.forEach(element => element.classList.add('hidden'));
+  elements.forEach(element => element.classList.add('hidden'));
 }
 
 function show(elements) {
@@ -419,8 +414,6 @@ function filterSearchResults(event) {
   let lowerCaseNoSpacesInput = lowerCaseInput.replace(/  +/g, ' ');
   input.push(lowerCaseNoSpacesInput);
   newRepository.filterByNameOrIngredient(input);
-  //newRepository.filterByName(input);
-  //newRepository.filterByIngredients(input);
   populateSearchPage(newRepository);
   searchBar.value = '';
 }

@@ -97,13 +97,14 @@ favoritesSearchBar.addEventListener('keypress', function () {
 });
 ////////////// functions and event handlers //////////////
 
+//page load functions
 export function assignVariables(data) {
   usersData = data[0];
   recipeData = data[1];
   ingredientData = data[2];
 }
 
-function getDataFromAPI() {
+export function getDataFromAPI() {
   apiCalls.getData()
 }
 
@@ -115,18 +116,13 @@ export function pageLoad() {
   user = new User(usersData.usersData[userIndex].name, usersData.usersData[userIndex].id);
   welcomeUser.innerText = user.name;
   userFavoritesHeader.innerText = `${user.name}'s Favorite Recipes`;
-  return user, newRepository;
-}
 
-
-function getRandomIndex(array) {
-  return Math.floor(Math.random() * array.length);
 }
 
 function makeRecipeInstances() {
   const recipeDataArray = [];
   recipeData.recipeData.forEach((recipe, index) => {
-    let recipe1 = new Recipe(recipe);
+    let recipe1 = new Recipe(recipe, ingredientData);
     recipeDataArray.push(recipe1);
   });
   return recipeDataArray;
@@ -147,6 +143,13 @@ function populateMainPage(someRepository) {
     `;
   });
 }
+
+function getRandomIndex(array) {
+  return Math.floor(Math.random() * array.length);
+}
+
+//view recipe card functions
+
 
 function populateFavoritesPage(someFavorites) {
   favoritesGrid.innerHTML = '';
@@ -194,6 +197,8 @@ function populateSearchPage(someRepository) {
   });
 }
 
+
+//hide and show DOM functions
 function hide(elements) {
  elements.forEach(element => element.classList.add('hidden'));
 }
@@ -239,6 +244,44 @@ function displayFavorites() {
   populateFavoritesPage(user.favoriteRecipes);
 }
 
+function showRecipe(event) {
+  show([recipeDetailPage]);
+  hide([
+    homePage,
+    sortByCourseHeader,
+    searchResultsPage,
+    browseRecipesSection,
+    queuePage,
+    favoritesPage,
+    courseChooser
+  ]);
+  const targetId = parseInt(event.target.closest('.recipe-target').id);
+  const foundRecipe = newRepository.recipesData.find(recipe => {
+    return targetId === recipe.id;
+  });
+  recipeDetails(foundRecipe);
+  checkIfInQueue(foundRecipe);
+  showHeart(foundRecipe)
+}
+
+function showHeart(foundRecipe) {
+  if (user.favoriteRecipes.includes(foundRecipe)) {
+    show([filledHeart]);
+    hide([emptyHeart]);
+  } else if (!user.favoriteRecipes.includes(foundRecipe)) {
+    hide([filledHeart]);
+    show([emptyHeart]);
+  }
+}
+
+function changeHeaderText(id) {
+  if (id.charAt(id.length - 1) === 's') {
+    browseHeader.innerText = `Browse ${id}`;
+  } else {
+    browseHeader.innerText = `Browse ${id} recipes`;
+  }
+}
+
 function filterByTags(button) {
   changeHeaderText(button.id);
   if (button.id === 'appetizers') {
@@ -278,14 +321,6 @@ function checkWhatPageImOn() {
   ) {
     user.filterByTag(currentTags);
     populateFavoritesPage(user.favsByTag);
-  }
-}
-
-function changeHeaderText(id) {
-  if (id.charAt(id.length - 1) === 's') {
-    browseHeader.innerText = `Browse ${id}`;
-  } else {
-    browseHeader.innerText = `Browse ${id} recipes`;
   }
 }
 
@@ -338,31 +373,6 @@ function displayInstructions(recipe) {
   });
 }
 
-function showRecipe(event) {
-  show([recipeDetailPage]);
-  hide([
-    homePage,
-    sortByCourseHeader,
-    searchResultsPage,
-    browseRecipesSection,
-    queuePage,
-    favoritesPage,
-    courseChooser
-  ]);
-  const targetId = parseInt(event.target.closest('.recipe-target').id);
-  const foundRecipe = newRepository.recipesData.find(recipe => {
-    return targetId === recipe.id;
-  });
-  recipeDetails(foundRecipe);
-  checkIfInQueue(foundRecipe);
-  if (user.favoriteRecipes.includes(foundRecipe)) {
-    show([filledHeart]);
-  } else if (!user.favoriteRecipes.includes(foundRecipe)) {
-    hide([filledHeart]);
-    show([emptyHeart]);
-  }
-}
-
 function checkIfInQueue(recipe) {
   if (user.recipesToCook.includes(recipe)) {
     addToQueueButton.innerText = '';
@@ -391,7 +401,6 @@ function filterFavoritesViaSearchBar(event) {
   favoritesSearchBar.value = '';
 }
 
-//search and display recipes
 function filterSearchResults(event) {
   event.preventDefault();
   show([searchResultsPage]);
@@ -461,33 +470,3 @@ function addToQueue() {
     populateQueuePage(user.recipesToCook);
   }
 }
-// edge case scenarios:
-// need to be able to search pork chop and only see one (pork chop is a name and an ingredient)
-// When user clicks on any link from result and navigates back, then result should be maintained
-// When user start typing word in text box it should suggest words that matches typed keyword
-// Search keyword should get highlighted with color in the search results
-
-// test items from data file:
-// Maple Dijon Apple Cider Grilled Pork Chops
-// Hummus Deviled Eggs
-// wheat flour
-// cilantro
-// artichokes
-
-async function getUsers() {
-  let url = 'http://localhost:3001/api/v1/users';
-  try {
-    let res = await fetch(url);
-    return await res.json();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function renderUsers() {
-  let users = await getUsers();
-  console.log(users);
-  return users;
-}
-
-//renderUsers();

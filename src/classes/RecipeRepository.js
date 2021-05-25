@@ -2,8 +2,7 @@ class RecipeRepository {
   constructor(recipes) {
     this.recipesData = recipes;
     this.filteredByTag = [];
-    this.filteredByName = [];
-    this.filteredByIngredient = [];
+    this.filteredByNameOrIngredient = [];
   }
 
   filterByTag(tags) {
@@ -17,33 +16,35 @@ class RecipeRepository {
     }, [])
     this.filteredByTag = filteredRecipes;
   }
-
-  filterByIngredients(ingredients) {
-    const filteredRecipes = ingredients.reduce((acc, ingredient) => {
-      this.recipesData.forEach(recipe => {
-        const recipeIngredients = recipe.getIngredientNames();
-        if(recipeIngredients.includes(ingredient) && !acc.includes(ingredient)) {
-          acc.push(recipe)
-        }
-      });
-      return acc
-    }, []);
-    this.filteredByIngredient = filteredRecipes;
-  }
-
-  filterByName(names) {
-    const filteredRecipes = names.reduce((acc, name) => {
+ 
+  filterByNameOrIngredient(inputs) {
+    const filteredRecipes = inputs.reduce((acc, item) => {
+      
       this.recipesData.forEach(recipe => {
         const recipeNames = recipe.name.toLowerCase();
-        if(recipeNames.includes(name) && !acc.includes(name)) {
+        if (recipeNames.includes(item) && !acc.includes(recipe)) {
           acc.push(recipe)
         }
       });
-      return acc
+      
+      this.recipesData.forEach(recipe => {
+        const recipeIngredients = recipe.getIngredientNames();
+        const splitIngredients = recipeIngredients
+          .map(ingredient => ingredient.split(' '))
+          .flat();
+        if (
+          splitIngredients.includes(item) &&
+          !acc.includes(recipe)
+        ) {
+          acc.push(recipe);
+        }
+      });
+
+      return acc;
     }, []);
-    this.filteredByName = filteredRecipes;
+
+    this.filteredByNameOrIngredient = filteredRecipes;
   }
-  
 
 };
 

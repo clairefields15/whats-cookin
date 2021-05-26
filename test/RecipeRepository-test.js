@@ -7,9 +7,10 @@ describe('RecipeRepository', () => {
   let recipeRepository, recipe1, recipe2;
 
   beforeEach(() => {
-    recipeRepository = new RecipeRepository(recipeTestData);
     recipe1 = new Recipe(recipeTestData[0]);
     recipe2 = new Recipe(recipeTestData[1]);
+    const data = [recipe1, recipe2];
+    recipeRepository = new RecipeRepository(data);
   });
 
   it('Should be a function', () => {
@@ -22,49 +23,36 @@ describe('RecipeRepository', () => {
 
   it('should have a way to store different lists of filtered recipes', () => {
     expect(recipeRepository).to.have.property('filteredByTag');
-    expect(recipeRepository).to.have.property('filteredByName');
-    expect(recipeRepository).to.have.property('filteredByIngredient');
+    expect(recipeRepository).to.have.property('filteredByNameOrIngredient');
     expect(recipeRepository.filteredByTag).to.deep.equal([]);
-    expect(recipeRepository.filteredByName).to.deep.equal([]);
-    expect(recipeRepository.filteredByIngredient).to.deep.equal([]);
+    expect(recipeRepository.filteredByNameOrIngredient).to.deep.equal([]);
 
   });
 
   it('Should have a method that retrieves recipes by a tag', () => {
-    const recipesByTag = recipeRepository.filterByTag(['lunch']);
+    recipeRepository.filterByTag(['lunch']);
     expect(recipeRepository.filteredByTag).to.deep.equal([recipe2])
   })
 
   it('Should have a method that retrieves recipes by multiple tags', () => {
-    const recipesByTag = recipeRepository.filterByTag(['lunch', 'snack']);
-
+    recipeRepository.filterByTag(['lunch', 'snack']);
     expect(recipeRepository.filteredByTag).to.deep.equal([recipe2, recipe1])
   })
 
   it('Should be able to filter recipes by any ingredient', () => {
-    recipe1 = new Recipe(recipeData[0]);
-    recipe2 = new Recipe(recipeData[1]);
-    const data = [recipe1, recipe2]
-    recipeRepository = new RecipeRepository(data);
-
-    const recipesByIngredient = recipeRepository.filterByIngredients(['wheat flour']);
-
-    expect(recipeRepository.filteredByIngredient).to.deep.equal([recipe1]);
+    recipeRepository.filterByNameOrIngredient(['wheat flour']);
+    expect(recipeRepository.filteredByNameOrIngredient).to.deep.equal([
+      recipe1
+    ]);
   })
 
   it('Should be able to filter recipes by any name', () => {
-    recipe1 = new Recipe(recipeData[0]);
-    recipe2 = new Recipe(recipeData[1]);
-    const data = [recipe1, recipe2]
-    recipeRepository = new RecipeRepository(data);
-
-    const recipesByName = recipeRepository.filterByName(['loaded chocolate chip pudding cookie cups']);
-
-    expect(recipeRepository.filteredByName).to.deep.equal([recipe1]);
+    recipeRepository.filterByNameOrIngredient([
+      'loaded chocolate chip pudding cookie cups'
+    ]);
+    expect(recipeRepository.filteredByNameOrIngredient).to.deep.equal([
+      recipe1
+    ]);
   })
 
 })
-
-// edge case scenarios for search bar:
-// (double spaces like "wheat  flour")
-// random characters (%$&)

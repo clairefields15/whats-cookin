@@ -1,22 +1,30 @@
-# What's Cookin'? Starter Kit 
+<h1 align="center">🍳🧑‍🍳 WHAT'S COOKIN' 🧑‍🍳🍳</h1>
 
-The details of this project are outlined in the <a href="https://frontend.turing.io/projects/whats-cookin.html" target="\__blank">project spec</a>.
+Turing 2103 FE Mod 2 ~ Week 2 Paired Project  
+## Table of Contents
+* [Introduction](#introduction)
+* [Links](#Links)
+* [Setup](#Setup)
+* [Features](#Features )
+* [Future Additions](#Future-Additions)
+* [Contributors](#contributors)
+* [Languages](#Languages)
 
-## Set Up 
-
-1. Within your group, decide on one person to have the project repository on their Github account. This person will *fork* this repository - on the top right corner of the page, click the fork button. 
-2. Both group members should then clone down the forked repository (make sure that everyone is added as a collaborator as well). Since you don't want your project to be named "whats-cookin-starter-kit", add an optional argument after the repo url when cloning. The command should look like this: `git clone [remote-address] [what you want to name the repo]`.
-3. Once you have cloned the repo, change into the directory and install the project dependencies. Run `npm install` or `npm i` to install project dependencies.
-4. Run `npm start` and visit `localhost:8080`
-5. Make sure both members of your team are collaborators on the forked repo.
-
-## Testing 
-
-There is no boilerplate for testing in this starter-kit repo. You will need to set this up yourself. However, if you ran npm install, then the tooling you need to start testing is already installed (mocha and chai).
-
-## Linting Your Code 
-
-Run the command in your terminal npm run lint to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit, but that's ok - the linter is still running successfully.
-
-Your linter will look only at the JavaScript files you have within the src and the test directories.
-
+## Introduction 
+What’s Cookin’ is an interactive website similar to NYTimes cooking or Allrecipes, where a user can browse recipes and save their favorites for later. Users can browse recipes by course or search for recipes by name or ingredient. If a photo or name catches their eye they can click on the recipe card and see more details about the recipe, such as ingredients, quantities, instructions and even an estimate of cost to make! On that full recipe page they also have the option to add it to their favorites and/or to their cooking queue. This app has TONS of search functionality built in— all of the search functionality available on the main page is also available on the users’ favorites page (search by tag, name, or ingredient).   
+## Links  
+- [Project Spec](https://frontend.turing.edu/projects/whats-cookin.html)
+- [Project Board](https://github.com/clairefields15/whats-cookin/projects)
+- [DTR](https://gist.github.com/darlaevans2000/c36ea0a52b83dd920fe9aac3b1dc861b)
+- [WireFrame](https://excalidraw.com/#room=ac2f2419814abdc84f15,BepFKlxAW6H_VwWhZDcOGg)
+## Setup
+1. This project fetches data from an API so you will need to begin by cloning down the API and running it.
+2. Clone the API by running `git clone git@github.com:turingschool/What-s-cookin--starter-kit-API.git`
+3. CD into that directory, run npm install and then npm start. You should see “What's cookin-starter-kit API is now running on http://localhost:3001 !”
+4. Open a NEW terminal tab and cd somewhere *outside* of the API repo you just cloned. Do not close the tab that is running the API.
+5. Clone a copy of this repo to your machine by running `git clone git@github.com:clairefields15/whats-cookin.git`
+6. CD into the directory
+7. Run `npm install`
+8. Run `npm start`
+9. A link will appear in the terminal similar to http://localhost:8080/ (you might see 8081). Open that link in your browser.
+10. Enjoy!

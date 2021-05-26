@@ -51,3 +51,13 @@ What’s Cookin’ is an interactive website similar to NYTimes cooking or Allre
 ## Contributors
 - [Darla Evans](https://github.com/darlaevans2000)    
 - [Claire Fields](https://github.com/clairefields15)  
+**Project Manager: [Nik Seif](https://github.com/niksseif)**  
+**Code Reviewer: [Kristi Miller](https://github.com/Kristiannmiller)**
+
+## Languages
+JavaScript  
+CSS  
+HTML  
+Webpack  
+API
+Testing Frameworks Mocha & Chai

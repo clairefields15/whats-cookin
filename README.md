@@ -28,3 +28,23 @@ What’s Cookin’ is an interactive website similar to NYTimes cooking or Allre
 8. Run `npm start`
 9. A link will appear in the terminal similar to http://localhost:8080/ (you might see 8081). Open that link in your browser.
 10. Enjoy!
+## Features
+* User can view all recipes on main page and sort them by course tags:  
+![Main Page w/ Tag Search](https://media.giphy.com/media/fG1UYam9SSRYT0Mk6p/giphy.gif)  
+* User can view the recipe information, add recipe to favorites, and add recipe to cooking queue:
+![View Recipe and add to queue and favorite recipe page](https://media.giphy.com/media/bhDgBGM1dfe3nFepCK/giphy.gif)  
+* User can view recipes added to favorites and cooking queue:  
+![Cooking queue and favorites page](https://media.giphy.com/media/drtN7mmtb5i2E0dSYL/giphy.gif)   
+* User can sort their favorites by tags:  
+![Sort Favs by Tags](https://media.giphy.com/media/Ypm6gCmqlubhzDTqYl/giphy.gif)    
+* User can search favorites by ingredient or recipe name:    
+![Search Favorites by Ingredient or name](https://media.giphy.com/media/HdADTQb65drThJverd/giphy.gif)    
+* User can search ALL RECIPES BY ingredient or recipe name:    
+![Search by Ingredient or name](https://media.giphy.com/media/0JnyYbvA8qoBJN8pqN/giphy.gif)  
+* User can use webpage on mobile screen:  
+![Mobile Phone Visibility](https://media.giphy.com/media/6442O9nD2jbMKJBvuv/giphy.gif) 
+
+### Future Additions
+* Add a log-in screen.
+* Add a grocery list and populate it with all the ingredients a user will need once they have added a recipe to their cooking queue.
+* Add a seven day calendar to the cooking queue page and use InteractJS to allow users to drag and drop recipe cards onto the days of the week and plan their mealsipes. Using InteractJS.

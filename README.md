@@ -48,3 +48,6 @@ What’s Cookin’ is an interactive website similar to NYTimes cooking or Allre
 * Add a log-in screen.
 * Add a grocery list and populate it with all the ingredients a user will need once they have added a recipe to their cooking queue.
 * Add a seven day calendar to the cooking queue page and use InteractJS to allow users to drag and drop recipe cards onto the days of the week and plan their mealsipes. Using InteractJS.
+## Contributors
+- [Darla Evans](https://github.com/darlaevans2000)    
+- [Claire Fields](https://github.com/clairefields15)  

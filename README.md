@@ -11,7 +11,7 @@ Turing 2103 FE Mod 2 ~ Week 2 Paired Project
 * [Languages](#Languages)
 
 ## Introduction 
-What’s Cookin’ is an interactive website similar to NYTimes cooking or Allrecipes, where a user can browse recipes and save their favorites for later. Users can browse recipes by course or search for recipes by name or ingredient. If a photo or name catches their eye they can click on the recipe card and see more details about the recipe, such as ingredients, quantities, instructions and even an estimate of cost to make! On that full recipe page they also have the option to add it to their favorites and/or to their cooking queue. This app has TONS of search functionality built in— all of the search functionality available on the main page is also available on the users’ favorites page (search by tag, name, or ingredient).   
+What’s Cookin’ is an interactive website similar to NYTimes cooking or Allrecipes, where a user can browse recipes and save their favorites for later. Users can browse recipes by course or search for recipes by name or ingredient. If a photo or name catches their eye they can click on the recipe card and see more details about the recipe, such as ingredients, quantities, instructions and even an estimate of cost to make! On that full recipe page they also have the option to add it to their favorites and/or to their cooking queue. This app has TONS of search functionality built in— all of the search functionality available on the main page is also available on the users’ favorites page (search by tag, name, or ingredient).  
 ## Links  
 - [Project Spec](https://frontend.turing.edu/projects/whats-cookin.html)
 - [Project Board](https://github.com/clairefields15/whats-cookin/projects)
@@ -28,21 +28,29 @@ What’s Cookin’ is an interactive website similar to NYTimes cooking or Allre
 8. Run `npm start`
 9. A link will appear in the terminal similar to http://localhost:8080/ (you might see 8081). Open that link in your browser.
 10. Enjoy!
+
 ## Features
 * User can view all recipes on main page and sort them by course tags:  
-![Main Page w/ Tag Search](https://media.giphy.com/media/fG1UYam9SSRYT0Mk6p/giphy.gif)  
+![Main Page w/ Tag Search](https://media.giphy.com/media/fG1UYam9SSRYT0Mk6p/giphy.gif)   
+  <br>  
 * User can view the recipe information, add recipe to favorites, and add recipe to cooking queue:
 ![View Recipe and add to queue and favorite recipe page](https://media.giphy.com/media/bhDgBGM1dfe3nFepCK/giphy.gif)  
+  <br>   
 * User can view recipes added to favorites and cooking queue:  
 ![Cooking queue and favorites page](https://media.giphy.com/media/drtN7mmtb5i2E0dSYL/giphy.gif)   
+  <br> 
 * User can sort their favorites by tags:  
 ![Sort Favs by Tags](https://media.giphy.com/media/Ypm6gCmqlubhzDTqYl/giphy.gif)    
+  <br>  
 * User can search favorites by ingredient or recipe name:    
 ![Search Favorites by Ingredient or name](https://media.giphy.com/media/HdADTQb65drThJverd/giphy.gif)    
+  <br>  
 * User can search ALL RECIPES BY ingredient or recipe name:    
 ![Search by Ingredient or name](https://media.giphy.com/media/0JnyYbvA8qoBJN8pqN/giphy.gif)  
+  <br>    
 * User can use webpage on mobile screen:  
 ![Mobile Phone Visibility](https://media.giphy.com/media/6442O9nD2jbMKJBvuv/giphy.gif) 
+
 
 ### Future Additions
 * Add a log-in screen.
@@ -51,6 +59,7 @@ What’s Cookin’ is an interactive website similar to NYTimes cooking or Allre
 ## Contributors
 - [Darla Evans](https://github.com/darlaevans2000)    
 - [Claire Fields](https://github.com/clairefields15)  
+
 **Project Manager: [Nik Seif](https://github.com/niksseif)**  
 **Code Reviewer: [Kristi Miller](https://github.com/Kristiannmiller)**
 
@@ -59,5 +68,5 @@ JavaScript
 CSS  
 HTML  
 Webpack  
-API
+API  
 Testing Frameworks Mocha & Chai
